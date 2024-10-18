@@ -1,6 +1,8 @@
 # Mô tả Git Flow
 
-![Git Flow](https://github.com/user-attachments/assets/90788b71-153d-4418-abf2-361968a794f9)
+![GitFlow](https://github.com/user-attachments/assets/c0025a6a-dda6-47a5-aebd-6f2fa79d53e5)
+
+
 
 Luồng Git trong hình bao gồm các nhánh chính sau:
 
