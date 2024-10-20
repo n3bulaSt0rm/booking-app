@@ -1,6 +1,8 @@
+import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import React from 'react';
+import Header from './components/Header'; // Import Header component
+import Footer from './components/Footer'; // Import Footer component
 
 function App() {
   return (
@@ -20,6 +22,9 @@ function App() {
           Learn React
         </a>
       </header>
+
+      {/* Thêm Footer */}
+      <Footer />
     </div>
   );
 }
