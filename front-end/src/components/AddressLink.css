@@ -1,0 +1,20 @@
+/* AddressLink.css */
+.address-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-weight: 600;
+    text-decoration: underline;
+    color: #374151; /* Màu xám đậm */
+  }
+  
+  .address-link:hover {
+    color: #2563eb; /* Màu xanh lam nhạt khi hover */
+    text-decoration-color: #2563eb;
+  }
+  
+  .address-link svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  
