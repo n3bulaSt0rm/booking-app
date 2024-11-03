@@ -1,42 +1,43 @@
-const user = require('../models/user');
-// const Place = require('../models/Place');
-// const Feedback = require('../models/Feedback');
-// const Booking = require('../models/Booking')
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const bcryptSalt = bcrypt.genSaltSync(10);
-const jwtSecret = 'awuichaiuwchasasdwd123';
-const { multipleMongooseToObject } = require('../../util/mongoose');
-const { mongooseToObject } = require('../../util/mongoose');
+const authService = require('../services/auth');
 
-class SiteController {
-    /* //[Get] /news
-    index(req, res, next) {
-        Place.find({})
-            .then((courses) => {
-                res.render('home', {
-                    courses: multipleMongooseToObject(courses),
-                });
-            })
-            .catch((err) => {
-                res.status(400).json({ error: 'Error' });
-                console.log(err);
-            });
-    } */
-
-    //[POST] /register
-    async register(req, res) {
-        const { firstName, lastName, email, password } = req.body;
+class AuthController {
+    async registerUser(req, res) {
         try {
-            const userDoc = await user.create({
-                firstName,
-                lastName,
-                email,
-                password: bcrypt.hashSync(password, bcryptSalt),
-            });
-            res.json(userDoc);
-        } catch (e) {
-            res.status(422).json(e);
+            const user = await authService.registerUser(req.body);
+            res.status(201).json(user);
+        } catch (error) {
+            res.status(400).json({ message: error.message });
+        }
+    }a
+
+    async loginUser(req, res) {
+        try {
+            const { user, accessToken, refreshToken } = await authService.loginUser(req.body);
+            res.json({ user, accessToken, refreshToken });
+        } catch (error) {
+            res.status(400).json({ message: error.message });
+        }
+    }
+
+    async refreshAccessToken(req, res) {
+        try {
+            const { refreshToken } = req.body;
+            const newAccessToken = await authService.refreshAccessToken(refreshToken);
+            res.json({ accessToken: newAccessToken });
+        } catch (error) {
+            res.status(400).json({ message: error.message });
+        }
+    }
+
+    async logoutUser(req, res) {
+        try {
+            const { refreshToken } = req.body;
+            await authService.logoutUser(req.user.id, refreshToken);
+            res.status(200).json({ message: 'Logged out successfully' });
+        } catch (error) {
+            res.status(400).json({ message: error.message });
         }
     }
 }
+
+module.exports = new AuthController();

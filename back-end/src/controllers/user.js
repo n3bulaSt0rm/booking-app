@@ -1,39 +1,37 @@
-const authService = require('../services/user');
+const userService = require('../services/user');
 
 class UserController {
-    async registerUser(req, res) {
+    async getUserById(req, res) {
         try {
-            const user = await authService.registerUser(req.body);
-            res.status(201).json(user);
+            const user = await userService.getUserById(req.params.id);
+            res.json(user);
         } catch (error) {
             res.status(400).json({ message: error.message });
         }
     }
 
-    async loginUser(req, res) {
+    async updateUser(req, res) {
         try {
-            const { user, accessToken, refreshToken } = await authService.loginUser(req.body);
-            res.json({ user, accessToken, refreshToken });
+            const user = await userService.updateUser(req.params.id, req.body);
+            res.json(user);
         } catch (error) {
             res.status(400).json({ message: error.message });
         }
     }
 
-    async refreshAccessToken(req, res) {
+    async deleteUser(req, res) {
         try {
-            const { refreshToken } = req.body;
-            const newAccessToken = await authService.refreshAccessToken(refreshToken);
-            res.json({ accessToken: newAccessToken });
+            await userService.deleteUser(req.params.id);
+            res.status(200).json({ message: 'User deleted successfully' });
         } catch (error) {
             res.status(400).json({ message: error.message });
         }
     }
 
-    async logoutUser(req, res) {
+    async getAllUsers(req, res) {
         try {
-            const { refreshToken } = req.body;
-            await authService.logoutUser(req.user.id, refreshToken);
-            res.status(200).json({ message: 'Logged out successfully' });
+            const users = await userService.getAllUsers();
+            res.json(users);
         } catch (error) {
             res.status(400).json({ message: error.message });
         }
