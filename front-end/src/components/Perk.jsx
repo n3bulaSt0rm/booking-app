@@ -1,3 +1,5 @@
+import React from 'react';
+
 export default function Perk({ selected, onChange }) {
     function handleCbClick(ev) {
       const { checked, name } = ev.target;
