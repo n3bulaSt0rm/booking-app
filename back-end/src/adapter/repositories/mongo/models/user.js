@@ -1,8 +1,5 @@
 const mongoose = require('mongoose');
-const slug = require('mongoose-slug-updater');
 const mongooseDelete = require('mongoose-delete');
-
-mongoose.plugin(slug);
 
 const Schema = mongoose.Schema;
 const UserSchema = new Schema(
@@ -11,7 +8,6 @@ const UserSchema = new Schema(
         lastName: String,
         email: { type: String, unique: true },
         password: String,
-        slug: { type: String, slug: 'name', unique: true },
         refreshTokens: [String]
     },
     {

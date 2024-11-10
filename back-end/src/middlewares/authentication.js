@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../adapter/repositories/mongo/models/user');
+const UserResponseDTO = require('../dtos/response/user');
 const fs = require('fs');
 const path = require('path');
 
@@ -14,7 +15,7 @@ async function authMiddleware(req, res, next) {
         const user = await User.findById(decoded.id);
         if (!user) throw new Error('User not found');
 
-        req.user = user;
+        req.user = new UserResponseDTO(user);
         next();
     } catch (error) {
         res.status(401).json({ message: 'Invalid or expired token' });

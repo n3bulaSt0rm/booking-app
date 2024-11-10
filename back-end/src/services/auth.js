@@ -4,6 +4,8 @@ const fs = require('fs');
 const path = require('path');
 const userRepository = require('../adapter/repositories/mongo/user_respository');
 const authRepository = require('../adapter/repositories/mongo/auth_repository');
+const AuthResponseDTO = require('../dtos/response/auth');
+const UserResponseDTO = require('../dtos/response/user');
 
 const privateKey = process.env.PRIVATE_KEY || fs.readFileSync(path.join(__dirname, '../keys/private.key'), 'utf8');
 const publicKey = process.env.PUBLIC_KEY || fs.readFileSync(path.join(__dirname, '../keys/public.key'), 'utf8');
@@ -12,7 +14,8 @@ class AuthService {
     async registerUser(userData) {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(userData.password, salt);
-        return await userRepository.create({ ...userData, password: hashedPassword });
+        const user = await userRepository.create({ ...userData, password: hashedPassword });
+        return new UserResponseDTO( user );
     }
 
     async loginUser({ email, password }) {
@@ -27,7 +30,7 @@ class AuthService {
 
         await authRepository.addRefreshToken(user._id, refreshToken);
 
-        return { user, accessToken, refreshToken };
+        return new AuthResponseDTO({  accessToken, refreshToken });
     }
 
     generateAccessToken(user) {

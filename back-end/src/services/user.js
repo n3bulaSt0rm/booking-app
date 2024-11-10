@@ -1,4 +1,5 @@
 const userRepository = require('../adapter/repositories/mongo/user_respository');
+const UserResponseDTO = require('../dtos/response/user');
 
 class UserService {
   async createUser(userData) {
@@ -6,29 +7,31 @@ class UserService {
     if (existingUser) {
       throw new Error('Email already in use');
     }
-    return await userRepository.create(userData);
+    const user = await userRepository.create(userData);
+    return new UserResponseDTO(user);
   }
 
   async getUserById(id) {
     const user = await userRepository.findById(id);
     if (!user) throw new Error('User not found');
-    return user;
+    return new UserResponseDTO(user);
   }
 
   async updateUser(id, updateData) {
     const user = await userRepository.update(id, updateData);
     if (!user) throw new Error('User not found or update failed');
-    return user;
+    return new UserResponseDTO(user);
   }
 
   async deleteUser(id) {
     const user = await userRepository.delete(id);
     if (!user) throw new Error('User not found or delete failed');
-    return user;
+    return new UserResponseDTO(user);
   }
 
   async getAllUsers() {
-    return await userRepository.findAll();
+    const users = await userRepository.findAll();
+    return users.map(user => new UserResponseDTO(user));
   }
 }
 
