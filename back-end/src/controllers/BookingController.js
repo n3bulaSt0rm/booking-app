@@ -1,6 +1,4 @@
 const Booking = require('../models/Booking');
-const { multipleMongooseToObject } = require('../../util/mongoose');
-const { mongooseToObject } = require('../../util/mongoose');
 
 class BookingController {
     //[POST] /booking
