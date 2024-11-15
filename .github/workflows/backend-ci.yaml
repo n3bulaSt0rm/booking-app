@@ -1,0 +1,50 @@
+name: Node.js CI Pipeline
+
+on:
+  push:
+    paths:
+      - 'back-end/**'   # Chạy khi có thay đổi trong thư mục 'back-end'
+  pull_request:
+    paths:
+      - 'back-end/**'
+    branches:
+      - main   # Chạy khi có Pull Request tới nhánh main
+      - develop
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Bước 1: Checkout mã nguồn
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Bước 2: Thiết lập môi trường Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16 # Thay bằng phiên bản Node.js phù hợp với dự án của bạn
+
+      # Bước 3: Cài đặt các dependency
+      - name: Install dependencies
+        run: npm install
+
+      # Bước 4: Kiểm tra cú pháp mã nguồn với ESLint
+      - name: Lint code
+        run: npm run lint
+
+      # Bước 5: Chạy unit tests
+      - name: Run tests
+        run: npm test
+
+      # Bước 6: Tạo thông báo Pull Request (chỉ áp dụng với pull_request)
+      - name: Post PR Comment
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          header: Lint & Test Results
+          message: |
+            - **Lint:** Success 🎉  
+            - **Tests:** All tests passed ✔️  
