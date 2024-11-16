@@ -3,10 +3,11 @@ name: Node.js CI Pipeline
 on:
   push:
     branches:
-      - '*'   # Chạy khi có thay đổi trên nhánh main
+      - '*'   # Chạy khi có thay đổi trên nhánh hiện tại
   pull_request:
     branches:
       - main   # Chạy khi có Pull Request tới nhánh main
+      - develop
 
 jobs:
   build-and-test:
