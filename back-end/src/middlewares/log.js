@@ -1,5 +1,13 @@
 const log = (req, res, next) => {
-    console.log(`${req.method} ${req.url} - ${new Date().toISOString()}`);
+    const start = Date.now();
+
+    console.log(`[${new Date().toISOString()}] - ${req.method} ${req.url} - Start`);
+
+    res.on('finish', () => {
+        const duration = Date.now() - start;
+        console.log(`[${new Date().toISOString()}] - ${req.method} ${req.url} - Status: ${res.statusCode} - Duration: ${duration}ms`);
+    });
+
     next();
 };
 
