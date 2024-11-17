@@ -1,5 +1,5 @@
-const Place = require('../models/Place');
-const Booking = require('../models/Booking')
+const Place = require('../models/place');
+const Booking = require('../models/booking')
 
 class PlaceController {
     //[POST] /places

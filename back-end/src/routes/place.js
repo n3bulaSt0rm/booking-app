@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
-const placeController = require('../app/controllers/PlaceController');
+const placeController = require('../controllers/place');
 
 router.post('/', placeController.uploadPlace);
 router.put('/', placeController.updatePlace);
