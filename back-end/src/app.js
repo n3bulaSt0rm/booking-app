@@ -1,23 +1,35 @@
 const express = require('express');
-const connectDatabase = require('./config/database');
 const cors = require('cors');
-const log = require('./middlewares/log');
+const startHttpServer = require('./pkg/server/http');
+const connectDatabase = require('./pkg/db/mongo');
 const initRoutes = require('./routes');
+const { logMiddleware, logEndpoints} = require('./pkg/logger/log');  // Import log middleware
 
+const port = process.env.PORT || 3000;
 const app = express();
 
-connectDatabase();
+const configureApp = () => {
+    app.use(logMiddleware);
 
-app.use(
-    express.json(),
-    log,
-    cors({
-        origin: '*',
-        methods: '*',
-        allowedHeaders: '*',
-    })
-);
+    app.use(
+        express.json(),
+        cors({
+            origin: '*',
+            methods: '*',
+            allowedHeaders: '*',
+        })
+    );
+    initRoutes(app);
+    logEndpoints(app);
+};
 
-initRoutes(app);
+const startApp = async () => {
+    await connectDatabase();
+    configureApp();
+    startHttpServer(port, app);
+};
 
-module.exports = app;
+startApp().catch((error) => {
+    console.error('Failed to start the app:', error);
+    process.exit(1);
+});

@@ -5,7 +5,7 @@ const userRoutes = require('./user');
 function initRoutes(app) {
     app.use('/bookings', bookingRoutes);
     app.use('/places', placeRoutes);
-    app.use('/users', userRoutes);
+    // app.use('/users', userRoutes);
 }
 
 module.exports = initRoutes;
