@@ -15,9 +15,10 @@ class PlaceController {
             checkOut,
             maxGuests,
             price,
+            id
         } = req.body;
         const placeDoc = await Place.create({
-            owner: userData.id,
+            owner: id,
             title,
             address,
             photos: addedPhotos,
@@ -46,9 +47,10 @@ class PlaceController {
             checkOut,
             maxGuests,
             price,
+            _id
         } = req.body;
-        const placeDoc = await Place.findById(id);
-        if (userData.id === placeDoc.owner.toString()) {
+        const placeDoc = await Place.findById(_id);
+        if (id === placeDoc.owner.toString()) {
             placeDoc.set({
                 title,
                 address,
@@ -81,7 +83,7 @@ class PlaceController {
     async deletePlace(req, res) {
         const { id } = req.params;
         await Place.findByIdAndDelete(id);
-        await Wishlist.updateMany({ 'wishlist.place': id }, { $pull: { wishlist: { place: id } } });
+       // await Wishlist.updateMany({ 'wishlist.place': id }, { $pull: { wishlist: { place: id } } });
         await Booking.deleteMany({ place: id });
         res.json('Success');
     }
