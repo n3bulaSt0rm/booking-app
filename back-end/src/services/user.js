@@ -8,15 +8,13 @@ const privateKey = fs.readFileSync(path.join(__dirname, '../keys/private.key'), 
 const publicKey = fs.readFileSync(path.join(__dirname, '../keys/public.key'), 'utf8');
 
 class AuthService {
-  async registerUser({ firstName, lastName, email, password }) {
+  async registerUser(userData) {
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const hashedPassword = await bcrypt.hash(userData.password, salt);
 
     const user = new User({
-      firstName,
-      lastName,
-      email,
-      password: hashedPassword,
+      ...userData,
+      password: hashedPassword
     });
 
     return user.save();
@@ -32,6 +30,9 @@ class AuthService {
     const accessToken = this.generateAccessToken(user);
     const refreshToken = this.generateRefreshToken(user);
 
+    user.refreshTokens.push(refreshToken);
+    await user.save();
+
     return { user, accessToken, refreshToken };
   }
 
@@ -40,12 +41,25 @@ class AuthService {
   }
 
   generateRefreshToken(user) {
-    // Here you might want to persist the refresh token in a database
     return jwt.sign({ id: user._id }, privateKey, { algorithm: 'RS256', expiresIn: '7d' });
   }
 
-  verifyToken(token) {
-    return jwt.verify(token, publicKey, { algorithms: ['RS256'] });
+  async refreshAccessToken(refreshToken) {
+    const decoded = jwt.verify(refreshToken, publicKey, { algorithms: ['RS256'] });
+    const user = await User.findById(decoded.id);
+
+    if (!user || !user.refreshTokens.includes(refreshToken)) {
+      throw new Error('Invalid refresh token');
+    }
+
+    const newAccessToken = this.generateAccessToken(user);
+    return newAccessToken;
+  }
+
+  async logoutUser(userId, refreshToken) {
+    const user = await User.findById(userId);
+    user.refreshTokens = user.refreshTokens.filter(token => token !== refreshToken);
+    await user.save();
   }
 }
 

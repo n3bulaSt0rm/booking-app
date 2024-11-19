@@ -22,12 +22,18 @@ class UserController {
     async refreshAccessToken(req, res) {
         try {
             const { refreshToken } = req.body;
-            const decoded = authService.verifyToken(refreshToken);
-            const user = await User.findById(decoded.id);
-            if (!user) throw new Error('User not found');
+            const newAccessToken = await authService.refreshAccessToken(refreshToken);
+            res.json({ accessToken: newAccessToken });
+        } catch (error) {
+            res.status(400).json({ message: error.message });
+        }
+    }
 
-            const accessToken = authService.generateAccessToken(user);
-            res.json({ accessToken });
+    async logoutUser(req, res) {
+        try {
+            const { refreshToken } = req.body;
+            await authService.logoutUser(req.user.id, refreshToken);
+            res.status(200).json({ message: 'Logged out successfully' });
         } catch (error) {
             res.status(400).json({ message: error.message });
         }
