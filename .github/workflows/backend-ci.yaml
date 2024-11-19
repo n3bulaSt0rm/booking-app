@@ -47,7 +47,7 @@ jobs:
         run: npm test
 
      # Bước 6
-     - name: Show CI results
+      - name: Show CI results
         run: |
           echo "### CI Pipeline Results"
           echo "✅ Build: Passed"
