@@ -1,8 +1,8 @@
 import { useContext, useState, useEffect } from "react";
 import { Navigate, useLocation, Link } from "react-router-dom";
-import { UserContext } from "../UserContext";
+import { UserContext } from "../components/UserContext";
 import axios from "axios";
-import AccountNav from "../AccountNav";
+import AccountNav from "../components/AccountNav";
 
 export default function ProfilePage() {
   const { ready, user, setUser } = useContext(UserContext);

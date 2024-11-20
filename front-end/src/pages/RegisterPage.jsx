@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
-import Footer from "../Footer";
+import Footer from "../components/Footer";
 export default function RegisterPage() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
