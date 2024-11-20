@@ -49,7 +49,7 @@ class AuthService {
     const user = await User.findById(decoded.id);
 
     if (!user || !user.refreshTokens.includes(refreshToken)) {
-      throw new Error('Invalid refresh token');
+      throw new Error('Invalid refresh keys');
     }
 
     const newAccessToken = this.generateAccessToken(user);

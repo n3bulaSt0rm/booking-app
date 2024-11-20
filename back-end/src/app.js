@@ -1,9 +1,9 @@
 const express = require('express');
 const cors = require('cors');
-const startHttpServer = require('./pkg/server/http');
+const startHttpsServer = require("./pkg/server/https");
 const connectDatabase = require('./pkg/db/mongo');
+const { logMiddleware, logEndpoints} = require('./pkg/logger/log');
 const initRoutes = require('./routes');
-const { logMiddleware, logEndpoints} = require('./pkg/logger/log');  // Import log middleware
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -26,7 +26,7 @@ const configureApp = () => {
 const startApp = async () => {
     await connectDatabase();
     configureApp();
-    startHttpServer(port, app);
+    startHttpsServer(port, app);
 };
 
 startApp().catch((error) => {
