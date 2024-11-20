@@ -5,6 +5,8 @@ import AddressLink from "../components/AddressLink";
 import PlaceGallery from "../components/PlaceGallery";
 import BookingDates from "../components/BookingDates";
 import Rate from "../components/Rate";
+import React from "react";
+
 
 export default function BookingPage() {
   const { id } = useParams();

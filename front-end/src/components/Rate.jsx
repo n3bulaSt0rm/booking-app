@@ -64,6 +64,8 @@ import React, { useMemo, useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
+// import React from "react";
+
 
 const Rate = ({ count, rating, color, onRating }) => {
   const [hoverRating, setHoverRating] = useState(0);

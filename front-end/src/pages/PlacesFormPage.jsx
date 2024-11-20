@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import Perk from "../components/Perk";
 import axios from "axios";
 import AccountNav from "../components/AccountNav";
+import React from "react";
+
 
 export default function PlacesFormPage() {
   const { id } = useParams();

@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import BookingDates from "../components/BookingDates";
+import React from "react";
+
 
 export default function BookingsPage() {
   const [bookings, setBookings] = useState([]);
