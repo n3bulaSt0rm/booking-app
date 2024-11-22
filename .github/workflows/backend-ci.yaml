@@ -3,12 +3,12 @@ name: Node.js CI Pipeline
 on:
   push:
     paths:
-      - 'back-end/**'   # Chạy khi có thay đổi trong thư mục 'back-end'
+      - 'back-end/**'
   pull_request:
     paths:
       - 'back-end/**'
     branches:
-      - main   # Chạy khi có Pull Request tới nhánh main
+      - main
       - develop
 
 jobs:
@@ -19,11 +19,9 @@ jobs:
         working-directory: ./back-end
 
     steps:
-      # Bước 1: Checkout mã nguồn
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Bước 2: Thiết lập môi trường Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -32,22 +30,21 @@ jobs:
           cache-dependency-path: './back-end/package-lock.json'
 
       - name: Copy .env file
-        run: cp back-end/.env .env
+        run: |
+          cd ..
+          cp .env back-end/.env
+          cd back-end
 
-      # Bước 3: Cài đặt các dependency
       - name: Install dependencies
         run: npm ci
 
-      # Bước 4: Kiểm tra cú pháp mã nguồn với ESLint
       - name: Lint code
         run: npm run lint
         continue-on-error: true
 
-      # Bước 5: Chạy unit tests
       - name: Run tests
         run: npm test
 
-     # Bước 6
       - name: Show CI results
         run: |
           echo "### CI Pipeline Results"
