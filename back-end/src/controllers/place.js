@@ -15,10 +15,9 @@ class PlaceController {
             checkOut,
             maxGuests,
             price,
-            id
         } = req.body;
         const placeDoc = await Place.create({
-            owner: id,
+            owner: req.user.id,
             title,
             address,
             photos: addedPhotos,
@@ -36,7 +35,6 @@ class PlaceController {
     //[PUT] /places
     async updatePlace(req, res) {
         const {
-            id,
             title,
             address,
             addedPhotos,
@@ -50,7 +48,7 @@ class PlaceController {
             _id
         } = req.body;
         const placeDoc = await Place.findById(_id);
-        if (id === placeDoc.owner.toString()) {
+        if (req.user.id === placeDoc.owner.toString()) {
             placeDoc.set({
                 title,
                 address,
@@ -82,9 +80,11 @@ class PlaceController {
     //[DELETE] /places/:id
     async deletePlace(req, res) {
         const { id } = req.params;
-        await Place.findByIdAndDelete(id);
-       // await Wishlist.updateMany({ 'wishlist.place': id }, { $pull: { wishlist: { place: id } } });
-        await Booking.deleteMany({ place: id });
+        // if (req.user.id === placeDoc.owner.toString()) {
+            await Place.findByIdAndDelete(id);
+            // await Wishlist.updateMany({ 'wishlist.place': id }, { $pull: { wishlist: { place: id } } });
+            await Booking.deleteMany({ place: id });
+        // }
         res.json('Success');
     }
 

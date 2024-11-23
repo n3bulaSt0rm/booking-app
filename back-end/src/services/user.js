@@ -1,22 +1,38 @@
-const User = require('../models/user');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const userRepository = require('../adapter/repositories/mongo/user_respository');
+const UserResponseDTO = require('../dtos/response/user');
 
-const registerUser = async (data) => {
-  const { name, email, password } = data;
-  const user = new User({ name, email, password });
-  return await user.save();
-};
+class UserService {
+  async createUser(userData) {
+    const existingUser = await userRepository.findByEmail(userData.email);
+    if (existingUser) {
+      throw new Error('Email already in use');
+    }
+    const user = await userRepository.create(userData);
+    return new UserResponseDTO(user);
+  }
 
-const loginUser = async (email, password) => {
-  const user = await User.findOne({ email });
-  if (!user) throw new Error('Invalid email or password');
+  async getUserById(id) {
+    const user = await userRepository.findById(id);
+    if (!user) throw new Error('User not found');
+    return new UserResponseDTO(user);
+  }
 
-  const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch) throw new Error('Invalid email or password');
+  async updateUser(id, updateData) {
+    const user = await userRepository.update(id, updateData);
+    if (!user) throw new Error('User not found or update failed');
+    return new UserResponseDTO(user);
+  }
 
-  const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
-  return { user, token };
-};
+  async deleteUser(id) {
+    const user = await userRepository.delete(id);
+    if (!user) throw new Error('User not found or delete failed');
+    return new UserResponseDTO(user);
+  }
 
-module.exports = { registerUser, loginUser };
+  async getAllUsers() {
+    const users = await userRepository.findAll();
+    return users.map(user => new UserResponseDTO(user));
+  }
+}
+
+module.exports = new UserService();

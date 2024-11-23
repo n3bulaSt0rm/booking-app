@@ -1,4 +1,4 @@
-import AccountNav from "../AccountNav";
+import AccountNav from "../components/AccountNav";
 import { useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";

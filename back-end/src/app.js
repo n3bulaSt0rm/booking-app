@@ -1,27 +1,36 @@
 require('dotenv').config()
 const express = require('express');
-const connectDatabase = require('./config/database');
 const cors = require('cors');
-const log = require('./middlewares/log');
+const startHttpServer = require("./pkg/server/http");
+const connectDatabase = require('./pkg/db/mongo');
+const { logMiddleware, logEndpoints} = require('./pkg/logger/log');
 const initRoutes = require('./routes');
 
+const port = process.env.PORT || 3000;
 const app = express();
 
-connectDatabase();
+const configureApp = () => {
+    app.use(logMiddleware);
 
-app.use(
-    express.json(),
-    log,
-    cors({
-        origin: '*',
-        methods: '*',
-        allowedHeaders: '*',
-    })
-);
+    app.use(
+        express.json(),
+        cors({
+            origin: '*',
+            methods: '*',
+            allowedHeaders: '*',
+        })
+    );
+    initRoutes(app);
+    logEndpoints(app);
+};
 
-initRoutes(app);
+const startApp = async () => {
+    await connectDatabase();
+    configureApp();
+    startHttpServer(port, app);
+};
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
-
-module.exports = app;
+startApp().catch((error) => {
+    console.error('Failed to start the app:', error);
+    process.exit(1);
+});

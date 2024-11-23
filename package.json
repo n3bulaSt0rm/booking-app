@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cls-hooked": "^4.2.2",
+    "uuid": "^11.0.3"
+  }
+}

@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
+import React from "react";
+
 
 export default function FindPlacePage() {
   const { query } = useParams();

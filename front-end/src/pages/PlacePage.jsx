@@ -1,11 +1,13 @@
 import { useEffect, useState, useContext } from "react";
 import { useParams, Navigate } from "react-router-dom";
 import axios from "axios";
-import AddressLink from "../AddressLink";
-import PlaceGallery from "../PlaceGallery";
-import BookingWidget from "../BookingWidget";
-import { UserContext } from "../UserContext";
-import Rate from "../Rate";
+import AddressLink from "../components/AddressLink";
+import PlaceGallery from "../components/PlaceGallery";
+import BookingWidget from "../components/BookingWidget";
+import { UserContext } from "../components/UserContext";
+import Rate from "../components/Rate";
+import React from "react";
+
 
 export default function PlacePage() {
   const { ready, user } = useContext(UserContext);

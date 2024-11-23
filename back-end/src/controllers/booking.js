@@ -4,7 +4,7 @@ class BookingController {
     //[POST] /booking
     async show(req, res) {
         try {
-            const {id, place, checkIn, checkOut, numberOfGuests, phone, price, name } = req.body;
+            const {place, checkIn, checkOut, numberOfGuests, phone, price, name } = req.body;
             const booking = await Booking.create({
                 place,
                 checkIn,
@@ -13,7 +13,7 @@ class BookingController {
                 phone,
                 price,
                 name, 
-                user: id, 
+                user: req.user.id, 
             });
 
             res.json(booking);
@@ -25,7 +25,10 @@ class BookingController {
 
     //[Get] /booking
     async getBookings(req, res) {
-        const { id } = req.params;  
+        const id = req.user?.id;
+        if (!id) {
+            return res.status(401).json({ message: 'Người dùng chưa xác thực.' });
+        }
         try {
             const bookings = await Booking.find({ user: id }).populate('place');
             if (bookings.length === 0) {

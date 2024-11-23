@@ -2,6 +2,9 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import React from "react";
+
+
 export default function AllPlaces() {
   const [places, setPlaces] = useState([]);
   const [wishlist, setWishlist] = useState([]);
