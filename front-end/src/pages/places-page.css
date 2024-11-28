@@ -1,0 +1,96 @@
+/* General Layout */
+.places-page-container {
+    margin: 0 auto;
+    padding: 2rem;
+    max-width: 1200px;
+  }
+  
+  /* Add Place Button */
+  .places-header {
+    text-align: center;
+  }
+  
+  .add-place-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.5rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .add-place-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .add-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  
+  /* Places List */
+  .places-list {
+    margin-top: 2rem;
+  }
+  
+  .place-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background-color: #f9f9f9;
+    padding: 1rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+    text-decoration: none;
+    transition: transform 0.2s ease;
+  }
+  
+  .place-card:hover {
+    transform: scale(1.02);
+  }
+  
+  /* Place Image */
+  .place-image-container {
+    flex: 0 0 6rem;
+    width: 6rem;
+    height: 6rem;
+    background-color: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+  
+  .place-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  /* Place Info */
+  .place-info {
+    flex-grow: 1;
+  }
+  
+  .place-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 0.5rem;
+  }
+  
+  .place-description {
+    font-size: 0.875rem;
+    color: #666;
+    line-height: 1.4;
+  }
+  

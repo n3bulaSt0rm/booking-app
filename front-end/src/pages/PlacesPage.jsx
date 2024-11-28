@@ -3,6 +3,7 @@ import AccountNav from "../components/AccountNav";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import React from "react";
+import "./places-page.css";
 
 export default function PlacesPage() {
   const [places, setPlaces] = useState([]);
@@ -12,18 +13,15 @@ export default function PlacesPage() {
     });
   }, []);
   return (
-    <div className="mx-10 lg:mx-60">
+    <div className="places-page-container">
       <AccountNav />
-      <div className="text-center">
-        <Link
-          className="inline-flex gap-1 bg-primary text-white py-2 px-6 rounded-full"
-          to={"/account/places/new"}
-        >
+      <div className="places-header">
+        <Link to="/account/places/new" className="add-place-button">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="currentColor"
-            className="w-6 h-6"
+            className="add-icon"
           >
             <path
               fillRule="evenodd"
@@ -33,23 +31,27 @@ export default function PlacesPage() {
           </svg>
           Add new hotel
         </Link>
-        <div className="mt-4 mb-8">
+        <div className="places-list">
           {places.length > 0 &&
             places.map((place) => (
               <Link
                 to={"/account/places/" + place._id}
                 key={place._id}
-                className="flex cursor-pointer gap-4 bg-gray-100 p-4 rounded-2xl mb-3 drop-shadow-lg"
+                className="place-card"
               >
-                <div className="flex w-32 h-32 bg-gray-300 grow shrink-0">
-                  {place.photos.length > 0 && <img src={place.photos[0]} />}
-                  {!place.photos[0] && (
-                    <img src="https://kelembagaan.kemnaker.go.id/assets/img/no-image.svg" />
+                <div className="place-image-container">
+                  {place.photos.length > 0 ? (
+                    <img src={place.photos[0]} alt={place.title} />
+                  ) : (
+                    <img
+                      src="https://kelembagaan.kemnaker.go.id/assets/img/no-image.svg"
+                      alt="No preview available"
+                    />
                   )}
                 </div>
-                <div className="grow-0 shrink">
-                  <h2 className="text-xl text-left">{place.title}</h2>
-                  <p className="text-sm mt-2 text-left">{place.description}</p>
+                <div className="place-info">
+                  <h2 className="place-title">{place.title}</h2>
+                  <p className="place-description">{place.description}</p>
                 </div>
               </Link>
             ))}

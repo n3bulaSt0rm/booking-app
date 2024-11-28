@@ -4,7 +4,7 @@ import axios from "axios";
 import { Navigate } from "react-router-dom";
 import { UserContext } from "./UserContext.jsx";
 import React from "react";
-
+import "./booking-widget.css";
 
 export default function BookingWidget({ place }) {
   const [checkIn, setCheckIn] = useState("");
@@ -28,6 +28,7 @@ export default function BookingWidget({ place }) {
       new Date(checkIn)
     );
   }
+
   async function bookThisPlace() {
     if (checkIn && checkOut && name && phone) {
       const response = await axios.post("/bookings", {
@@ -52,13 +53,13 @@ export default function BookingWidget({ place }) {
   }
 
   return (
-    <div className="bg-white p-4 rounded-2xl border-2 border-gray-100 drop-shadow-xl">
-      <div className="text-2xl text-center">
+    <div className="booking-widget">
+      <div className="price-info">
         Price: ${place.price} / per night
       </div>
-      <div className="border rounded-2xl mt-4">
-        <div className="flex">
-          <div className="py-3 px-4">
+      <div className="input-section">
+        <div className="date-inputs">
+          <div className="input-group">
             <label>Check in:</label>
             <input
               type="date"
@@ -66,7 +67,7 @@ export default function BookingWidget({ place }) {
               onChange={(ev) => setCheckIn(ev.target.value)}
             />
           </div>
-          <div className="py-3 px-4 border-l">
+          <div className="input-group">
             <label>Check out:</label>
             <input
               type="date"
@@ -75,10 +76,9 @@ export default function BookingWidget({ place }) {
             />
           </div>
         </div>
-        <div className="py-3 px-4 border-t">
+        <div className="guests-input">
           <label>Number of guests:</label>
           <input
-            className="w-full border my-1 py-2 px-3 rounded-xl"
             type="number"
             value={numberOfGuests}
             onChange={(ev) => setNumberOfGuests(ev.target.value)}
@@ -86,17 +86,15 @@ export default function BookingWidget({ place }) {
           />
         </div>
         {numberOfNights > 0 && (
-          <div className="py-3 px-4 border-t">
+          <div className="personal-info">
             <label>Your full name:</label>
             <input
-              className="w-full border my-1 py-2 px-3 rounded-xl"
               type="text"
               value={name}
               onChange={(ev) => setName(ev.target.value)}
             />
             <label>Phone number:</label>
             <input
-              className="w-full border my-1 py-2 px-3 rounded-xl"
               type="tel"
               value={phone}
               onChange={(ev) => setPhone(ev.target.value)}
@@ -104,10 +102,7 @@ export default function BookingWidget({ place }) {
           </div>
         )}
       </div>
-      <button
-        onClick={bookThisPlace}
-        className="mt-4 gap-1 py-2 px-6 rounded-full bg-primary text-white w-full text-center"
-      >
+      <button className="book-button" onClick={bookThisPlace}>
         Book this place
         {numberOfNights > 0 && <span> ${numberOfNights * place.price}</span>}
       </button>

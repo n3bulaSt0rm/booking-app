@@ -1,0 +1,27 @@
+/* Container */
+.booking-dates {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    font-size: 1rem;
+    color: #2d3748; /* Gray */
+  }
+  
+  .booking-dates .icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: #4a5568; /* Slightly darker gray */
+  }
+  
+  .date-container {
+    display: flex;
+    gap: 0.25rem;
+    align-items: center;
+    font-size: 0.875rem; /* Small text */
+  }
+  
+  .date-container .icon {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+  

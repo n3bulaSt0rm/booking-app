@@ -1,0 +1,110 @@
+/* Main container */
+.booking-widget {
+    background-color: #ffffff;
+    padding: 1rem;
+    border: 2px solid #f0f0f0;
+    border-radius: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Price information */
+  .price-info {
+    font-size: 1.5rem;
+    text-align: center;
+    font-weight: bold;
+    color: #2d3748; /* Gray */
+  }
+  
+  /* Input sections */
+  .input-section {
+    margin-top: 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 1rem;
+  }
+  
+  /* Date inputs */
+  .date-inputs {
+    display: flex;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  
+  .input-group {
+    padding: 1rem;
+    flex: 1;
+  }
+  
+  .input-group label {
+    display: block;
+    font-size: 0.875rem;
+    color: #4a5568; /* Gray */
+    margin-bottom: 0.5rem;
+  }
+  
+  .input-group input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #cbd5e0;
+    border-radius: 0.5rem;
+  }
+  
+  /* Guests input */
+  .guests-input {
+    padding: 1rem;
+    border-top: 1px solid #e2e8f0;
+  }
+  
+  .guests-input label {
+    display: block;
+    font-size: 0.875rem;
+    color: #4a5568; /* Gray */
+    margin-bottom: 0.5rem;
+  }
+  
+  .guests-input input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #cbd5e0;
+    border-radius: 0.5rem;
+  }
+  
+  /* Personal information inputs */
+  .personal-info {
+    padding: 1rem;
+    border-top: 1px solid #e2e8f0;
+  }
+  
+  .personal-info label {
+    display: block;
+    font-size: 0.875rem;
+    color: #4a5568; /* Gray */
+    margin-bottom: 0.5rem;
+  }
+  
+  .personal-info input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #cbd5e0;
+    border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Book button */
+  .book-button {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    width: 100%;
+    text-align: center;
+    background-color: #3182ce; /* Primary Blue */
+    color: #ffffff;
+    border: none;
+    border-radius: 2rem;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .book-button:hover {
+    background-color: #2b6cb0; /* Darker Blue */
+  }
+  

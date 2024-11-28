@@ -1,0 +1,21 @@
+/* General Address Link */
+.address-link {
+  display: block;
+  margin: 1rem 0;
+  font-weight: 600;
+  text-decoration: underline;
+  color: #1a202c; /* Dark Gray */
+  transition: color 0.3s ease;
+}
+
+.address-link:hover {
+  color: #3182ce; /* Primary Blue */
+}
+
+/* SVG Icon */
+.address-link .icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 0.5rem;
+  color: inherit; /* Inherit text color */
+}

@@ -1,0 +1,84 @@
+/* General Header Styling */
+header {
+  display: flex;
+  justify-content: space-between; /* Chia đều các phần tử trong header */
+  align-items: center; /* Căn giữa theo chiều dọc */
+  padding: 1rem 2rem;
+  background-color: #ffffff;
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  gap: 1rem; /* Khoảng cách giữa các phần tử */
+}
+
+/* Logo Section */
+.logo {
+  display: flex;
+  align-items: center; /* Căn giữa theo chiều dọc */
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: #007bff;
+}
+
+.logo svg {
+  width: 30px;
+  height: 30px;
+  margin-right: 0.5rem;
+}
+
+/* Search Bar */
+.search-bar {
+  display: flex; /* Flexbox để input và button nằm trên một hàng */
+  align-items: center; /* Căn giữa theo chiều dọc */
+  flex-grow: 1; /* Thanh tìm kiếm chiếm không gian linh hoạt */
+  max-width: 600px; /* Giới hạn chiều rộng tối đa */
+  gap: 0.5rem; /* Khoảng cách giữa input và button */
+  margin: 0 1rem; /* Thêm khoảng cách hai bên */
+}
+
+.search-bar input {
+  flex: 1; /* Input chiếm không gian linh hoạt */
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  outline: none;
+  transition: all 0.3s ease-in-out;
+  font-size: 1rem; /* Kích thước chữ nhất quán */
+}
+
+.search-bar input:focus {
+  border-color: #007bff; /* Màu viền khi focus */
+}
+
+.search-bar button {
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+  font-size: 1rem; /* Kích thước chữ nhất quán */
+}
+
+.search-bar button:hover {
+  background-color: #0056b3;
+}
+
+/* User Info Section */
+.user-info {
+  display: flex;
+  align-items: center; /* Căn giữa theo chiều dọc */
+  gap: 0.5rem; /* Khoảng cách giữa các phần tử */
+}
+
+.user-info img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%; /* Avatar hình tròn */
+}
+
+.user-info span {
+  font-size: 1rem;
+  color: #333;
+}

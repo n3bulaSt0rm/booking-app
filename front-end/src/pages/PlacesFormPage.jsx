@@ -4,7 +4,7 @@ import Perk from "../components/Perk";
 import axios from "axios";
 import AccountNav from "../components/AccountNav";
 import React from "react";
-
+import "./places-form-page.css";
 
 export default function PlacesFormPage() {
   const { id } = useParams();
@@ -40,28 +40,10 @@ export default function PlacesFormPage() {
     });
   }, [id]);
 
-  function inputHeader(text) {
-    return <h2 className="text-2xl mt-4">{text}</h2>;
-  }
-  function inputDescription(text) {
-    return <p className="text-gray-500 text-sm">{text}</p>;
-  }
-
-  function preInput(header, description) {
-    return (
-      <>
-        {inputHeader(header)}
-        {inputDescription(description)}
-      </>
-    );
-  }
-
   async function addPhotoByLink(ev) {
     ev.preventDefault();
     if (photoLink) {
-      setAddedPhotos((prev) => {
-        return [...prev, photoLink];
-      });
+      setAddedPhotos((prev) => [...prev, photoLink]);
       setPhotoLink("");
     }
   }
@@ -75,7 +57,7 @@ export default function PlacesFormPage() {
     if (id) {
       const res = await axios.delete(`/places/${id}`, {});
       if (res.status === 200) {
-        alert("Delete success !");
+        alert("Delete success!");
       }
     }
     setRedirect(true);
@@ -111,150 +93,117 @@ export default function PlacesFormPage() {
   }
 
   return (
-    <div className="sm:w-4/5 mx-auto px-10">
+    <div className="places-form-container">
       <AccountNav />
-      <form onSubmit={savePlace}>
-        {preInput(
-          "Title",
-          "Title for your place. should be short and catchy as in advertisement"
-        )}
-        <input
-          className="w-full border mr-1 mt-2 py-1 px-4 rounded-xl"
-          type="text"
-          value={title}
-          onChange={(ev) => setTitle(ev.target.value)}
-          placeholder="title, for example: My lovely apt"
-        />
-        {preInput("Address", "Address to this place")}
-        <input
-          className="w-full border mr-1 mt-2 py-1 px-4 rounded-xl"
-          type="text"
-          value={address}
-          onChange={(ev) => setAddress(ev.target.value)}
-          placeholder="address"
-        />
-        {preInput("Photos", "More = better")}
-        <div className="flex gap-2 py-2">
+      <form onSubmit={savePlace} className="places-form">
+        <div className="form-section">
+          <h2>Title</h2>
+          <p>Title for your place. Should be short and catchy as in advertisement.</p>
           <input
-            className="w-full border mr-1 py-1 px-4 rounded-xl"
             type="text"
-            value={photoLink}
-            onChange={(ev) => setPhotoLink(ev.target.value)}
-            placeholder="photo link"
+            value={title}
+            onChange={(ev) => setTitle(ev.target.value)}
+            placeholder="My lovely apt"
           />
-          <button
-            onClick={addPhotoByLink}
-            className=" bg-primary text-white px-4 rounded-xl font-semibold"
-          >
-            +
-          </button>
         </div>
-        <div className="mt-2 gap-2 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-          {addedPhotos.length > 0 &&
-            addedPhotos.map((link) => (
-              <div className="flex h-52 relative" key={link}>
-                <img className="rounded-xl" src={link} />
-                <div className="absolute top-2 left-2">
-                  <button
-                    onClick={() => removePhoto(link)}
-                    className="text-white p-1 material-symbols-outlined bg-gray-950 rounded-xl bg-opacity-30"
-                  >
-                    delete
-                  </button>
-                </div>
+        <div className="form-section">
+          <h2>Address</h2>
+          <p>Address to this place.</p>
+          <input
+            type="text"
+            value={address}
+            onChange={(ev) => setAddress(ev.target.value)}
+            placeholder="Address"
+          />
+        </div>
+        <div className="form-section">
+          <h2>Photos</h2>
+          <p>More = better.</p>
+          <div className="photo-upload">
+            <input
+              type="text"
+              value={photoLink}
+              onChange={(ev) => setPhotoLink(ev.target.value)}
+              placeholder="Photo link"
+            />
+            <button onClick={addPhotoByLink}>+</button>
+          </div>
+          <div className="photos-grid">
+            {addedPhotos.map((link) => (
+              <div className="photo-card" key={link}>
+                <img src={link} alt="Uploaded" />
+                <button onClick={() => removePhoto(link)}>Remove</button>
               </div>
             ))}
-          <label className="h-52 cursor-pointer flex items-center gap-1 justify-center border bg-transparent rounded-2xl p-2 text-2xl text-gray-600">
-            <input
-              type="file"
-              multiple
-              className="hidden"
-              // onChange={uploadPhoto}
-            />
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-8 h-8"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z"
-              />
-            </svg>
-            Upload
-          </label>
+          </div>
         </div>
-        {preInput("Description", "Description of the place")}
-        <textarea
-          value={description}
-          onChange={(ev) => setDescription(ev.target.value)}
-        />
-        {preInput("Perks", "Select all the perks of your place")}
-        <div className="grid mt-2 gap-2 grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+        <div className="form-section">
+          <h2>Description</h2>
+          <p>Description of the place.</p>
+          <textarea
+            value={description}
+            onChange={(ev) => setDescription(ev.target.value)}
+          />
+        </div>
+        <div className="form-section">
+          <h2>Perks</h2>
+          <p>Select all the perks of your place.</p>
           <Perk selected={perks} onChange={setPerks} />
         </div>
-        {preInput("Extra info", "house rules, etc")}
-        <textarea
-          value={extraInfo}
-          onChange={(ev) => setExtraInfo(ev.target.value)}
-        />
-        {preInput(
-          "Check in&out times",
-          "add check in and out times, remember to have some time window for cleaning the room between guests"
-        )}
-        <div className="grid gap-3 grid-cols-2 md:grid-cols-4">
-          <div>
-            <h3 className="mt-2 -mb-1">Check in time</h3>
-            <input
-              className="w-full border my-2 py-2 px-4 rounded-xl"
-              type="text"
-              value={checkIn}
-              onChange={(ev) => setCheckIn(ev.target.value)}
-              placeholder="14:00"
-            />
-          </div>
-          <div>
-            <h3 className="mt-2 -mb-1">Check out time</h3>
-            <input
-              className="w-full border my-2 py-2 px-4 rounded-xl"
-              type="text"
-              value={checkOut}
-              onChange={(ev) => setCheckOut(ev.target.value)}
-              placeholder="11:00"
-            />
-          </div>
-          <div>
-            <h3 className="mt-2 -mb-1">Max number of guests</h3>
-            <input
-              className="w-full border my-2 py-2 px-4 rounded-xl"
-              type="number"
-              value={maxGuests}
-              onChange={(ev) => setMaxGuests(ev.target.value)}
-            />
-          </div>
-          <div>
-            <h3 className="mt-2 -mb-1">Price per night</h3>
-            <input
-              className="w-full border my-2 py-2 px-4 rounded-xl"
-              type="number"
-              value={price}
-              onChange={(ev) => setPrice(ev.target.value)}
-            />
+        <div className="form-section">
+          <h2>Extra Info</h2>
+          <p>House rules, etc.</p>
+          <textarea
+            value={extraInfo}
+            onChange={(ev) => setExtraInfo(ev.target.value)}
+          />
+        </div>
+        <div className="form-section">
+          <h2>Check-in & Check-out</h2>
+          <p>
+            Add check-in and out times, remember to have some time for cleaning.
+          </p>
+          <div className="form-grid">
+            <div>
+              <h3>Check-in time</h3>
+              <input
+                type="text"
+                value={checkIn}
+                onChange={(ev) => setCheckIn(ev.target.value)}
+                placeholder="14:00"
+              />
+            </div>
+            <div>
+              <h3>Check-out time</h3>
+              <input
+                type="text"
+                value={checkOut}
+                onChange={(ev) => setCheckOut(ev.target.value)}
+                placeholder="11:00"
+              />
+            </div>
+            <div>
+              <h3>Max number of guests</h3>
+              <input
+                type="number"
+                value={maxGuests}
+                onChange={(ev) => setMaxGuests(ev.target.value)}
+              />
+            </div>
+            <div>
+              <h3>Price per night</h3>
+              <input
+                type="number"
+                value={price}
+                onChange={(ev) => setPrice(ev.target.value)}
+              />
+            </div>
           </div>
         </div>
-        <button className="w-full bg-primary text-white my-4 py-2 border rounded-xl text-xl font-semibold">
-          Save
-        </button>
+        <button type="submit" className="submit-button">Save</button>
       </form>
       {id && (
-        <button
-          onClick={deletePlace}
-          className="w-full bg-red-400 text-white mb-4 py-2 border rounded-xl text-xl font-semibold"
-        >
+        <button onClick={deletePlace} className="delete-button">
           Remove this place
         </button>
       )}

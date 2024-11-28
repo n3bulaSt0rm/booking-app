@@ -2,10 +2,11 @@ import React from "react";
 import Footer from "./Footer";
 import Header from "./Header";
 import { Outlet } from "react-router-dom";
+import "./layout.css";
 
 export default function Layout() {
   return (
-    <div className="mt-2 sm:mt-5 flex flex-col min-h-screen">
+    <div className="layout-container">
       <Header />
       <Outlet />
       <Footer />

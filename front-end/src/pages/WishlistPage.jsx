@@ -1,8 +1,10 @@
 import AccountNav from "../components/AccountNav";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import React from "react";
+import "./wishlist-page.css";
+
 export default function WishlistPage() {
   const [places, setPlaces] = useState([]);
   const [ready, setReady] = useState(false);
@@ -30,53 +32,40 @@ export default function WishlistPage() {
     return (
       <div>
         <AccountNav />
-        <h1 className="text-center text-3xl font-semibold my-20">
-          Loading...!
-        </h1>
+        <h1 className="loading-text">Loading...!</h1>
       </div>
     );
 
   return (
-    <div>
+    <div className="wishlist-page">
       <AccountNav />
       {places.length === 0 && (
-        <h1 className="text-center text-3xl font-semibold my-20">
-          Let&apos;s add hotels to your wishlist !!!
-        </h1>
+        <h1 className="empty-text">Let&apos;s add hotels to your wishlist !!!</h1>
       )}
-      <div className="lg:mx-20 mx-10 my-10 mt-6 grid gap-x-6 gap-y-8 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <div className="places-grid">
         {places.length > 0 &&
           places.map((doc) => (
-            <div key={doc.place._id}>
-              <div className="border-2 p-4 rounded-xl shadow-lg">
-                <Link to={"/place/" + doc.place._id}>
-                  <div className="bg-gray-500 mb-2 rounded-2xl flex">
-                    {doc.place.photos?.[0] && (
+            <div key={doc.place._id} className="place-card">
+              <div className="card-content">
+                <Link to={`/place/${doc.place._id}`}>
+                  <div className="place-image">
+                    {doc.place.photos?.[0] ? (
+                      <img src={doc.place.photos?.[0]} alt={doc.place.title} />
+                    ) : (
                       <img
-                        className="rounded-2xl object-cover aspect-square"
-                        src={doc.place.photos?.[0]}
-                        alt=""
-                      />
-                    )}
-                    {!doc.place.photos?.[0] && (
-                      <img
-                        className="rounded-2xl object-cover aspect-square"
                         src="https://kelembagaan.kemnaker.go.id/assets/img/no-image.svg"
-                        alt=""
+                        alt="No preview available"
                       />
                     )}
                   </div>
-                  <div className="h-24">
-                    <h2 className="font-bold">{doc.place.title}</h2>
-                    <h3 className="text-sm text-gray-500">
-                      {doc.place.address}
-                    </h3>
+                  <div className="place-details">
+                    <h2 className="place-title">{doc.place.title}</h2>
+                    <h3 className="place-address">{doc.place.address}</h3>
                   </div>
                 </Link>
-                <div className="mt-1 flex justify-between items-end">
-                  <div>
-                    <span className="font-bold">${doc.place.price}</span>
-                    /night
+                <div className="card-footer">
+                  <div className="place-price">
+                    <span>${doc.place.price}</span> /night
                   </div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -84,7 +73,7 @@ export default function WishlistPage() {
                     viewBox="0 0 24 24"
                     strokeWidth={1}
                     stroke="currentColor"
-                    className="w-8 h-8 text-red-500 fill-current"
+                    className="remove-icon"
                     onClick={(ev) => removeWishlist(ev, doc.place)}
                   >
                     <path

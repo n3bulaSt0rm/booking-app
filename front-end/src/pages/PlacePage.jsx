@@ -7,7 +7,7 @@ import BookingWidget from "../components/BookingWidget";
 import { UserContext } from "../components/UserContext";
 import Rate from "../components/Rate";
 import React from "react";
-
+import "./place-page.css";
 
 export default function PlacePage() {
   const { ready, user } = useContext(UserContext);
@@ -45,7 +45,7 @@ export default function PlacePage() {
   function formatDate(dateString) {
     const date = new Date(dateString);
     const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // JavaScript months are 0-based.
+    const month = String(date.getMonth() + 1).padStart(2, "0");
     const year = date.getFullYear();
     return `${day}-${month}-${year}`;
   }
@@ -68,139 +68,90 @@ export default function PlacePage() {
   }
 
   return (
-    <div className="pt-3 rounded-2xl md:w-full lg:w-2/3 m-auto px-10">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-semibold">{place.title}</h1>
-          <div className="flex items-end py-2">
-            <span className="material-symbols-outlined text-2xl pr-1">
-              star
-            </span>
-            {rate !== 0 && (
-              <h1 className="text-2xl font-semibold">{rate.toPrecision(2)}</h1>
+    <div className="place-page-container">
+      <div className="place-header">
+        <div className="place-details">
+          <h1 className="place-title">{place.title}</h1>
+          <div className="place-rating">
+            <span className="icon">★</span>
+            {rate !== 0 ? (
+              <h1 className="rating-score">{rate.toPrecision(2)}</h1>
+            ) : (
+              <h1 className="rating-score">-</h1>
             )}
-            {rate === 0 && <h1 className="text-2xl font-semibold">-</h1>}
-            <h1 className="text-xl text-gray-400">/5</h1>
-            <h1 className="font-semibold px-1">
-              {" "}
-              - {feedbacks.length} reviews
-            </h1>
+            <h1 className="rating-out-of">/5</h1>
+            <h1 className="reviews-count">- {feedbacks.length} reviews</h1>
           </div>
         </div>
-        {!wishlist.includes(place._id) && (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1}
-            stroke="currentColor"
-            className="w-14 h-14 text-red-500 hover:fill-current cursor-pointer"
+        {!wishlist.includes(place._id) ? (
+          <button
+            className="wishlist-button add"
             onClick={(ev) => addWishlist(ev, place)}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
-            />
-          </svg>
-        )}
-        {wishlist.includes(place._id) && (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1}
-            stroke="currentColor"
-            className="w-14 h-14 text-red-500 fill-current cursor-pointer"
+            ♥
+          </button>
+        ) : (
+          <button
+            className="wishlist-button remove"
             onClick={(ev) => removeWishlist(ev, place)}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
-            />
-          </svg>
+            ♥
+          </button>
         )}
       </div>
       <AddressLink>{place.address}</AddressLink>
       <PlaceGallery place={place} />
-      <div className="mt-8 mb-8 grid gap-8 grid-cols-1 md:grid-cols-[2fr_1fr]">
-        <div>
-          <div className="my-4">
-            <h2 className="font-semibold text-2xl">Description</h2>
-            {place.description}
-          </div>
-          Check-in: {place.checkIn}
-          <br />
-          Check-out: {place.checkOut}
-          <br />
-          Max number of guests: {place.maxGuests}
-          <br />
-          Feature:
-          {place.perks.map((perk) => (
-            <li key={perk} className="ml-2 capitalize">
-              {perk}
-            </li>
-          ))}
+      <div className="place-details-grid">
+        <div className="place-description">
+          <h2>Description</h2>
+          <p>{place.description}</p>
+          <p>Check-in: {place.checkIn}</p>
+          <p>Check-out: {place.checkOut}</p>
+          <p>Max number of guests: {place.maxGuests}</p>
+          <h3>Features:</h3>
+          <ul>
+            {place.perks.map((perk) => (
+              <li key={perk}>{perk}</li>
+            ))}
+          </ul>
         </div>
-        <div className="z-0">
-          <BookingWidget place={place} />
-        </div>
+        <BookingWidget place={place} />
       </div>
-      <div className="bg-white -mx-8 px-8 py-8 border-t">
-        <div>
-          <h2 className="font-semibold text-2xl">Extra info</h2>
-        </div>
-        <div className="mb-4 mt-2 text-sm text-gray-700 leading-5">
-          {place.extraInfo}
-        </div>
+      <div className="extra-info-section">
+        <h2>Extra info</h2>
+        <p>{place.extraInfo}</p>
       </div>
-      <div className="bg-white -mx-8 px-8 py-8 border-t">
-        <div>
-          <h2 className="font-semibold text-2xl">Review</h2>
-          <div className="flex items-end py-2">
-            <span className="material-symbols-outlined text-2xl pr-1">
-              star
-            </span>
-            {rate !== 0 && (
-              <h1 className="text-2xl font-semibold">{rate.toPrecision(2)}</h1>
-            )}
-            {rate === 0 && <h1 className="text-2xl font-semibold">-</h1>}
-            <h1 className="text-xl text-gray-400">/5</h1>
-            <h1 className="font-semibold px-1">
-              {" "}
-              - {feedbacks.length} reviews
-            </h1>
-          </div>
-          <div className="grid grid-cols-2 gap-2">
-            {feedbacks.length > 0 &&
-              feedbacks.map((feedback) => (
-                <div key={feedback._id} className="py-5">
-                  <div className="flex">
-                    <img
-                      className="h-16 border-2 rounded-full my-auto"
-                      src="https://i.pinimg.com/originals/39/a4/71/39a47159059f38a954d77e5dcae6f0db.jpg"
-                      alt="avatar"
-                    />
-                    <div className="pl-3">
-                      <h1 className="font-semibold capitalize">
-                        {feedback.user.firstName + " " + feedback.user.lastName}
-                      </h1>
-                      <h1 className="text-sm text-gray-500">
-                        {feedback.user.email}
-                      </h1>
-                      <Rate rating={feedback.rate} />
-                      <h1 className="text-gray-500 text-sm">
-                        {formatDate(feedback.date)}
-                      </h1>
-                    </div>
-                  </div>
-                  <div className="pt-5">
-                    <h1>{feedback.comment}</h1>
-                  </div>
+      <div className="review-section">
+        <h2>Reviews</h2>
+        <div className="place-rating">
+          <span className="icon">★</span>
+          {rate !== 0 ? (
+            <h1 className="rating-score">{rate.toPrecision(2)}</h1>
+          ) : (
+            <h1 className="rating-score">-</h1>
+          )}
+          <h1 className="rating-out-of">/5</h1>
+          <h1 className="reviews-count">- {feedbacks.length} reviews</h1>
+        </div>
+        <div className="reviews-grid">
+          {feedbacks.map((feedback) => (
+            <div key={feedback._id} className="review-card">
+              <div className="review-header">
+                <img
+                  src="https://i.pinimg.com/originals/39/a4/71/39a47159059f38a954d77e5dcae6f0db.jpg"
+                  alt="avatar"
+                  className="avatar"
+                />
+                <div>
+                  <h3>{`${feedback.user.firstName} ${feedback.user.lastName}`}</h3>
+                  <p>{feedback.user.email}</p>
+                  <Rate rating={feedback.rate} />
+                  <p>{formatDate(feedback.date)}</p>
                 </div>
-              ))}
-          </div>
+              </div>
+              <p className="review-comment">{feedback.comment}</p>
+            </div>
+          ))}
         </div>
       </div>
     </div>

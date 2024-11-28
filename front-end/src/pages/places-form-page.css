@@ -1,0 +1,136 @@
+/* General Layout */
+.places-form-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1.5rem;
+  }
+  
+  .places-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  /* Form Sections */
+  .form-section {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-section h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .form-section p {
+    font-size: 0.9rem;
+    color: gray;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Inputs and Textareas */
+  input,
+  textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+  }
+  
+  textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+  
+  /* Photo Upload */
+  .photo-upload {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .photo-upload input {
+    flex: 1;
+  }
+  
+  .photo-upload button {
+    padding: 0.5rem 1rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+  }
+  
+  .photo-upload button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Photos Grid */
+  .photos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 0.5rem;
+  }
+  
+  .photo-card {
+    position: relative;
+  }
+  
+  .photo-card img {
+    width: 100%;
+    border-radius: 0.5rem;
+  }
+  
+  .photo-card button {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    border-radius: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+  }
+  
+  .photo-card button:hover {
+    background-color: rgba(255, 0, 0, 0.7);
+  }
+  
+  /* Form Grid */
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  
+  /* Buttons */
+  .submit-button,
+  .delete-button {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+  }
+  
+  .submit-button {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .submit-button:hover {
+    background-color: #218838;
+  }
+  
+  .delete-button {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .delete-button:hover {
+    background-color: #c82333;
+  }
+  

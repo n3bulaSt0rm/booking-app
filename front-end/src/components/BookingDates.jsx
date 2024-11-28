@@ -1,17 +1,17 @@
 import React from "react";
-
 import { differenceInCalendarDays, format } from "date-fns";
+import "./booking-dates.css";
 
-export default function BookingDates({ booking, className }) {
+export default function BookingDates({ booking, className = "" }) {
   return (
-    <div className={"flex gap-1 " + className}>
+    <div className={`booking-dates ${className}`}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className="sm:w-6 sm:h-6 w-5 h-5"
+        className="icon"
       >
         <path
           strokeLinecap="round"
@@ -24,14 +24,14 @@ export default function BookingDates({ booking, className }) {
         new Date(booking.checkIn)
       )}{" "}
       nights:
-      <div className="flex gap-1 items-center ml-2 text-sm sm:text-base">
+      <div className="date-container">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="sm:w-6 sm:h-6 w-5 h-5"
+          className="icon"
         >
           <path
             strokeLinecap="round"
@@ -42,14 +42,14 @@ export default function BookingDates({ booking, className }) {
         {format(new Date(booking.checkIn), "yyyy-MM-dd")}
       </div>
       &rarr;
-      <div className="flex gap-1 items-center text-sm sm:text-base">
+      <div className="date-container">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="sm:w-6 sm:h-6 w-5 h-5"
+          className="icon"
         >
           <path
             strokeLinecap="round"

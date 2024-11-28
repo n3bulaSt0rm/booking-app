@@ -1,0 +1,104 @@
+/* General Container */
+.all-places-container {
+    padding: 2rem 4rem;
+  }
+  
+  .header-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Places Grid */
+  .places-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+  
+  /* Place Card */
+  .place-card {
+    border: 2px solid #e5e7eb;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .place-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Place Link */
+  .place-link {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  /* Place Image */
+  .place-image-container {
+    background-color: #e5e7eb;
+    margin-bottom: 1rem;
+    border-radius: 0.75rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .place-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 0.75rem;
+  }
+  
+  /* Place Details */
+  .place-details {
+    margin-bottom: 1rem;
+    height: 6rem; /* Consistent height for titles */
+  }
+  
+  .place-title {
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+  
+  .place-address {
+    font-size: 0.9rem;
+    color: #6b7280;
+  }
+  
+  /* Place Footer */
+  .place-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .place-price {
+    font-weight: bold;
+    font-size: 1rem;
+  }
+  
+  .wishlist-icon {
+    width: 2rem;
+    height: 2rem;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  
+  .wishlist-icon:hover {
+    transform: scale(1.2);
+  }
+  
+  .add-to-wishlist {
+    stroke: #ef4444;
+    fill: none;
+  }
+  
+  .remove-from-wishlist {
+    stroke: #ef4444;
+    fill: #ef4444;
+  }
+  
