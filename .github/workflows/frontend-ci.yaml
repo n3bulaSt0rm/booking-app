@@ -2,9 +2,11 @@ name: React CI Pipeline
 
 on:
   push:
-    branches:
-      - '*'  
+    paths:
+      - 'frontend/**'  
   pull_request:
+    paths:
+      - 'frontend/**'
     branches:
       - main   
       - develop 
