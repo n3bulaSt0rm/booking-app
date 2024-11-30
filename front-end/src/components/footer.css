@@ -1,97 +1,103 @@
 /* Footer General Styling */
 footer {
-  background-color: #1f2937; /* Dark gray background */
-  color: #ffffff; /* White text color */
-  padding: 2.5rem 3.5rem; /* Padding for spacing */
+  background-color: #f8f9fa;
+  box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
 }
 
-/* Footer Container */
+/* Container chính */
 footer .container {
   max-width: 1200px;
-  margin: 0 auto; /* Center the container */
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap; /* Wrap items on smaller screens */
+  align-items: flex-start; /* Căn đầu trên của các phần */
 }
 
-/* Footer Branding Section */
-footer .brand {
-  text-align: center; /* Center-align for smaller screens */
-  flex-grow: 1;
-  margin-left: 1.5rem; /* Add margin-left to adjust alignment */
+/* Phần bên trái */
+footer .flex.flex-col {
+  flex: 1;
+  max-width: 45%; /* Giới hạn chiều rộng */
 }
 
-footer .brand h1 {
-  font-size: 2rem; /* Larger title */
-  font-weight: bold; /* Bold font */
-  color: #fbbf24; /* Yellow color */
-  margin-bottom: 0.5rem; /* Add spacing below title */
+footer h1.text-blue-600 {
+  background: linear-gradient(45deg, #2563eb, #3b82f6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: all 0.3s ease;
 }
 
-footer .brand h3 {
-  margin-top: 0; /* Remove top margin for consistency */
-  color: #9ca3af; /* Gray color for subtitle */
+footer h1.text-blue-600:hover {
+  transform: scale(1.02);
 }
 
-/* Contact Information Section */
-footer .contact-info {
-  text-align: right; /* Align text to the right */
+/* Phần bên phải */
+footer .flex.flex-col.items-end {
+  flex: 1;
+  max-width: 45%; /* Giới hạn chiều rộng */
+  text-align: right;
+  align-items: flex-end;
 }
 
-footer .contact-info h2 {
-  font-size: 1.125rem; /* Larger font size for headings */
-  font-weight: 600;
+footer .flex.flex-col.items-end h2,
+footer .flex.flex-col.items-end p {
+  width: 100%;
+  text-align: right;
 }
 
-footer .contact-info p {
-  margin-top: 0.5rem; /* Add spacing between lines */
-  color: #9ca3af; /* Light gray color */
-}
-
-footer .contact-info .copyright {
-  margin-top: 1rem; /* Spacing for copyright text */
-  color: #6b7280; /* Lighter gray */
-}
-
-/* Social Media Icons Section */
-footer .social-icons {
+/* Social icons container */
+footer .flex.flex-col.items-end .mt-4 {
+  width: 100%;
   display: flex;
-  gap: 0.5rem; /* Space between icons */
-  justify-content: center;
-  margin-top: 1rem; /* Space above icons */
+  justify-content: flex-end;
+  margin-top: 1rem;
 }
 
-footer .social-icons a {
+footer .flex.space-x-2 {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+/* Animation cho social icons */
+footer .flex.space-x-2 span {
+  transition: transform 0.3s ease;
+  display: flex;
   align-items: center;
-  width: 40px;
-  height: 40px;
-  background-color: #374151; /* Darker gray background */
-  border-radius: 50%; /* Make icons circular */
-  transition: background-color 0.3s ease; /* Smooth hover transition */
 }
 
-footer .social-icons a:hover {
-  background-color: #2563eb; /* Change background color on hover */
+footer .flex.space-x-2 span:hover {
+  transform: scale(1.1);
 }
 
-footer .social-icons svg {
-  width: 20px;
-  height: 20px;
-  fill: white; /* White icon color */
+footer p, footer h3 {
+  line-height: 1.6;
 }
 
-/* Responsive Design */
+/* Gradient border top */
+footer {
+  border-top: 1px solid transparent;
+  background-image: linear-gradient(to right, #e5e7eb, #f3f4f6);
+  background-origin: border-box;
+}
+
+/* Responsive adjustments */
 @media (max-width: 768px) {
   footer .container {
-    flex-direction: column; /* Stack sections vertically */
-    text-align: center;
+    flex-direction: column;
+    align-items: center;
   }
 
-  footer .contact-info {
-    text-align: center; /* Center-align contact section */
-    margin-top: 2rem; /* Add spacing between sections */
+  footer .flex.flex-col,
+  footer .flex.flex-col.items-end {
+    max-width: 100%;
+    width: 100%;
+    margin-top: 2rem;
+  }
+
+  footer .flex.flex-col {
+    margin-top: 0;
+    align-items: center;
+    text-align: center;
   }
 }
