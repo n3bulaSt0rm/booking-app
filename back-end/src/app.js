@@ -15,13 +15,9 @@ const configureApp = () => {
     app.use(
         express.json(),
         cors({
-            // origin: '*',
-            // methods: '*',
-            // allowedHeaders: '*',
-            origin: 'http://localhost:3005',  // Specify the front-end origin
-            methods: 'GET,POST,PUT,DELETE',  // Specify allowed HTTP methods
-            allowedHeaders: 'Content-Type,Authorization', // Specify allowed headers
-            credentials: true,  // Allow cookies and credentials to be sent
+            origin: '*',
+            methods: '*',
+            allowedHeaders: '*',
         })
     );
     initRoutes(app);
