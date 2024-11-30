@@ -1,0 +1,86 @@
+/* General Layout */
+.wishlist-page {
+    padding: 2rem;
+  }
+  
+  .loading-text,
+  .empty-text {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 5rem 0;
+    color: #333;
+  }
+  
+  /* Places Grid */
+  .places-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    margin-top: 2rem;
+  }
+  
+  /* Place Card */
+  .place-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+  
+  .place-card:hover {
+    transform: scale(1.03);
+  }
+  
+  .card-content {
+    padding: 1rem;
+  }
+  
+  .place-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+  }
+  
+  .place-details {
+    margin: 1rem 0;
+  }
+  
+  .place-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .place-address {
+    font-size: 0.875rem;
+    color: #666;
+  }
+  
+  /* Card Footer */
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+  }
+  
+  .place-price {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .remove-icon {
+    width: 2rem;
+    height: 2rem;
+    cursor: pointer;
+    color: #e3342f;
+    transition: color 0.3s ease;
+  }
+  
+  .remove-icon:hover {
+    color: #c53030;
+  }
+  

@@ -1,0 +1,97 @@
+/* Footer General Styling */
+footer {
+  background-color: #1f2937; /* Dark gray background */
+  color: #ffffff; /* White text color */
+  padding: 2.5rem 3.5rem; /* Padding for spacing */
+}
+
+/* Footer Container */
+footer .container {
+  max-width: 1200px;
+  margin: 0 auto; /* Center the container */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap; /* Wrap items on smaller screens */
+}
+
+/* Footer Branding Section */
+footer .brand {
+  text-align: center; /* Center-align for smaller screens */
+  flex-grow: 1;
+  margin-left: 1.5rem; /* Add margin-left to adjust alignment */
+}
+
+footer .brand h1 {
+  font-size: 2rem; /* Larger title */
+  font-weight: bold; /* Bold font */
+  color: #fbbf24; /* Yellow color */
+  margin-bottom: 0.5rem; /* Add spacing below title */
+}
+
+footer .brand h3 {
+  margin-top: 0; /* Remove top margin for consistency */
+  color: #9ca3af; /* Gray color for subtitle */
+}
+
+/* Contact Information Section */
+footer .contact-info {
+  text-align: right; /* Align text to the right */
+}
+
+footer .contact-info h2 {
+  font-size: 1.125rem; /* Larger font size for headings */
+  font-weight: 600;
+}
+
+footer .contact-info p {
+  margin-top: 0.5rem; /* Add spacing between lines */
+  color: #9ca3af; /* Light gray color */
+}
+
+footer .contact-info .copyright {
+  margin-top: 1rem; /* Spacing for copyright text */
+  color: #6b7280; /* Lighter gray */
+}
+
+/* Social Media Icons Section */
+footer .social-icons {
+  display: flex;
+  gap: 0.5rem; /* Space between icons */
+  justify-content: center;
+  margin-top: 1rem; /* Space above icons */
+}
+
+footer .social-icons a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background-color: #374151; /* Darker gray background */
+  border-radius: 50%; /* Make icons circular */
+  transition: background-color 0.3s ease; /* Smooth hover transition */
+}
+
+footer .social-icons a:hover {
+  background-color: #2563eb; /* Change background color on hover */
+}
+
+footer .social-icons svg {
+  width: 20px;
+  height: 20px;
+  fill: white; /* White icon color */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  footer .container {
+    flex-direction: column; /* Stack sections vertically */
+    text-align: center;
+  }
+
+  footer .contact-info {
+    text-align: center; /* Center-align contact section */
+    margin-top: 2rem; /* Add spacing between sections */
+  }
+}

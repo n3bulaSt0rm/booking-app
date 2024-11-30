@@ -1,0 +1,15 @@
+/* Main layout container */
+.layout-container {
+    margin-top: 1rem; /* Default top margin */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Full screen height */
+  }
+  
+  /* For larger screens, increase the top margin */
+  @media (min-width: 640px) {
+    .layout-container {
+      margin-top: 1.25rem;
+    }
+  }
+  

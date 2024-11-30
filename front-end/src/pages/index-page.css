@@ -1,0 +1,168 @@
+/* General Container */
+.index-page-container {
+    margin: 0 2.5rem;
+  }
+  
+  /* Hero Banner */
+  .hero-banner {
+    background-image: url("https://file1.dangcongsan.vn/data/0/images/2023/04/19/upload_4752/5.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    padding: 9rem 1.5rem;
+    margin-top: 1.5rem;
+  }
+  
+  .hero-title {
+    font-size: 3rem;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 0.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.5rem;
+    color: white;
+    opacity: 0.9;
+  }
+  
+  /* Popular Destinations */
+  .popular-destinations-section {
+    margin-top: 2rem;
+  }
+  
+  .section-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+  }
+  
+  .popular-destinations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  
+  .destination-card {
+    border-radius: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  
+  .destination-label {
+    padding: 0.75rem 1rem;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 0.5rem;
+    margin: 1rem;
+    font-weight: 500;
+  }
+  
+  /* Specific Backgrounds for Cards */
+  .hanoi {
+    background-image: url("https://media.istockphoto.com/id/478073811/vi/anh/l%E1%BB%91i-v%C3%A0o-%C4%91%E1%BA%B9p-t%E1%BA%A1i-v%C4%83n-mi%E1%BA%BFu-qu%E1%BB%91c-t%E1%BB%AB-gi%C3%A1m.jpg?s=612x612&w=0&k=20&c=FXgEWvQQLlDi9iP8tacv4_QbnjyaAGWlT2Pij_awKTc=");
+  }
+  
+  .nhatrang {
+    background-image: url("https://static.vinwonders.com/production/nha-trang-o-dau-1.jpg");
+  }
+  
+  .hcm {
+    background-image: url("https://cdnmedia.baotintuc.vn/Upload/c2tvplmdloSDblsn03qN2Q/files/2020/11/04/thanh-pho-thu-duc-tp-ho-chi-minh-41120.jpg");
+  }
+  
+  .danang {
+    background-image: url("https://res.klook.com/image/upload/fl_lossy.progressive,w_800,c_fill,q_85/destination/ur2mrg23d91mex03l4mw.jpg");
+  }
+  
+  .sapa {
+    background-image: url("https://vcdn1-dulich.vnecdn.net/2022/04/18/dulichSaPa-1650268886-1480-1650277620.png?w=0&h=0&q=100&dpr=2&fit=crop&s=JTUw8njZ_Glkqf1itzjObg");
+  }
+  
+  .phuquoc {
+    background-image: url("https://nld.mediacdn.vn/291774122806476800/2021/11/26/cap-treo-hon-thom-02-1637912751786500410806.jpg");
+  }
+  
+  /* Favorite Places Section */
+  .favorite-places-section {
+    margin-top: 2rem;
+  }
+  
+  .favorite-places-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  
+  .favorite-place-card {
+    border: 2px solid #e5e7eb;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .place-image-container {
+    margin-bottom: 1rem;
+  }
+  
+  .place-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 0.75rem;
+  }
+  
+  .place-title {
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+  
+  .place-address {
+    color: #6b7280;
+    font-size: 0.9rem;
+  }
+  
+  .place-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .place-price {
+    font-weight: bold;
+  }
+  
+  .rating {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  
+  .rating-value {
+    font-weight: 600;
+  }
+  
+  .rating-max {
+    color: #6b7280;
+  }
+  
+  /* View All Link */
+  .view-all-link {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 2rem;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+  
+  .view-all-link:hover {
+    text-decoration: underline;
+  }
+  
