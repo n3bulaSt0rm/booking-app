@@ -16,13 +16,24 @@ export default function BookingPage() {
 
   useEffect(() => {
     if (id) {
-      axios.get("/bookings").then((response) => {
-        const foundBooking = response.data.find(({ _id }) => _id === id);
-        if (foundBooking) {
-          setBooking(foundBooking);
-          setPlace(foundBooking.place);
-        }
-      });
+      const token = localStorage.getItem("authToken");
+      axios
+        .get("/bookings", {
+          headers: {
+            Authorization: `Bearer ${token}`, 
+          },
+        })
+        .then((response) => {
+          const foundBooking = response.data.find(({ _id }) => _id === id);
+          if (foundBooking) {
+            setBooking(foundBooking);
+            setPlace(foundBooking.place);
+          }
+        })
+        .catch((error) => {
+          console.error("Failed to fetch bookings:", error);
+          alert("Failed to fetch bookings.");
+        });
     }
   }, [id]);
 
@@ -33,7 +44,12 @@ export default function BookingPage() {
   async function deleteBooking(ev) {
     ev.preventDefault();
     if (id) {
-      await axios.delete(`/bookings/${id}`, {});
+      const token = localStorage.getItem("authToken");
+      await axios.delete(`/bookings/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+        },
+      });
     }
     setRedirect(true);
   }
@@ -42,11 +58,17 @@ export default function BookingPage() {
   }
 
   async function sendFeedback(ev) {
+    const token = localStorage.getItem("authToken");
     ev.preventDefault();
     await axios.post("/feedback", {
       place: place._id,
       comment,
       rate,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`, 
+      },
     });
     alert("Feedback successful.");
     setRedirect(true);

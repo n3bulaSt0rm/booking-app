@@ -23,6 +23,7 @@ export default function PlacesFormPage() {
     if (!id) {
       return;
     }
+    const token = localStorage.getItem("authToken");
     axios.get("/places/" + id).then((response) => {
       const { data } = response;
       setTitle(data.title);
@@ -35,6 +36,11 @@ export default function PlacesFormPage() {
       setCheckOut(data.checkOut);
       setMaxGuests(data.maxGuests);
       setPrice(data.price);
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`, 
+      },
     });
   }, [id]);
 
@@ -71,7 +77,11 @@ export default function PlacesFormPage() {
   async function deletePlace(ev) {
     ev.preventDefault();
     if (id) {
-      const res = await axios.delete(`/places/${id}`, {});
+      const res = await axios.delete(`/places/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+        },
+      });
       if (res.status === 200) {
         alert("Delete success !");
       }
@@ -94,12 +104,26 @@ export default function PlacesFormPage() {
       price,
     };
     if (id) {
+      const token = localStorage.getItem("authToken");
+
       await axios.put("/places", {
         id,
         ...placeData,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+        },
       });
     } else {
-      await axios.post("/places", placeData);
+      const token = localStorage.getItem("authToken");
+
+      await axios.post("/places", placeData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Add token in the Authorization header
+          },
+        });
     }
     setRedirect(true);
   }

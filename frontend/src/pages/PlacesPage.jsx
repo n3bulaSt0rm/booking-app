@@ -4,11 +4,35 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 export default function PlacesPage() {
   const [places, setPlaces] = useState([]);
+  // const token = localStorage.getItem("authToken");
+
+  // useEffect(() => {
+  //   axios.get("/user-places").then(({ data }) => {
+  //     setPlaces(data);
+  //   });
+  // }, []);
+  const token = localStorage.getItem("authToken");
+
   useEffect(() => {
-    axios.get("/user-places").then(({ data }) => {
-      setPlaces(data);
-    });
-  }, []);
+    if (!token) {
+      alert("You must be logged in to view your places.");
+      return;
+    }
+
+    axios
+      .get("/user-places", {
+        headers: {
+          Authorization: `Bearer ${token}`, // Add token in the Authorization header
+        },
+      })
+      .then(({ data }) => {
+        setPlaces(data);
+      })
+      .catch((error) => {
+        console.error("Failed to fetch user places:", error);
+        alert("Failed to fetch user places. Please try again.");
+      });
+  }, [token]);  // Dependency array includes `token` to ensure it updates when the token changes
   return (
     <div className="mx-10 lg:mx-60">
       <AccountNav />

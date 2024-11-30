@@ -28,6 +28,7 @@ export default function BookingWidget({ place }) {
   }
   async function bookThisPlace() {
     if (checkIn && checkOut && name && phone) {
+      const token = localStorage.getItem("authToken");
       const response = await axios.post("/bookings", {
         checkIn,
         checkOut,
@@ -36,6 +37,11 @@ export default function BookingWidget({ place }) {
         phone,
         place: place._id,
         price: numberOfNights * place.price,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+        },
       });
       const bookingId = response.data._id;
       alert("Booking successful.");

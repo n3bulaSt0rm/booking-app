@@ -16,11 +16,17 @@ export default function RegisterPage() {
   async function registerUser(ev) {
     ev.preventDefault();
     try {
-      await axios.post("/register", {
+      const token = localStorage.getItem("authToken");
+      await axios.post("/users/register", {
         firstName,
         lastName,
         email,
         password,
+      }, 
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, // Add token to the Authorization header
+        },
       });
       alert("Registration successful! Now you can login.");
       setRedirect(true)

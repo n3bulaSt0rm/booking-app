@@ -15,9 +15,13 @@ const configureApp = () => {
     app.use(
         express.json(),
         cors({
-            origin: '*',
-            methods: '*',
-            allowedHeaders: '*',
+            // origin: '*',
+            // methods: '*',
+            // allowedHeaders: '*',
+            origin: 'http://localhost:5173',  // Allow the frontend to access the backend
+            methods: ['GET', 'POST', 'PUT', 'DELETE'],  // List of allowed HTTP methods
+            allowedHeaders: ['Content-Type', 'Authorization'],  // Allowed headers in the request
+            credentials: true,  // Allow credentials (cookies, HTTP au
         })
     );
     initRoutes(app);
