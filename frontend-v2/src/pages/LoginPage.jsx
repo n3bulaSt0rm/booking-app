@@ -12,17 +12,24 @@ export default function LoginPage() {
   async function handleLoginSubmit(ev) {
     ev.preventDefault();
     try {
-      const { data } = await axios.post("/login", {
+      // const token = localStorage.getItem("authToken");
+      const { data } = await axios.post("/users/login", {
         email,
         password,
       });
       alert("Login successful.");
+      console.log("123data", data);
+      // Store the token in localStorage (assuming the token is in data.token)
+      localStorage.setItem("authToken", data.accessToken);
+      console.log("123token1", data.accessToken);
+      // Set the user and redirect states
       setUser(data);
       setRedirect(true);
     } catch (error) {
       alert("Login failed.");
     }
   }
+  
 
   if (redirect) {
     return <Navigate to={"/"} />;

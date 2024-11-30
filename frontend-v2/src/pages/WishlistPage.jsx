@@ -7,19 +7,52 @@ export default function WishlistPage() {
   const [places, setPlaces] = useState([]);
   const [ready, setReady] = useState(false);
 
+  // useEffect(() => {
+  //   const token = localStorage.getItem("authToken");
+  //   axios.get("/wishlist").then((response) => {
+  //     if (response.data.length !== 0) {
+  //       setPlaces(response.data[0].wishlist);
+  //     }
+  //     setReady(true);
+  //   });
+  // }, []);
   useEffect(() => {
-    axios.get("/wishlist").then((response) => {
-      if (response.data.length !== 0) {
-        setPlaces(response.data[0].wishlist);
-      }
-      setReady(true);
-    });
+    const token = localStorage.getItem("authToken");
+  
+    if (!token) {
+      alert("You must be logged in to view your wishlist.");
+      return;
+    }
+  
+    axios
+      .get("/wishlist", {
+        headers: {
+          Authorization: `Bearer ${token}`, // Add token to the Authorization header
+        },
+      })
+      .then((response) => {
+        if (response.data.length !== 0) {
+          setPlaces(response.data[0].wishlist);
+        }
+        setReady(true);
+      })
+      .catch((error) => {
+        console.error("Failed to fetch wishlist:", error);
+        alert("Failed to fetch wishlist. Please try again.");
+      });
   }, []);
+  
 
   async function removeWishlist(ev, place) {
+    const token = localStorage.getItem("authToken");
     ev.preventDefault();
     await axios.put("/wishlist", {
       place: place._id,
+    }, 
+    {
+      headers: {
+        Authorization: `Bearer ${token}`, // Add token to the Authorization header
+      },
     });
     setPlaces((prevPlaces) =>
       prevPlaces.filter((item) => item.place._id !== place._id)

@@ -8,9 +8,15 @@ export function UserContextProvider({ children }) {
   const [ready, setReady] = useState(false);
   useEffect(() => {
     if (!user) {
-      axios.get("/profile").then(({ data }) => {
+      const token = localStorage.getItem("authToken");
+      axios.get("/users/profile").then(({ data }) => {
         setUser(data);
         setReady(true);
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+        },
       });
     }
   }, []);

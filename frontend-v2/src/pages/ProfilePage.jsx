@@ -23,11 +23,35 @@ export default function ProfilePage() {
     return classes;
   }
 
+  // useEffect(() => {
+  //   axios.get("/users/profile").then((response) => {
+  //     setUserDoc(response.data);
+  //   });
+  // }, []);
+  // const token = localStorage.getItem("authToken");
+
   useEffect(() => {
-    axios.get("/user").then((response) => {
-      setUserDoc(response.data);
-    });
+    const token = localStorage.getItem("authToken");
+  
+    if (!token) {
+      alert("You must be logged in to view your profile.");
+      return;
+    }
+  
+    axios
+      .get("/users/profile", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => setUserDoc(response.data))
+      .catch((error) => {
+        console.error("Error fetching user profile:", error);
+        alert("Failed to fetch user profile. Please try again.");
+      });
   }, []);
+  
+  
 
   if (!ready) {
     return "Loading...";
@@ -37,11 +61,38 @@ export default function ProfilePage() {
     return <Navigate to={"/login"} />;
   }
 
+  // async function logout() {
+  //   await axios.post("/users/logout");
+  //   setUser(null);
+  //   setRedirect("/");
+  // }
   async function logout() {
-    await axios.post("/logout");
-    setUser(null);
-    setRedirect("/");
+    const token = localStorage.getItem("authToken");
+  
+    if (!token) {
+      alert("You are not logged in.");
+      return;
+    }
+  
+    try {
+      await axios.post(
+        "/users/logout",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Add token to the Authorization header
+          },
+        }
+      );
+      localStorage.removeItem("authToken"); // Remove the token from localStorage
+      setUser(null);
+      setRedirect("/");
+    } catch (error) {
+      console.error("Failed to log out:", error);
+      alert("Logout failed. Please try again.");
+    }
   }
+  
 
   if (redirect) {
     return <Navigate to={redirect} />;
