@@ -1,7 +1,7 @@
 import AccountNav from "../components/AccountNav";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import api from "../api.js";
 import React from "react";
 import "./wishlist-page.css";
 
@@ -10,7 +10,7 @@ export default function WishlistPage() {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    axios.get("/wishlist").then((response) => {
+    api.get("/wishlist").then((response) => {
       if (response.data.length !== 0) {
         setPlaces(response.data[0].wishlist);
       }
@@ -20,7 +20,7 @@ export default function WishlistPage() {
 
   async function removeWishlist(ev, place) {
     ev.preventDefault();
-    await axios.put("/wishlist", {
+    await api.put("/wishlist", {
       place: place._id,
     });
     setPlaces((prevPlaces) =>

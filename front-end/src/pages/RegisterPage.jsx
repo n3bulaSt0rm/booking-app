@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../api.js";
 import { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import Footer from "../components/Footer";
@@ -19,7 +19,7 @@ export default function RegisterPage() {
   async function registerUser(ev) {
     ev.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8080/users/register", {
+      const response = await api.post("/users/register", {
         firstName,
         lastName,
         email,

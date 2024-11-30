@@ -1,6 +1,6 @@
 import AccountNav from "../components/AccountNav";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api.js";
 import React from "react";
 
 export default function BookingManager() {
@@ -9,7 +9,7 @@ export default function BookingManager() {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/booking-manager");
+        const response = await api.get("/booking-manager");
         setBookings(response.data);
       } catch (error) {
         console.error("Error fetching bookings:", error);
@@ -32,7 +32,7 @@ export default function BookingManager() {
       const confirmed = window.confirm("Are you sure you want to delete this user?");
       if (!confirmed) return;
 
-      await axios.delete(`http://localhost:8080/users/${userId}`, {
+      await api.delete(`/users/${userId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },

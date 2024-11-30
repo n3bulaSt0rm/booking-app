@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import { useParams, Navigate } from "react-router-dom";
-import axios from "axios";
+import api from "../api.js";
 import AddressLink from "../components/AddressLink";
 import PlaceGallery from "../components/PlaceGallery";
 import BookingWidget from "../components/BookingWidget";
@@ -20,14 +20,14 @@ export default function PlacePage() {
     if (!id) {
       return;
     }
-    axios.get(`/places/${id}`).then((response) => {
+    api.get(`/places/${id}`).then((response) => {
       setPlace(response.data);
     });
-    axios.get(`/feedback/${id}`).then((response) => {
+    api.get(`/feedback/${id}`).then((response) => {
       setFeedbacks(response.data[0].feedback.reverse());
       setRate(response.data[0].rating);
     });
-    axios.get("/wishlist").then((response) => {
+    api.get("/wishlist").then((response) => {
       setWishlist(response.data[0].wishlist.map((obj) => obj.place._id));
     });
   }, [id]);
@@ -51,7 +51,7 @@ export default function PlacePage() {
   }
 
   async function addWishlist(ev, place) {
-    await axios.post("/wishlist", {
+    await api.post("/wishlist", {
       place: place._id,
     });
     setWishlist((prevWishlist) => [...prevWishlist, place._id]);
@@ -59,7 +59,7 @@ export default function PlacePage() {
 
   async function removeWishlist(ev, place) {
     ev.preventDefault();
-    await axios.put("/wishlist", {
+    await api.put("/wishlist", {
       place: place._id,
     });
     setWishlist((prevWishlist) =>

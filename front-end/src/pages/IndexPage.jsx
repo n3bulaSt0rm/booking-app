@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api.js";
 import { Link } from "react-router-dom";
 import React from "react";
 import "./index-page.css";
@@ -8,7 +8,7 @@ export default function IndexPage() {
   const [places, setPlaces] = useState([]);
 
   useEffect(() => {
-    axios.get("/top-feedback").then((response) => {
+    api.get("/top-feedback").then((response) => {
       setPlaces(response.data);
     });
   }, []);

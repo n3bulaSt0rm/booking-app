@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import api from "../api.js";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import React from "react";
@@ -11,7 +11,7 @@ export default function FindPlacePage() {
   const [places, setPlaces] = useState([]);
   const [ready, setReady] = useState(false);
   useEffect(() => {
-    axios.get(`/places/find/${query}`).then((response) => {
+    api.get(`/places/find/${query}`).then((response) => {
       setPlaces(response.data);
       setReady(true);
     });

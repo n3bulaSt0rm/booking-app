@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom";
 import AccountNav from "../components/AccountNav";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api.js";
 import React from "react";
 import "./places-page.css";
 
 export default function PlacesPage() {
   const [places, setPlaces] = useState([]);
   useEffect(() => {
-    axios.get("/user-places").then(({ data }) => {
+    api.get("/user-places").then(({ data }) => {
       setPlaces(data);
     });
   }, []);

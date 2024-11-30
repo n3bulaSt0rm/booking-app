@@ -1,6 +1,6 @@
 import { useParams, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api.js";
 import AddressLink from "../components/AddressLink";
 import PlaceGallery from "../components/PlaceGallery";
 import BookingDates from "../components/BookingDates";
@@ -18,7 +18,7 @@ export default function BookingPage() {
 
   useEffect(() => {
     if (id) {
-      axios.get("/bookings").then((response) => {
+      api.get("/bookings").then((response) => {
         const foundBooking = response.data.find(({ _id }) => _id === id);
         if (foundBooking) {
           setBooking(foundBooking);
@@ -35,7 +35,7 @@ export default function BookingPage() {
   async function deleteBooking(ev) {
     ev.preventDefault();
     if (id) {
-      await axios.delete(`/bookings/${id}`, {});
+      await api.delete(`/bookings/${id}`, {});
     }
     setRedirect(true);
   }
@@ -45,7 +45,7 @@ export default function BookingPage() {
 
   async function sendFeedback(ev) {
     ev.preventDefault();
-    await axios.post("/feedback", {
+    await api.post("/feedback", {
       place: place._id,
       comment,
       rate,

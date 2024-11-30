@@ -1,7 +1,7 @@
 import { Navigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Perk from "../components/Perk";
-import axios from "axios";
+import api from "../api.js";
 import AccountNav from "../components/AccountNav";
 import React from "react";
 import "./places-form-page.css";
@@ -25,7 +25,7 @@ export default function PlacesFormPage() {
     if (!id) {
       return;
     }
-    axios.get("/places/" + id).then((response) => {
+    api.get("/places/" + id).then((response) => {
       const { data } = response;
       setTitle(data.title);
       setAddress(data.address);
@@ -55,7 +55,7 @@ export default function PlacesFormPage() {
   async function deletePlace(ev) {
     ev.preventDefault();
     if (id) {
-      const res = await axios.delete(`/places/${id}`, {});
+      const res = await api.delete(`/places/${id}`, {});
       if (res.status === 200) {
         alert("Delete success!");
       }
@@ -78,12 +78,12 @@ export default function PlacesFormPage() {
       price,
     };
     if (id) {
-      await axios.put("/places", {
+      await api.put("/places", {
         id,
         ...placeData,
       });
     } else {
-      await axios.post("/places", placeData);
+      await api.post("/places", placeData);
     }
     setRedirect(true);
   }

@@ -1,6 +1,6 @@
 import AccountNav from "../components/AccountNav";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api.js";
 import { Link } from "react-router-dom";
 import BookingDates from "../components/BookingDates";
 import React from "react";
@@ -9,7 +9,7 @@ import React from "react";
 export default function BookingsPage() {
   const [bookings, setBookings] = useState([]);
   useEffect(() => {
-    axios.get("/bookings").then((response) => {
+    api.get("/bookings").then((response) => {
       setBookings(response.data);
     });
   }, []);

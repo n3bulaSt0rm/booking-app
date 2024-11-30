@@ -1,6 +1,6 @@
 import { Link, Navigate } from "react-router-dom";
 import { useContext, useState } from "react";
-import axios from "axios";
+import api from "../api.js";
 import { UserContext } from "../components/UserContext";
 import Footer from "../components/Footer";
 import React from "react";
@@ -15,7 +15,7 @@ export default function LoginPage() {
   async function handleLoginSubmit(ev) {
     ev.preventDefault();
     try {
-      const { data } = await axios.post("http://localhost:8080/users/login", {
+      const { data } = await api.post("/users/login", {
         email,
         password,
       });

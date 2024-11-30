@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect } from "react";
 import { Navigate, useLocation, Link } from "react-router-dom";
 import { UserContext } from "../components/UserContext";
-import axios from "axios";
+import api from "../api.js";
 import AccountNav from "../components/AccountNav";
 import "./profile-page.css";
 import React from "react";
@@ -27,7 +27,7 @@ export default function ProfilePage() {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const { data } = await axios.get("http://localhost:8080/users/profile");
+        const { data } = await api.get("/users/profile");
         setUserDoc(data);
         setUpdatedDetails({
           firstName: data.firstName,
@@ -51,7 +51,7 @@ export default function ProfilePage() {
 
   async function logout() {
     try {
-      await axios.post("http://localhost:8080/users/logout");
+      await api.post("/users/logout");
       setUser(null);
       setRedirect("/");
     } catch (error) {
@@ -62,7 +62,7 @@ export default function ProfilePage() {
   async function handleSaveChanges(e) {
     e.preventDefault();
     try {
-      const { data } = await axios.put(`http://localhost:8080/users/${user.id}`, updatedDetails);
+      const { data } = await api.put(`/users/${user.id}`, updatedDetails);
       alert("Profile updated successfully!");
       setUserDoc(data); // Update the local state with the new details
       setEditing(false);

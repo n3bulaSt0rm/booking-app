@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import api from "../api.js";
 import React from "react";
 import './all-places.css';
 
@@ -9,17 +9,17 @@ export default function AllPlaces() {
   const [wishlist, setWishlist] = useState([]);
 
   useEffect(() => {
-    axios.get("/places").then((response) => {
+    api.get("/places").then((response) => {
       setPlaces(response.data);
     });
-    axios.get("/wishlist").then((response) => {
+    api.get("/wishlist").then((response) => {
       if (response.data[0])
         setWishlist(response.data[0].wishlist.map((obj) => obj.place._id));
     });
   }, []);
 
   async function addWishlist(ev, place) {
-    const res = await axios.post("/wishlist", { place: place._id });
+    const res = await api.post("/wishlist", { place: place._id });
     if (res.data) {
       setWishlist((prevWishlist) => [...prevWishlist, place._id]);
     } else {
