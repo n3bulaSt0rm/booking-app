@@ -4,7 +4,7 @@ import axios from "axios";
 export default function BookingManager() {
   const [bookings, setBookings] = useState([]);
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem("token");
     axios.get(`/booking-manager`).then((response) => {
       setBookings(response.data);
     },

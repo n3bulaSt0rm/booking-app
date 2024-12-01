@@ -16,7 +16,7 @@ export default function RegisterPage() {
   async function registerUser(ev) {
     ev.preventDefault();
     try {
-      const token = localStorage.getItem("authToken");
+      const token = localStorage.getItem("token");
       await axios.post("/users/register", {
         firstName,
         lastName,

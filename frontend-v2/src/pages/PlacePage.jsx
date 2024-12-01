@@ -15,7 +15,7 @@ export default function PlacePage() {
   const [rate, setRate] = useState(0);
   const [wishlist, setWishlist] = useState([]);
   useEffect(() => {
-    // const token = localStorage.getItem("authToken");
+    // const token = localStorage.getItem("token");
 
     // if (!id) {
     //   return;
@@ -30,7 +30,7 @@ export default function PlacePage() {
     // axios.get("/wishlist").then((response) => {
     //   setWishlist(response.data[0].wishlist.map((obj) => obj.place._id));
     // });
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem("token");
 
 if (!token) {
   alert("You must be logged in to view this information.");
@@ -104,7 +104,7 @@ axios
   }
 
   async function addWishlist(ev, place) {
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem("token");
     await axios.post("/wishlist", {
       place: place._id,
     });
@@ -112,7 +112,7 @@ axios
   }
 
   async function removeWishlist(ev, place) {
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem("token");
 
     ev.preventDefault();
     await axios.put("/wishlist", {

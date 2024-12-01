@@ -23,7 +23,7 @@ export default function PlacesFormPage() {
     if (!id) {
       return;
     }
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem("token");
     axios.get("/places/" + id).then((response) => {
       const { data } = response;
       setTitle(data.title);
@@ -104,7 +104,7 @@ export default function PlacesFormPage() {
       price,
     };
     if (id) {
-      const token = localStorage.getItem("authToken");
+      const token = localStorage.getItem("token");
 
       await axios.put("/places", {
         id,
@@ -116,7 +116,7 @@ export default function PlacesFormPage() {
         },
       });
     } else {
-      const token = localStorage.getItem("authToken");
+      const token = localStorage.getItem("token");
 
       await axios.post("/places", placeData,
         {

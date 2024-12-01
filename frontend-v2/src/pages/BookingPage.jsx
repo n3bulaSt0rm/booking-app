@@ -16,7 +16,7 @@ export default function BookingPage() {
 
   useEffect(() => {
     if (id) {
-      const token = localStorage.getItem("authToken");
+      const token = localStorage.getItem("token");
       axios
         .get("/bookings", {
           headers: {
@@ -44,7 +44,7 @@ export default function BookingPage() {
   async function deleteBooking(ev) {
     ev.preventDefault();
     if (id) {
-      const token = localStorage.getItem("authToken");
+      const token = localStorage.getItem("token");
       await axios.delete(`/bookings/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`, 
@@ -58,7 +58,7 @@ export default function BookingPage() {
   }
 
   async function sendFeedback(ev) {
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem("token");
     ev.preventDefault();
     await axios.post("/feedback", {
       place: place._id,

@@ -5,7 +5,7 @@ import axios from "axios";
 export default function AllPlaces() {
   const [places, setPlaces] = useState([]);
   const [wishlist, setWishlist] = useState([]);
-  const token = localStorage.getItem("authToken");
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     axios.get("/places").then((response) => {

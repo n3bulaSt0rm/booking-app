@@ -8,7 +8,7 @@ export default function WishlistPage() {
   const [ready, setReady] = useState(false);
 
   // useEffect(() => {
-  //   const token = localStorage.getItem("authToken");
+  //   const token = localStorage.getItem("token");
   //   axios.get("/wishlist").then((response) => {
   //     if (response.data.length !== 0) {
   //       setPlaces(response.data[0].wishlist);
@@ -17,7 +17,7 @@ export default function WishlistPage() {
   //   });
   // }, []);
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem("token");
   
     if (!token) {
       alert("You must be logged in to view your wishlist.");
@@ -44,7 +44,7 @@ export default function WishlistPage() {
   
 
   async function removeWishlist(ev, place) {
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem("token");
     ev.preventDefault();
     await axios.put("/wishlist", {
       place: place._id,
