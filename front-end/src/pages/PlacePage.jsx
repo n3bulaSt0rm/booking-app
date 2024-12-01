@@ -16,31 +16,63 @@ export default function PlacePage() {
   const [feedbacks, setFeedbacks] = useState([]);
   const [rate, setRate] = useState(0);
   const [wishlist, setWishlist] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   useEffect(() => {
-    if (!id) {
-      return;
-    }
-    axios.get(`/places/${id}`).then((response) => {
-      setPlace(response.data);
-    });
-    axios.get(`/feedback/${id}`).then((response) => {
-      setFeedbacks(response.data[0].feedback.reverse());
-      setRate(response.data[0].rating);
-    });
-    axios.get("/wishlist").then((response) => {
-      setWishlist(response.data[0].wishlist.map((obj) => obj.place._id));
-    });
+    if (!id) return;
+
+    const loadPlaceData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const [placeRes, feedbackRes, wishlistRes] = await Promise.all([
+          axios.get(`/places/${id}`),
+          axios.get(`/feedback/${id}`),
+          axios.get("/wishlist")
+        ]);
+
+        setPlace(placeRes.data);
+
+        if (feedbackRes.data && feedbackRes.data[0]) {
+          setFeedbacks(feedbackRes.data[0].feedback?.reverse() || []);
+          setRate(feedbackRes.data[0].rating || 0);
+        }
+
+        if (wishlistRes.data && wishlistRes.data[0]) {
+          setWishlist(wishlistRes.data[0].wishlist?.map(obj => obj.place._id) || []);
+        }
+      } catch (error) {
+        console.error('Error loading place data:', error);
+        setError('Failed to load place data');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadPlaceData();
   }, [id]);
 
   if (!ready) {
-    return "Loading...";
+    return <div>Loading user data...</div>;
   }
 
   if (ready && !user) {
     return <Navigate to={"/login"} />;
   }
 
-  if (!place) return "";
+  if (loading) {
+    return <div>Loading place data...</div>;
+  }
+
+  if (error) {
+    return <div className="error-message">{error}</div>;
+  }
+
+  if (!place) {
+    return <div>Place not found</div>;
+  }
 
   function formatDate(dateString) {
     const date = new Date(dateString);
@@ -51,36 +83,49 @@ export default function PlacePage() {
   }
 
   async function addWishlist(ev, place) {
-    await axios.post("/wishlist", {
-      place: place._id,
-    });
-    setWishlist((prevWishlist) => [...prevWishlist, place._id]);
+    ev.preventDefault();
+    try {
+      const response = await axios.post("/wishlist", {
+        place: place._id,
+      });
+      if (response.status === 200) {
+        setWishlist(prev => [...prev, place._id]);
+      }
+    } catch (error) {
+      console.error("Error adding to wishlist:", error);
+    }
   }
 
   async function removeWishlist(ev, place) {
     ev.preventDefault();
-    await axios.put("/wishlist", {
-      place: place._id,
-    });
-    setWishlist((prevWishlist) =>
-      prevWishlist.filter((id) => id !== place._id)
-    );
+    try {
+      const response = await axios.put("/wishlist", {
+        place: place._id,
+      });
+      if (response.status === 200) {
+        setWishlist(prev => prev.filter(id => id !== place._id));
+      }
+    } catch (error) {
+      console.error("Error removing from wishlist:", error);
+    }
   }
 
   return (
     <div className="place-page-container">
       <div className="place-header">
         <div className="place-details">
-          <h1 className="place-title">{place.title}</h1>
+          <h1 className="place-title">{place?.title}</h1>
           <div className="place-rating">
             <span className="icon">★</span>
-            {rate !== 0 ? (
+            {rate > 0 ? (
               <h1 className="rating-score">{rate.toPrecision(2)}</h1>
             ) : (
               <h1 className="rating-score">-</h1>
             )}
             <h1 className="rating-out-of">/5</h1>
-            <h1 className="reviews-count">- {feedbacks.length} reviews</h1>
+            <h1 className="reviews-count">
+              - {feedbacks?.length || 0} reviews
+            </h1>
           </div>
         </div>
         {!wishlist.includes(place._id) ? (
@@ -125,13 +170,15 @@ export default function PlacePage() {
         <h2>Reviews</h2>
         <div className="place-rating">
           <span className="icon">★</span>
-          {rate !== 0 ? (
+          {rate > 0 ? (
             <h1 className="rating-score">{rate.toPrecision(2)}</h1>
           ) : (
             <h1 className="rating-score">-</h1>
           )}
           <h1 className="rating-out-of">/5</h1>
-          <h1 className="reviews-count">- {feedbacks.length} reviews</h1>
+          <h1 className="reviews-count">
+            - {feedbacks?.length || 0} reviews
+          </h1>
         </div>
         <div className="reviews-grid">
           {feedbacks.map((feedback) => (
