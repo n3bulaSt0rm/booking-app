@@ -1,11 +1,10 @@
-const { default: mongoose } = require('mongoose');
-const slug = require('mongoose-slug-updater');
+const mongoose = require('mongoose');
 const MongooseDelete = require('mongoose-delete');
 
 const Schema = mongoose.Schema;
-const Booking = new Schema(
+const BookingSchema = new Schema(
     {
-        place: {
+        placeId: {
             type: mongoose.Schema.Types.ObjectId,
             required: true,
             ref: 'Place',
@@ -20,15 +19,11 @@ const Booking = new Schema(
         name: { type: String, required: true },
         phone: { type: String, required: true },
         price: Number,
-        slug: { type: String, slug: 'name', unique: true },
     },
     {
         timestamps: true,
     },
 );
 
-//add plugin
-mongoose.plugin(slug);
-Booking.plugin(MongooseDelete, { deletedAt: true, overrideMethods: 'all' });
-
-module.exports = mongoose.model('Booking', Booking);
+BookingSchema.plugin(MongooseDelete, { deletedAt: true, overrideMethods: 'all' });
+module.exports = mongoose.model('Booking', BookingSchema);

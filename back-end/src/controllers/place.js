@@ -1,5 +1,5 @@
-const Place = require('../models/place');
-const Booking = require('../models/booking')
+const Place = require('../adapter/repositories/mongo/models/place');
+const Booking = require('../adapter/repositories/mongo/models/booking')
 
 class PlaceController {
     //[POST] /places

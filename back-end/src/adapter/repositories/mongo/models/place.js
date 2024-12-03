@@ -1,9 +1,8 @@
-const { default: mongoose } = require('mongoose');
-const slug = require('mongoose-slug-updater');
+const mongoose= require('mongoose');
 const MongooseDelete = require('mongoose-delete');
 
 const Schema = mongoose.Schema;
-const Place = new Schema(
+const PlaceSchema = new Schema(
     {
         owner: { 
             type: mongoose.Schema.Types.ObjectId, 
@@ -19,15 +18,11 @@ const Place = new Schema(
         checkOut: Number,
         maxGuests: Number,
         price: Number,
-        slug: { type: String, slug: 'title', unique: true },
     },
     {
         timestamps: true,
     },
 );
 
-//add plugin
-mongoose.plugin(slug);
-Place.plugin(MongooseDelete, { deletedAt: true, overrideMethods: 'all' });
-
-module.exports = mongoose.model('Place', Place);
+PlaceSchema.plugin(MongooseDelete, { deletedAt: true, overrideMethods: 'all' });
+module.exports = mongoose.model('Place', PlaceSchema);

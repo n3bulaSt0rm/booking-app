@@ -42,7 +42,7 @@ if (!id) {
 }
 
 axios
-  .get(`/places/${id}`, {
+  .get(`/place/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`, // Add token to the Authorization header
     },

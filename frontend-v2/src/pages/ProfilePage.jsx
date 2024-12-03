@@ -26,7 +26,7 @@ export default function ProfilePage() {
     }
 
     axios
-        .get("/users/profile", {
+        .get("/user/profile", {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => setUserDoc(response.data))
@@ -46,7 +46,7 @@ export default function ProfilePage() {
 
     try {
       await axios.post(
-          "/users/logout",
+          "/user/logout",
           {},
           { headers: { Authorization: `Bearer ${token}` } }
       );
