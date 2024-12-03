@@ -29,6 +29,7 @@ jobs:
         with:
           node-version: 18 
           cache: 'npm'
+          cache-dependency-path: './back-end/package-lock.json'
 
       - name: Copy .env file
         run: cp back-end/.env .env
