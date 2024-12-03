@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
+import PropTypes from 'prop-types';
 
 export const UserContext = createContext({});
 
@@ -32,8 +33,12 @@ export function UserContextProvider({ children }) {
   }, []);
 
   return (
-      <UserContext.Provider value={{ user, setUser, ready }}>
-        {children}
-      </UserContext.Provider>
+    <UserContext.Provider value={{ user, setUser, ready }}>
+      {children}
+    </UserContext.Provider>
   );
 }
+
+UserContextProvider.propTypes = {
+  children: PropTypes.node.isRequired
+};
