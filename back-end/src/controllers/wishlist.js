@@ -10,9 +10,10 @@ class WishlistController {
         }
     }
 
-    async getWishlistById(req, res) {
+    async getWishlist(req, res) {
         try {
-            const wishlist = await wishlistService.getWishlistByOwnerId(req.params.id);
+            const userId = req.user.id;
+            const wishlist = await wishlistService.getWishlistByOwnerId(userId);
             if (!wishlist) {
                 return res.status(404).json({ message: 'Wishlist not found' });
             }
@@ -41,15 +42,6 @@ class WishlistController {
                 return res.status(404).json({ message: 'Wishlist not found or delete failed' });
             }
             res.status(200).json({ message: 'Wishlist deleted successfully' });
-        } catch (error) {
-            res.status(400).json({ message: error.message });
-        }
-    }
-
-    async getAllWishlists(req, res) {
-        try {
-            const wishlists = await wishlistService.getAllWishlists();
-            res.json(wishlists);
         } catch (error) {
             res.status(400).json({ message: error.message });
         }

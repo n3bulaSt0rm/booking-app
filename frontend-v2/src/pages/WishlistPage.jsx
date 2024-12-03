@@ -7,15 +7,6 @@ export default function WishlistPage() {
   const [places, setPlaces] = useState([]);
   const [ready, setReady] = useState(false);
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token");
-  //   axios.get("/wishlist").then((response) => {
-  //     if (response.data.length !== 0) {
-  //       setPlaces(response.data[0].wishlist);
-  //     }
-  //     setReady(true);
-  //   });
-  // }, []);
   useEffect(() => {
     const token = localStorage.getItem("token");
   
@@ -27,7 +18,7 @@ export default function WishlistPage() {
     axios
       .get("/wishlist", {
         headers: {
-          Authorization: `Bearer ${token}`, // Add token to the Authorization header
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
