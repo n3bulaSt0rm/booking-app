@@ -15,19 +15,74 @@ export default function PlacePage() {
   const [rate, setRate] = useState(0);
   const [wishlist, setWishlist] = useState([]);
   useEffect(() => {
-    if (!id) {
-      return;
-    }
-    axios.get(`/places/${id}`).then((response) => {
-      setPlace(response.data);
-    });
-    axios.get(`/feedback/${id}`).then((response) => {
-      setFeedbacks(response.data[0].feedback.reverse());
-      setRate(response.data[0].rating);
-    });
-    axios.get("/wishlist").then((response) => {
-      setWishlist(response.data[0].wishlist.map((obj) => obj.place._id));
-    });
+    // const token = localStorage.getItem("token");
+
+    // if (!id) {
+    //   return;
+    // }
+    // axios.get(`/places/${id}`).then((response) => {
+    //   setPlace(response.data);
+    // });
+    // axios.get(`/feedback/${id}`).then((response) => {
+    //   setFeedbacks(response.data[0].feedback.reverse());
+    //   setRate(response.data[0].rating);
+    // });
+    // axios.get("/wishlist").then((response) => {
+    //   setWishlist(response.data[0].wishlist.map((obj) => obj.place._id));
+    // });
+    const token = localStorage.getItem("token");
+
+if (!token) {
+  alert("You must be logged in to view this information.");
+  return;
+}
+
+if (!id) {
+  return;
+}
+
+axios
+  .get(`/place/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`, // Add token to the Authorization header
+    },
+  })
+  .then((response) => {
+    setPlace(response.data);
+  })
+  .catch((error) => {
+    console.error("Failed to fetch place:", error);
+    alert("Failed to fetch place.");
+  });
+
+axios
+  .get(`/feedback/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`, 
+    },
+  })
+  .then((response) => {
+    setFeedbacks(response.data[0].feedback.reverse());
+    setRate(response.data[0].rating);
+  })
+  .catch((error) => {
+    console.error("Failed to fetch feedback:", error);
+    alert("Failed to fetch feedback.");
+  });
+
+axios
+  .get("/wishlist", {
+    headers: {
+      Authorization: `Bearer ${token}`, 
+    },
+  })
+  .then((response) => {
+    setWishlist(response.data[0].wishlist.map((obj) => obj.place._id));
+  })
+  .catch((error) => {
+    console.error("Failed to fetch wishlist:", error);
+    alert("Failed to fetch wishlist.");
+  });
   }, [id]);
 
   if (!ready) {
@@ -49,6 +104,7 @@ export default function PlacePage() {
   }
 
   async function addWishlist(ev, place) {
+    const token = localStorage.getItem("token");
     await axios.post("/wishlist", {
       place: place._id,
     });
@@ -56,6 +112,8 @@ export default function PlacePage() {
   }
 
   async function removeWishlist(ev, place) {
+    const token = localStorage.getItem("token");
+
     ev.preventDefault();
     await axios.put("/wishlist", {
       place: place._id,

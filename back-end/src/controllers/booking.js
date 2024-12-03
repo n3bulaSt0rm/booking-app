@@ -1,4 +1,4 @@
-const Booking = require('../models/booking');
+const Booking = require('../adapter/repositories/mongo/models/booking');
 
 class BookingController {
     //[POST] /booking

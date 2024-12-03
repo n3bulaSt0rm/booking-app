@@ -7,8 +7,14 @@ import BookingDates from "../BookingDates";
 export default function BookingsPage() {
   const [bookings, setBookings] = useState([]);
   useEffect(() => {
+    const token = localStorage.getItem("token");
     axios.get("/bookings").then((response) => {
       setBookings(response.data);
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`, 
+      },
     });
   }, []);
 

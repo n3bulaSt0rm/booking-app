@@ -16,7 +16,7 @@ import AllPlaces from "./pages/AllPlaces";
 import FindPlacePage from "./pages/FindPlaces";
 import WishlistPage from "./pages/WishlistPage";
 import BookingManager from "./pages/BookingManager";
-axios.defaults.baseURL = "http://localhost:8080/";
+axios.defaults.baseURL = "http://localhost:8080";
 axios.defaults.withCredentials = true;
 
 function App() {

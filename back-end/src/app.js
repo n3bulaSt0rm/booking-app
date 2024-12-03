@@ -15,9 +15,12 @@ const configureApp = () => {
     app.use(
         express.json(),
         cors({
-            origin: '*',
-            methods: '*',
-            allowedHeaders: '*',
+            origin: (origin, callback) => {
+                callback(null, true);
+            },
+            credentials: true,
+            methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+            allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
         })
     );
     initRoutes(app);

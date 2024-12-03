@@ -1,4 +1,4 @@
-const userRepository = require('./user_respository'); // Adjust the path as necessary
+const userRepository = require('./user_respository');
 
 class AuthRepository {
     async addRefreshToken(userId, refreshToken) {

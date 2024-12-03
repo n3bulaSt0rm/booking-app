@@ -1,7 +1,5 @@
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
-// import React from 'react';
-import PropTypes from 'prop-types';
 
 export const UserContext = createContext({});
 
@@ -11,29 +9,31 @@ export function UserContextProvider({ children }) {
 
   useEffect(() => {
     const fetchUserProfile = async () => {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        setReady(true);
+        return;
+      }
+
       try {
-        const { data } = await axios.get('/profile');
+        const { data } = await axios.get("/users/profile", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setUser(data);
       } catch (error) {
-        console.error('Error fetching user profile:', error);
+        console.error("Error fetching user profile:", error);
       } finally {
         setReady(true);
       }
     };
 
-    if (!user) {
-      fetchUserProfile();
-    }
-  }, [user]);
+    fetchUserProfile();
+  }, []);
 
   return (
-    <UserContext.Provider value={{ user, setUser, ready }}>
-      {children}
-    </UserContext.Provider>
+      <UserContext.Provider value={{ user, setUser, ready }}>
+        {children}
+      </UserContext.Provider>
   );
 }
-
-UserContextProvider.propTypes = {
-  children: PropTypes.node.isRequired
-};
-

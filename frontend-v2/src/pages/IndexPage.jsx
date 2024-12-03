@@ -6,8 +6,14 @@ export default function IndexPage() {
   const [places, setPlaces] = useState([]);
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
     axios.get("/top-feedback").then((response) => {
       setPlaces(response.data);
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`, 
+      },
     });
   }, []);
 
