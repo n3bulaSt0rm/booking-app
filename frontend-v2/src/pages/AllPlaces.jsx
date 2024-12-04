@@ -8,27 +8,27 @@ export default function AllPlaces() {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    axios.get("/places").then((response) => {
+    axios.get("/place/", 
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+        },
+      }).then((response) => {
       setPlaces(response.data);
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`, 
-      },
     });
-    axios.get("/wishlist").then((response) => {
+    axios.get("/wishlist/",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+        },
+      }).then((response) => {
       if (response.data[0])
         setWishlist(response.data[0].wishlist.map((obj) => obj.place._id));
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`, 
-      },
     });
   }, []);
 
   async function addWishlist(ev, place) {
-    const res = await axios.post("/wishlist", {
+    const res = await axios.post("/wishlist/", {
       place: place._id,
     },
     {
@@ -44,7 +44,7 @@ export default function AllPlaces() {
 
   async function removeWishlist(ev, place) {
     ev.preventDefault();
-    await axios.put("/wishlist", {
+    await axios.put("/wishlist/", {
       place: place._id,
     },
     {

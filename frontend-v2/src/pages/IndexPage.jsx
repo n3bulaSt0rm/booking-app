@@ -7,13 +7,13 @@ export default function IndexPage() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    axios.get("/top-feedback").then((response) => {
+    axios.get("/top-feedback",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+        },
+      }).then((response) => {
       setPlaces(response.data);
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`, 
-      },
     });
   }, []);
 

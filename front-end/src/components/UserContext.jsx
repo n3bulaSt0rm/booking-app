@@ -12,7 +12,7 @@ export function UserContextProvider({ children }) {
     const fetchUserProfile = async () => {
       try {
         // Thay đổi endpoint này nếu cần thiết
-        const { data } = await axios.get('/profile');
+        const { data } = await axios.get('user/profile');
         setUser(data);
       } catch (error) {
         console.error('Error fetching user profile:', error);

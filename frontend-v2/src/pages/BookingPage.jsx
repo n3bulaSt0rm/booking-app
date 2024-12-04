@@ -18,7 +18,7 @@ export default function BookingPage() {
     if (id) {
       const token = localStorage.getItem("token");
       axios
-        .get("/bookings", {
+        .get("/booking/", {
           headers: {
             Authorization: `Bearer ${token}`, 
           },
@@ -45,7 +45,7 @@ export default function BookingPage() {
     ev.preventDefault();
     if (id) {
       const token = localStorage.getItem("token");
-      await axios.delete(`/bookings/${id}`, {
+      await axios.delete(`/booking/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`, 
         },

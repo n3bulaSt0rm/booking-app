@@ -16,7 +16,7 @@ export default function WishlistPage() {
     }
   
     axios
-      .get("/wishlist", {
+      .get("/wishlist/", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -17,7 +17,7 @@ export function UserContextProvider({ children }) {
       }
 
       try {
-        const { data } = await axios.get("/users/profile", {
+        const { data } = await axios.get("/user/profile", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUser(data);
