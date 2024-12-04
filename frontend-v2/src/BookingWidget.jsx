@@ -29,7 +29,7 @@ export default function BookingWidget({ place }) {
   async function bookThisPlace() {
     if (checkIn && checkOut && name && phone) {
       const token = localStorage.getItem("token");
-      const response = await axios.post("/bookings", {
+      const response = await axios.post("/booking", {
         checkIn,
         checkOut,
         numberOfGuests,
