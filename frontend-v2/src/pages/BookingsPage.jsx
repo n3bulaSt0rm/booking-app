@@ -6,17 +6,26 @@ import BookingDates from "../BookingDates";
 
 export default function BookingsPage() {
   const [bookings, setBookings] = useState([]);
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    axios.get("/booking/",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`, 
-        },
-      }).then((response) => {
-      setBookings(response.data);
-    });
+  useEffect(() =>{
+    fetchBookings()
   }, []);
+
+  const fetchBookings = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.get("/booking", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response) {
+        setBookings(response.data);
+      }
+    } catch (error) {
+      console.error("Lỗi khi gọi API:", error);
+    }
+  };
 
   return (
     <div className="lg:mx-60 mx-10">
