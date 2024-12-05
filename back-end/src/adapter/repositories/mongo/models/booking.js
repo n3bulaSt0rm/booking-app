@@ -4,7 +4,7 @@ const MongooseDelete = require('mongoose-delete');
 const Schema = mongoose.Schema;
 const BookingSchema = new Schema(
     {
-        placeId: {
+        place: {
             type: mongoose.Schema.Types.ObjectId,
             required: true,
             ref: 'Place',

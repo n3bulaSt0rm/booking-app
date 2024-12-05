@@ -18,6 +18,11 @@ const PlaceSchema = new Schema(
         checkOut: Number,
         maxGuests: Number,
         price: Number,
+        feedbacks: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Feedback', 
+            default: []
+          }],
     },
     {
         timestamps: true,
