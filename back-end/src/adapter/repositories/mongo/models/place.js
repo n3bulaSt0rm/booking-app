@@ -21,7 +21,7 @@ const PlaceSchema = new Schema(
         price: Number,
         feedbacks: [{
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Feedback', 
+            ref: 'Feedback',
             default: []
           }],
     },
