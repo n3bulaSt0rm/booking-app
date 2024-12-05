@@ -8,7 +8,7 @@ export default function BookingsPage() {
   const [bookings, setBookings] = useState([]);
   useEffect(() => {
     const token = localStorage.getItem("token");
-    axios.get("/bookings").then((response) => {
+    axios.get("/booking").then((response) => {
       setBookings(response.data);
     },
     {
@@ -26,7 +26,7 @@ export default function BookingsPage() {
           bookings.map((booking) => (
             <Link
               key={booking._id}
-              to={`/account/bookings/${booking._id}`}
+              to={`/account/booking/${booking._id}`}
               className="flex gap-4 bg-gray-100 rounded-2xl overflow-hidden mb-5 drop-shadow-lg"
             >
               <div className="p-3 w-48">
