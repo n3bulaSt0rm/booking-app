@@ -11,7 +11,7 @@ export default function AllPlaces() {
     axios.get("/place",
       {
         headers: {
-          Authorization: `Bearer ${token}`, 
+          Authorization: `Bearer ${token}`,
         },
       }).then((response) => {
       setPlaces(response.data);
