@@ -10,27 +10,32 @@ export default function BookingPage() {
   const { id } = useParams();
   const [place, setPlace] = useState(null);
   const [booking, setBooking] = useState(null);
+  const [redirect, setRedirect] = useState(false);
   const [rate, setRate] = useState(3);
   const [comment, setComment] = useState("");
-  const [redirect, setRedirect] = useState("");;
 
   useEffect(() => {
-    getBookingById(id);
-  }, [id]);
-
-  async function getBookingById(id){
-    const token = localStorage.getItem("token") || "";
-    const response = await axios.get("/booking", {
-      headers: {
-        Authorization: `Bearer ${token}`, 
-      },
-    })
-    const foundBooking = response.data.find(({ _id }) => _id === id);
-    if (foundBooking) {
-      setBooking(foundBooking);
-      setPlace(foundBooking.place);
+    if (id) {
+      const token = localStorage.getItem("token");
+      axios
+        .get("/booking", {
+          headers: {
+            Authorization: `Bearer ${token}`, 
+          },
+        })
+        .then((response) => {
+          const foundBooking = response.data.find(({ _id }) => _id === id);
+          if (foundBooking) {
+            setBooking(foundBooking);
+            setPlace(foundBooking.place);
+          }
+        })
+        .catch((error) => {
+          console.error("Failed to fetch bookings:", error);
+          alert("Failed to fetch bookings.");
+        });
     }
-  }
+  }, [id]);
 
   if (!booking) {
     return "";
@@ -40,22 +45,16 @@ export default function BookingPage() {
     ev.preventDefault();
     if (id) {
       const token = localStorage.getItem("token");
-      const response = await axios.delete(`/booking/${id}`, {
+      await axios.delete(`/booking/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`, 
         },
       });
-      if (response.status === 200) {
-        alert("Delete successful.");
-        setRedirect("/account/bookings");
-      } else {
-        alert("Xóa booking không thành công.");
-      }
     }
+    setRedirect(true);
   }
-
   if (redirect) {
-    return <Navigate to={redirect} />;
+    return <Navigate to={"/account/booking"} />;
   }
 
   async function sendFeedback(ev) {
@@ -72,6 +71,7 @@ export default function BookingPage() {
       },
     });
     alert("Feedback successful.");
+    setRedirect(true);
   }
 
   return (
