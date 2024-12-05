@@ -1,8 +1,7 @@
-const mongoose = require('mongoose');
+const mongoose= require('mongoose');
 const MongooseDelete = require('mongoose-delete');
 
 const Schema = mongoose.Schema;
-
 const PlaceSchema = new Schema(
     {
         ownerId: {
@@ -15,10 +14,15 @@ const PlaceSchema = new Schema(
         description: String,
         perks: [String],
         extraInfo: String,
-        checkIn: { type: Number, min: 0, max: 24 },
-        checkOut: { type: Number, min: 0, max: 24 },
-        maxGuests: { type: Number, min: 1 },
-        price: { type: Number, min: 0 },
+        checkIn: Number,
+        checkOut: Number,
+        maxGuests: Number,
+        price: Number,
+        feedbacks: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Feedback',
+            default: []
+          }],
     },
     {
         timestamps: true,
