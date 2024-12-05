@@ -4,12 +4,8 @@ const MongooseDelete = require('mongoose-delete');
 const Schema = mongoose.Schema;
 const WishlistSchema = new Schema(
     {
-        owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-        wishlist: [
-            {
-                place: { type: mongoose.Schema.Types.ObjectId, ref: 'Place' },
-            },
-        ],
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, index: true},
+        placeIds: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Place', required: true }],
     },
     {
         timestamps: true,
@@ -17,4 +13,4 @@ const WishlistSchema = new Schema(
 );
 
 WishlistSchema.plugin(MongooseDelete, { deletedAt: true, overrideMethods: 'all' });
-module.exports = mongoose.model('WishList', WishlistSchema);
+module.exports = mongoose.model('Wishlist', WishlistSchema);

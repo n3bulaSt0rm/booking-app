@@ -6,17 +6,26 @@ import BookingDates from "../BookingDates";
 
 export default function BookingsPage() {
   const [bookings, setBookings] = useState([]);
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    axios.get("/booking").then((response) => {
-      setBookings(response.data);
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`, 
-      },
-    });
+  useEffect(() =>{
+    fetchBookings()
   }, []);
+
+  const fetchBookings = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.get("/booking", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response) {
+        setBookings(response.data);
+      }
+    } catch (error) {
+      console.error("Lỗi khi gọi API:", error);
+    }
+  };
 
   return (
     <div className="lg:mx-60 mx-10">
@@ -26,7 +35,7 @@ export default function BookingsPage() {
           bookings.map((booking) => (
             <Link
               key={booking._id}
-              to={`/account/booking/${booking._id}`}
+              to={`/account/bookings/${booking._id}`}
               className="flex gap-4 bg-gray-100 rounded-2xl overflow-hidden mb-5 drop-shadow-lg"
             >
               <div className="p-3 w-48">

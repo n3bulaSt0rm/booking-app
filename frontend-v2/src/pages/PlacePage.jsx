@@ -107,8 +107,13 @@ export default function PlacePage() {
 
   async function addWishlist(ev, place) {
     const token = localStorage.getItem("token");
-    await axios.post("/wishlist", {
+    await axios.post("/wishlist/", {
       place: place._id,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`, 
+      },
     });
     setWishlist((prevWishlist) => [...prevWishlist, place._id]);
   }
@@ -119,6 +124,11 @@ export default function PlacePage() {
     ev.preventDefault();
     await axios.put("/wishlist", {
       place: place._id,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`, 
+      },
     });
     setWishlist((prevWishlist) =>
       prevWishlist.filter((id) => id !== place._id)

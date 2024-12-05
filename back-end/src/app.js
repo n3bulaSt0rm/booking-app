@@ -23,6 +23,15 @@ const configureApp = () => {
             allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
         })
     );
+    // app.use(
+    //     express.json(),
+    //     cors({
+    //         origin: true, // Cho phép mọi nguồn
+    //         credentials: true, // Cho phép gửi cookie, thông tin xác thực
+    //         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    //         allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+    //     })
+    // );
     initRoutes(app);
     logEndpoints(app);
 };

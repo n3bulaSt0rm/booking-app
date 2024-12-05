@@ -1,55 +1,32 @@
 const wishlistService = require('../services/wishlist'); // Đảm bảo bạn đã tạo wishlistService
 class WishlistController {
-    async createWishlist(req, res) {
+    async addPlaceToWishlist(req, res) {
         try {
-            const wishlistData = req.body;
-            const wishlist = await wishlistService.createWishlist(wishlistData);
-            res.status(201).json(wishlist);
+            const userId = req.user.id;
+            const placeId = req.params.id;
+            await wishlistService.addPlaceToWishlist(userId, placeId);
+            res.status(200).json({message: "success"});
         } catch (error) {
             res.status(400).json({ message: error.message });
         }
     }
 
-    async getWishlistById(req, res) {
+    async getWishlist(req, res) {
         try {
-            const wishlist = await wishlistService.getWishlistByOwnerId(req.params.id);
-            if (!wishlist) {
-                return res.status(404).json({ message: 'Wishlist not found' });
-            }
+            const userId = req.user.id;
+            const wishlist = await wishlistService.getWishlistByUserId(userId);
             res.json(wishlist);
         } catch (error) {
             res.status(400).json({ message: error.message });
         }
     }
 
-    async updateWishlist(req, res) {
+    async removePlaceFromWishlist(req, res) {
         try {
-            const wishlist = await wishlistService.updateWishlist(req.params.id, req.body);
-            if (!wishlist) {
-                return res.status(404).json({ message: 'Wishlist not found or update failed' });
-            }
-            res.json(wishlist);
-        } catch (error) {
-            res.status(400).json({ message: error.message });
-        }
-    }
-
-    async deleteWishlist(req, res) {
-        try {
-            const wishlist = await wishlistService.deleteWishlist(req.params.id);
-            if (!wishlist) {
-                return res.status(404).json({ message: 'Wishlist not found or delete failed' });
-            }
-            res.status(200).json({ message: 'Wishlist deleted successfully' });
-        } catch (error) {
-            res.status(400).json({ message: error.message });
-        }
-    }
-
-    async getAllWishlists(req, res) {
-        try {
-            const wishlists = await wishlistService.getAllWishlists();
-            res.json(wishlists);
+            const userId = req.user.id;
+            const placeId = req.params.id;
+            await wishlistService.removePlaceFromWishlist(userId, placeId);
+            res.status(200).json({ message: 'success' });
         } catch (error) {
             res.status(400).json({ message: error.message });
         }

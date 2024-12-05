@@ -1,14 +1,15 @@
-const mongoose= require('mongoose');
+const mongoose = require('mongoose');
 const MongooseDelete = require('mongoose-delete');
 
 const Schema = mongoose.Schema;
+
 const PlaceSchema = new Schema(
     {
-        owner: { 
-            type: mongoose.Schema.Types.ObjectId, 
-            ref: 'User' 
-        },
-        title: String,
+        ownerId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+       },
+        title: { type: String, required: true },
         address: String,
         photos: [String],
         description: String,
@@ -26,7 +27,7 @@ const PlaceSchema = new Schema(
     },
     {
         timestamps: true,
-    },
+    }
 );
 
 PlaceSchema.plugin(MongooseDelete, { deletedAt: true, overrideMethods: 'all' });
