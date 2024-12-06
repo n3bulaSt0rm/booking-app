@@ -24,7 +24,12 @@ export default function PlacesFormPage() {
       return;
     }
     const token = localStorage.getItem("token");
-    axios.get("/places/" + id).then((response) => {
+    axios.get("/place/" + id,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+        },
+      }).then((response) => {
       const { data } = response;
       setTitle(data.title);
       setAddress(data.address);
@@ -36,11 +41,6 @@ export default function PlacesFormPage() {
       setCheckOut(data.checkOut);
       setMaxGuests(data.maxGuests);
       setPrice(data.price);
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`, 
-      },
     });
   }, [id]);
 
@@ -77,7 +77,7 @@ export default function PlacesFormPage() {
   async function deletePlace(ev) {
     ev.preventDefault();
     if (id) {
-      const res = await axios.delete(`/places/${id}`, {
+      const res = await axios.delete(`/place/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`, 
         },
@@ -106,7 +106,7 @@ export default function PlacesFormPage() {
     if (id) {
       const token = localStorage.getItem("token");
 
-      await axios.put("/places", {
+      await axios.put("/place", {
         id,
         ...placeData,
       },
@@ -118,7 +118,7 @@ export default function PlacesFormPage() {
     } else {
       const token = localStorage.getItem("token");
 
-      await axios.post("/places", placeData,
+      await axios.post("/place", placeData,
         {
           headers: {
             Authorization: `Bearer ${token}`, // Add token in the Authorization header

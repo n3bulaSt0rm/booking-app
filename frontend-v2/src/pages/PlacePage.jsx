@@ -32,65 +32,67 @@ export default function PlacePage() {
     // });
     const token = localStorage.getItem("token");
 
-if (!token) {
-  alert("You must be logged in to view this information.");
-  return;
-}
+    if (!token) {
+      alert("You must be logged in to view this information.");
+      return;
+    }
 
-if (!id) {
-  return;
-}
+    if (!id) {
+      return;
+    }
 
-axios
-  .get(`/place/${id}`, {
-    headers: {
-      Authorization: `Bearer ${token}`, // Add token to the Authorization header
-    },
-  })
-  .then((response) => {
-    setPlace(response.data);
-  })
-  .catch((error) => {
-    console.error("Failed to fetch place:", error);
-    alert("Failed to fetch place.");
-  });
+    axios.get(`/place/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+        },
+      })
+      .then((response) => {
+        setPlace(response.data);
+      })
+      .catch((error) => {
+        console.error("Failed to fetch place:", error);
+        alert("Failed to fetch place.");
+    });
 
-axios
-  .get(`/feedback/${id}`, {
-    headers: {
-      Authorization: `Bearer ${token}`, 
-    },
-  })
-  .then((response) => {
-    setFeedbacks(response.data[0].feedback.reverse());
-    setRate(response.data[0].rating);
-  })
-  .catch((error) => {
-    console.error("Failed to fetch feedback:", error);
-    alert("Failed to fetch feedback.");
-  });
+    axios.get(`/place/${id}/feedback`, {
+      headers: {
+        Authorization: `Bearer ${token}`, 
+      },
+    })
+    .then((response) => {
+      if (response.data && response.data.length > 0) {
+        const feedbacks = response.data.reverse(); 
+        const totalRate = feedbacks.reduce((sum, feedback) => sum + feedback.rate, 0);
+        const averageRate = totalRate / feedbacks.length;
+        setFeedbacks(feedbacks);  
+        setRate(averageRate);  
+      } else {
+        setFeedbacks([]);
+        setRate(0);
+      }
+    })
+    .catch((error) => {
+      console.error("Failed to fetch feedback:", error);
+      alert("Failed to fetch feedback.");
+    });
 
-axios
-  .get("/wishlist", {
-    headers: {
-      Authorization: `Bearer ${token}`, 
-    },
-  })
-  .then((response) => {
-    setWishlist(response.data[0].wishlist.map((obj) => obj.place._id));
-  })
-  .catch((error) => {
-    console.error("Failed to fetch wishlist:", error);
-    alert("Failed to fetch wishlist.");
-  });
+  axios
+    .get("/wishlist", {
+      headers: {
+        Authorization: `Bearer ${token}`, 
+      },
+    })
+    .then((response) => {
+      setWishlist(response.data[0].wishlist.map((obj) => obj.place._id));
+    })
+    .catch((error) => {
+      console.error("Failed to fetch wishlist:", error);
+      alert("Failed to fetch wishlist.");
+    });
   }, [id]);
 
   if (!ready) {
     return "Loading...";
-  }
-
-  if (ready && !user) {
-    return <Navigate to={"/login"} />;
   }
 
   if (!place) return "";
@@ -105,8 +107,13 @@ axios
 
   async function addWishlist(ev, place) {
     const token = localStorage.getItem("token");
-    await axios.post("/wishlist", {
+    await axios.post("/wishlist/", {
       place: place._id,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`, 
+      },
     });
     setWishlist((prevWishlist) => [...prevWishlist, place._id]);
   }
@@ -117,6 +124,11 @@ axios
     ev.preventDefault();
     await axios.put("/wishlist", {
       place: place._id,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`, 
+      },
     });
     setWishlist((prevWishlist) =>
       prevWishlist.filter((id) => id !== place._id)

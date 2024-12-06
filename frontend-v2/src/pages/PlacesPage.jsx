@@ -22,7 +22,7 @@ export default function PlacesPage() {
     axios
       .get("/user-places", {
         headers: {
-          Authorization: `Bearer ${token}`, // Add token in the Authorization header
+          Authorization: `Bearer ${token}`,
         },
       })
       .then(({ data }) => {

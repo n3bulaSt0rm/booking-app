@@ -15,7 +15,7 @@ export const UserContextProvider = ({ children }) => {
         setReady(true);
       });
     }
-  }, []);
+  }, []); git
 
   return (
     <UserContext.Provider value={{ user, setUser, ready }}>

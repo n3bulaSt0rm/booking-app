@@ -1,6 +1,6 @@
 class PlaceResponseDTO {
     constructor(place) {
-        this.id = place._id;
+        this.id = place._id ? place._id.toString() : null;
         this.title = place.title;
         this.address = place.address;
         this.photos = place.photos;

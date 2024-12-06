@@ -18,13 +18,13 @@ export default function LoginPage() {
     ev.preventDefault();
     try {
       const { data } = await axios.post("/user/login", formData);
-      alert("Login successful.");
+      // alert("Login successful.");
       localStorage.setItem("token", data.accessToken);
       setUser(data);
       setRedirect(true);
     } catch (error) {
       console.error("Login failed:", error.message);
-      alert("Login failed. Please check your email or password.");
+      // alert("Login failed. Please check your email or password.");
     }
   };
 

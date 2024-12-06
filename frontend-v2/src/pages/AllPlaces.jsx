@@ -8,13 +8,13 @@ export default function AllPlaces() {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    axios.get("/places").then((response) => {
+    axios.get("/place",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then((response) => {
       setPlaces(response.data);
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`, 
-      },
     });
     axios.get("/wishlist").then((response) => {
       if (response.data[0])
