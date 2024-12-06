@@ -1,120 +1,84 @@
-import { useParams, Navigate } from "react-router-dom";
+import AccountNav from "../AccountNav";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import AddressLink from "../AddressLink";
-import PlaceGallery from "../PlaceGallery";
+import { Link } from "react-router-dom";
 import BookingDates from "../BookingDates";
-import Rate from "../Rate";
 
-export default function BookingPage() {
-  const { id } = useParams();
-  const [place, setPlace] = useState(null);
-  const [booking, setBooking] = useState(null);
-  const [rate, setRate] = useState(3);
-  const [comment, setComment] = useState("");
-  const [redirect, setRedirect] = useState("");;
+export default function BookingsPage() {
+  const [bookings, setBookings] = useState([]);
+  useEffect(() =>{
+    fetchBookings()
+  }, []);
 
-  useEffect(() => {
-    getBookingById(id);
-  }, [id]);
-
-  async function getBookingById(id){
-    const token = localStorage.getItem("token") || "";
-    const response = await axios.get("/booking", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    const foundBooking = response.data.find(({ _id }) => _id === id);
-    if (foundBooking) {
-      setBooking(foundBooking);
-      setPlace(foundBooking.place);
-    }
-  }
-
-  if (!booking) {
-    return "";
-  }
-
-  async function deleteBooking(ev) {
-    ev.preventDefault();
-    if (id) {
-      const token = localStorage.getItem("token");
-      const response = await axios.delete(`/booking/${id}`, {
+  const fetchBookings = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.get("/booking", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      if (response.status === 200) {
-        alert("Delete successful.");
-        setRedirect("/account/bookings");
-      } else {
-        alert("Xóa booking không thành công.");
+
+      if (response) {
+        setBookings(response.data);
       }
+    } catch (error) {
+      console.error("Lỗi khi gọi API:", error);
     }
-  }
-
-  if (redirect) {
-    return <Navigate to={redirect} />;
-  }
-
-  async function sendFeedback(ev) {
-    const token = localStorage.getItem("token");
-    ev.preventDefault();
-    await axios.post(`/place/${booking.place._id}/feedback`, {
-          comment,
-          rate,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-    alert("Feedback successful.");
-  }
+  };
 
   return (
-      <div className="my-4 lg:mx-80 mx-10">
-        <h1 className="text-3xl">{booking.place.title}</h1>
-        <AddressLink className="my-2 block">{booking.place.address}</AddressLink>
-        <div className="bg-gray-200 p-6 my-6 rounded-2xl flex items-center justify-between">
-          <div>
-            <h2 className="text-2xl mb-4">Your booking information:</h2>
-            <BookingDates booking={booking} />
-          </div>
-          <div className="bg-primary p-6 text-white rounded-2xl">
-            <div>Total price</div>
-            <div className="text-3xl">${booking.price}</div>
-          </div>
-        </div>
-        <PlaceGallery place={booking.place} />
-
-        <button
-            onClick={deleteBooking}
-            className=" mt-8 w-full bg-red-400 text-white mb-4 py-2 border rounded-xl text-xl font-semibold"
-        >
-          Cancel booking
-        </button>
-        <div className="pt-5 border-t-2 mt-3">
-          <label className="block mb-2 text-xl font-semibold">Your review</label>
-          <textarea
-              value={comment}
-              onChange={(ev) => setComment(ev.target.value)}
-              id="message"
-              rows="4"
-              className="block p-2.5 w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
-              placeholder="Write your thoughts here..."
-          ></textarea>
-          <h1 className="font-semibold text-xl py-3">
-            How do you rate our hotel?
-          </h1>
-          <Rate rating={rate} onRating={(rate) => setRate(rate)} />
-          <button
-              onClick={sendFeedback}
-              className=" mt-5 w-full bg-primary hover:bg-blue-500 text-white mb-4 py-2 border rounded-xl text-xl font-semibold"
-          >
-            Send feedback
-          </button>
+      <div className="lg:mx-60 mx-10">
+        <AccountNav />
+        <div className="mb-8">
+          {bookings?.length > 0 &&
+              bookings.map((booking) => (
+                  <Link
+                      key={booking._id}
+                      to={`/account/bookings/${booking._id}`}
+                      className="flex gap-4 bg-gray-100 rounded-2xl overflow-hidden mb-5 drop-shadow-lg"
+                  >
+                    <div className="p-3 w-48">
+                      {booking.place.photos[0] && (
+                          <img className="object-cover" src={booking.place.photos[0]} />
+                      )}
+                      {!booking.place.photos[0] && (
+                          <img
+                              className="h-28 object-cover"
+                              src="https://kelembagaan.kemnaker.go.id/assets/img/no-image.svg"
+                          />
+                      )}
+                    </div>
+                    <div className="py-3 pr-3 grow">
+                      <h2 className="sm:text-xl">{booking.place.title}</h2>
+                      <div className="sm:text-xl">
+                        <BookingDates
+                            booking={booking}
+                            className="sm:mb-2 sm:mt-4 text-gray-500"
+                        />
+                        <div className="flex gap-1">
+                          <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth={1.5}
+                              stroke="currentColor"
+                              className="w-7 h-7"
+                          >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z"
+                            />
+                          </svg>
+                          <span className="text-xl">
+                      Total price: ${booking.price}
+                    </span>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+              ))}
         </div>
       </div>
   );

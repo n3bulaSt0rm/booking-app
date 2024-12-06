@@ -28,7 +28,7 @@ export default function AllPlaces() {
   }, []);
 
   async function addWishlist(ev, place) {
-    const res = await axios.post("/wishlist/", {
+    const res = await axios.post("/wishlist", {
       place: place._id,
     },
     {
@@ -44,7 +44,7 @@ export default function AllPlaces() {
 
   async function removeWishlist(ev, place) {
     ev.preventDefault();
-    await axios.put("/wishlist/", {
+    await axios.put("/wishlist", {
       place: place._id,
     },
     {
