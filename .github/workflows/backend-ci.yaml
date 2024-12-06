@@ -32,7 +32,7 @@ jobs:
       - name: Copy .env file
         run: |
           cd ..
-          cp .env back-end/.env
+          cp .env ./back-end/.env
           cd back-end
 
       - name: Install dependencies
