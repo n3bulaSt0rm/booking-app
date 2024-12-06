@@ -20,3 +20,10 @@ git tag docker-v1.1.0
 git push origin docker-v1.1.0
 ```
 ###3. Render deployment (render.yaml)
+```
+git add .
+git commit -m "Update features for version 1.0.0"
+git tag v1.0.0
+git push origin v1.0.0
+
+```
