@@ -8,7 +8,7 @@ const PlaceSchema = new Schema(
         ownerId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
-        },
+       },
         title: { type: String, required: true },
         address: String,
         photos: [String],
@@ -23,7 +23,7 @@ const PlaceSchema = new Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Feedback',
             default: []
-        }],
+          }],
     },
     {
         timestamps: true,

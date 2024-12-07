@@ -18,7 +18,9 @@ class FeedbackController {
                 { $push: { feedbacks: feedback._id } }, 
                 { new: true } 
             );
-
+            if (!place) {
+                return res.status(404).json({ message: 'không có place với id này' });
+            }
             res.json(feedback);
         } catch (err) {
             res.status(500).json({ message: 'Có lỗi xảy ra khi tạo feedback', error: err.message });
