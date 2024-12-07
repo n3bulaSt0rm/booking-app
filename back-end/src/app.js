@@ -6,7 +6,7 @@ const connectDatabase = require('./pkg/db/mongo');
 const { logMiddleware, logEndpoints} = require('./pkg/logger/log');
 const initRoutes = require('./routes');
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 const app = express();
 
 const configureApp = () => {
