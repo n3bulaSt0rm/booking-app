@@ -3,13 +3,13 @@ name: React CI Pipeline
 on:
   push:
     paths:
-      - 'front-end/**'  
+      - 'frontend-v2/**'  
   pull_request:
     paths:
-      - 'front-end/**'
+      - 'frontend-v2/**'
     branches:
       - main   
-      - develop 
+      - develop-v2
 
 jobs:
   build:
@@ -25,13 +25,12 @@ jobs:
           node-version: '20'
 
       - name: Install Dependencies
-        run: npm ci
+        run: npm install
 
-      # - name: Run ESLint
-      #   run: npm run lint
+      - name: Run ESLint
+        run: npm run lint
+        continue-on-error: true
 
-      # - name: Run Unit Tests
-      #   run: npm test -- --coverage
 
       - name: Build Application
         run: npm run build
