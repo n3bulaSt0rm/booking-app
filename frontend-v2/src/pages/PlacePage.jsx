@@ -43,7 +43,7 @@ export default function PlacePage() {
 
     axios.get(`/place/${id}`, {
         headers: {
-          Authorization: `Bearer ${token}`, 
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -56,16 +56,16 @@ export default function PlacePage() {
 
     axios.get(`/place/${id}/feedback`, {
       headers: {
-        Authorization: `Bearer ${token}`, 
+        Authorization: `Bearer ${token}`,
       },
     })
     .then((response) => {
       if (response.data && response.data.length > 0) {
-        const feedbacks = response.data.reverse(); 
+        const feedbacks = response.data.reverse();
         const totalRate = feedbacks.reduce((sum, feedback) => sum + feedback.rate, 0);
         const averageRate = totalRate / feedbacks.length;
-        setFeedbacks(feedbacks);  
-        setRate(averageRate);  
+        setFeedbacks(feedbacks);
+        setRate(averageRate);
       } else {
         setFeedbacks([]);
         setRate(0);
@@ -79,7 +79,7 @@ export default function PlacePage() {
   axios
     .get("/wishlist", {
       headers: {
-        Authorization: `Bearer ${token}`, 
+        Authorization: `Bearer ${token}`,
       },
     })
     .then((response) => {
@@ -107,12 +107,9 @@ export default function PlacePage() {
 
   async function addWishlist(ev, place) {
     const token = localStorage.getItem("token");
-    await axios.post("/wishlist/", {
-      place: place._id,
-    },
-    {
+    await axios.post(`/wishlist/${place._id}`,null,{
       headers: {
-        Authorization: `Bearer ${token}`, 
+        Authorization: `Bearer ${token}`,
       },
     });
     setWishlist((prevWishlist) => [...prevWishlist, place._id]);
@@ -122,12 +119,9 @@ export default function PlacePage() {
     const token = localStorage.getItem("token");
 
     ev.preventDefault();
-    await axios.put("/wishlist", {
-      place: place._id,
-    },
-    {
+    await axios.delete(`/wishlist/${place._id}`, {
       headers: {
-        Authorization: `Bearer ${token}`, 
+        Authorization: `Bearer ${token}`,
       },
     });
     setWishlist((prevWishlist) =>
