@@ -51,7 +51,7 @@ jobs:
           context: ./back-end
           file: ./back-end/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/taskflow-backend:${{ env.TAG }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/booking-app-backend:${{ env.TAG }}
 
       # Step 8: Build and push Frontend Docker image
       - name: Build and push Frontend Docker image
@@ -60,4 +60,4 @@ jobs:
           context: ./frontend-v2
           file: ./frontend-v2/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/taskflow-frontend:${{ env.TAG }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/booking-app-frontend:${{ env.TAG }}
