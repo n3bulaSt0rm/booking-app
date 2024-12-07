@@ -29,6 +29,7 @@ jobs:
           cache: 'npm'
           cache-dependency-path: './back-end/package-lock.json'
 
+<<<<<<< HEAD
       # - name: Copy .env file
       #   run: |
       #     cd ..
@@ -37,6 +38,16 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+=======
+#      - name: Copy .env file
+#        run: |
+#          cd ..
+#          cp .env ./back-end/.env
+#          cd back-end
+
+      - name: Install dependencies
+        run: npm ci
+>>>>>>> c4958c9b7a36dd7c29e17437ac922649ca90b979
 
       - name: Lint code
         run: npm run lint
@@ -44,7 +55,10 @@ jobs:
 
       - name: Run tests
         run: npm test
+<<<<<<< HEAD
         continue-on-error: true
+=======
+>>>>>>> c4958c9b7a36dd7c29e17437ac922649ca90b979
 
       - name: Show CI results
         run: |
