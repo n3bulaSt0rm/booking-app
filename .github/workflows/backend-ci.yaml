@@ -48,7 +48,7 @@ jobs:
 
       - name: Show CI results
         run: |
-          echo "### CI Pipeline Results"
+          echo "### Backend CI Pipeline Results"
           echo "✅ Build: Passed"
           echo "✅ Tests: Passed"
 
