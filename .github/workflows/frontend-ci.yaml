@@ -3,21 +3,12 @@ name: React CI Pipeline
 on:
   push:
     paths:
-<<<<<<< HEAD
       - 'frontend-v2/**'  
   pull_request:
     paths:
       - 'frontend-v2/**'
     branches:
-      - main   
-=======
-      - 'front-end/**'  
-  pull_request:
-    paths:
-      - 'front-end/**'
-    branches:
       - main
->>>>>>> c4958c9b7a36dd7c29e17437ac922649ca90b979
       - develop-v2
 
 jobs:
@@ -37,22 +28,11 @@ jobs:
           node-version: '20'
 
       - name: Install Dependencies
-<<<<<<< HEAD
         run: npm install
 
       - name: Run ESLint
         run: npm run lint
         continue-on-error: true
-
-=======
-        run: npm ci
-
-      # - name: Run ESLint
-      #   run: npm run lint
-
-      # - name: Run Unit Tests
-      #   run: npm test -- --coverage
->>>>>>> c4958c9b7a36dd7c29e17437ac922649ca90b979
 
       - name: Build Application
         run: npm run build
@@ -61,8 +41,4 @@ jobs:
         run: |
           echo "### Frontend CI Pipeline Results"
           echo "✅ Build: Passed"
-<<<<<<< HEAD
           echo "✅ Lint: Passed"
-=======
-          echo "✅ Lint: Passed"
->>>>>>> c4958c9b7a36dd7c29e17437ac922649ca90b979
