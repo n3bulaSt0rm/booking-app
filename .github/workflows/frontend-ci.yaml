@@ -8,12 +8,15 @@ on:
     paths:
       - 'front-end/**'
     branches:
-      - main   
-      - develop 
+      - main
+      - develop-v2
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend-v2
 
     steps:
       - name: Checkout Code
@@ -35,3 +38,9 @@ jobs:
 
       - name: Build Application
         run: npm run build
+
+      - name: Show CI results
+        run: |
+          echo "### Frontend CI Pipeline Results"
+          echo "✅ Build: Passed"
+          echo "✅ Lint: Passed"
