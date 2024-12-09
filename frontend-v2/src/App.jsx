@@ -21,6 +21,9 @@ import BookingManager from "./pages/BookingManager";
 // Sử dụng biến môi trường từ Vite
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 axios.defaults.withCredentials = import.meta.env.VITE_WITH_CREDENTIALS === "true";
+console.log('API Base URL:', import.meta.env.VITE_BASE_URL);
+console.log('With Credentials:', import.meta.env.VITE_WITH_CREDENTIALS);
+
 
 function App() {
   return (
