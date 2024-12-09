@@ -16,8 +16,11 @@ import AllPlaces from "./pages/AllPlaces";
 import FindPlacePage from "./pages/FindPlaces";
 import WishlistPage from "./pages/WishlistPage";
 import BookingManager from "./pages/BookingManager";
-axios.defaults.baseURL = "http://127.0.0.1:8080";
-axios.defaults.withCredentials = true;
+// axios.defaults.baseURL = "http://127.0.0.1:8080";
+// axios.defaults.withCredentials = true;
+// Sử dụng biến môi trường từ Vite
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
+axios.defaults.withCredentials = import.meta.env.VITE_WITH_CREDENTIALS === "true";
 
 function App() {
   return (
