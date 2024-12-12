@@ -3,8 +3,6 @@ import { useEffect, useState } from "react";
 import Perk from "../Perk";
 import axios from "axios";
 import AccountNav from "../AccountNav";
-import { storage } from "../../firebase";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage"; // Import Firebase storage functions
 
 export default function PlacesFormPage() {
   const { id } = useParams();
