@@ -14,6 +14,8 @@ export default function PlacePage() {
   const [feedbacks, setFeedbacks] = useState([]);
   const [rate, setRate] = useState(0);
   const [wishlist, setWishlist] = useState([]);
+  const [isFavorite, setIsFavorite] = useState(false);
+
   useEffect(() => {
     // const token = localStorage.getItem("token");
 
@@ -83,7 +85,9 @@ export default function PlacePage() {
       },
     })
     .then((response) => {
-      setWishlist(response.data[0].wishlist.map((obj) => obj.place._id));
+      const placeIds = response.data?.places
+          .map((obj) => obj.id);
+      setIsFavorite(placeIds?.includes(id));
     })
     .catch((error) => {
       console.error("Failed to fetch wishlist:", error);
@@ -113,6 +117,7 @@ export default function PlacePage() {
       },
     });
     setWishlist((prevWishlist) => [...prevWishlist, place._id]);
+    setIsFavorite(true);
   }
 
   async function removeWishlist(ev, place) {
@@ -127,6 +132,7 @@ export default function PlacePage() {
     setWishlist((prevWishlist) =>
       prevWishlist.filter((id) => id !== place._id)
     );
+    setIsFavorite(false);
   }
 
   return (
@@ -149,39 +155,39 @@ export default function PlacePage() {
             </h1>
           </div>
         </div>
-        {!wishlist.includes(place._id) && (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1}
-            stroke="currentColor"
-            className="w-14 h-14 text-red-500 hover:fill-current cursor-pointer"
-            onClick={(ev) => addWishlist(ev, place)}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
-            />
-          </svg>
+        {!isFavorite && ( // Nếu không yêu thích
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1}
+                stroke="currentColor"
+                className="w-14 h-14 text-red-500 hover:fill-current cursor-pointer"
+                onClick={(ev) => addWishlist(ev, place)}
+            >
+              <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+              />
+            </svg>
         )}
-        {wishlist.includes(place._id) && (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1}
-            stroke="currentColor"
-            className="w-14 h-14 text-red-500 fill-current cursor-pointer"
-            onClick={(ev) => removeWishlist(ev, place)}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
-            />
-          </svg>
+        {isFavorite && (
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1}
+                stroke="currentColor"
+                className="w-14 h-14 text-red-500 fill-current cursor-pointer"
+                onClick={(ev) => removeWishlist(ev, place)}
+            >
+              <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+              />
+            </svg>
         )}
       </div>
       <AddressLink>{place.address}</AddressLink>
