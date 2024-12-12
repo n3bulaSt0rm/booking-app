@@ -94,9 +94,9 @@ export default function WishlistPage() {
         ) : (
             <div className="lg:mx-20 mx-10 my-10 mt-6 grid gap-x-6 gap-y-8 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {places.map((place) => (
-                  <div key={place._id}>
+                  <div key={place.id}>
                     <div className="border-2 p-4 rounded-xl shadow-lg">
-                      <Link to={"/place/" + place._id}>
+                      <Link to={"/place/" + place.id}>
                         <div className="bg-gray-500 mb-2 rounded-2xl flex">
                           {place.photos?.[0] ? (
                               <img
