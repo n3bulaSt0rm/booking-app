@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 
 const PlaceSchema = new Schema(
     {
-        ownerId: {
+        owner: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
        },
@@ -15,8 +15,8 @@ const PlaceSchema = new Schema(
         description: String,
         perks: [String],
         extraInfo: String,
-        checkIn: Number,
-        checkOut: Number,
+        checkIn: String,
+        checkOut: String,
         maxGuests: Number,
         price: Number,
         feedbacks: [{

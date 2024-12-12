@@ -5,7 +5,7 @@ export default function BookingManager() {
   const [bookings, setBookings] = useState([]);
   useEffect(() => {
     const token = localStorage.getItem("token");
-    axios.get(`/booking-manager/`,
+    axios.get(`/booking/all-request`,
       {
         headers: {
           Authorization: `Bearer ${token}`, 

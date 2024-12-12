@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import Perk from "../Perk";
 import axios from "axios";
 import AccountNav from "../AccountNav";
+import { storage } from "../../firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage"; // Import Firebase storage functions
 
 export default function PlacesFormPage() {
   const { id } = useParams();
@@ -132,6 +134,29 @@ export default function PlacesFormPage() {
     return <Navigate to={"/account/places"} />;
   }
 
+  const uploadPhoto = async (event) => {
+    const file = event.target.files[0]; // Lấy file đầu tiên
+    if (!file) return;
+  
+    const storageRef = ref(storage, `images/${encodeURIComponent(file.name)}`);
+  
+    try {
+      // Tải ảnh lên Firebase Storage
+      const snapshot = await uploadBytes(storageRef, file);
+      console.log("Tải ảnh lên thành công:", snapshot);
+  
+      // Lấy URL của ảnh đã tải lên
+      const downloadURL = await getDownloadURL(snapshot.ref());
+      console.log("URL ảnh:", downloadURL);
+  
+      setAddedPhotos((prev) => {
+        return [...prev, downloadURL];
+      });    
+    } catch (error) {
+      console.error("Lỗi tải ảnh lên:", error);
+    }
+  };
+
   return (
     <div className="sm:w-4/5 mx-auto px-10">
       <AccountNav />
@@ -191,7 +216,7 @@ export default function PlacesFormPage() {
               type="file"
               multiple
               className="hidden"
-              // onChange={uploadPhoto}
+              onChange={uploadPhoto}
             />
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -233,7 +258,7 @@ export default function PlacesFormPage() {
             <h3 className="mt-2 -mb-1">Check in time</h3>
             <input
               className="w-full border my-2 py-2 px-4 rounded-xl"
-              type="text"
+              type="time"
               value={checkIn}
               onChange={(ev) => setCheckIn(ev.target.value)}
               placeholder="14:00"
@@ -243,7 +268,7 @@ export default function PlacesFormPage() {
             <h3 className="mt-2 -mb-1">Check out time</h3>
             <input
               className="w-full border my-2 py-2 px-4 rounded-xl"
-              type="text"
+              type="time"
               value={checkOut}
               onChange={(ev) => setCheckOut(ev.target.value)}
               placeholder="11:00"

@@ -15,5 +15,7 @@ router.get('/:id/feedback',authMiddleware, feedbackController.getFeedbacks);
 router.post('/:id/feedback', authMiddleware, feedbackController.addFeedback);
 router.delete('/:id/feedback/:id_feedback', authMiddleware, feedbackController.deleteFeedback);
 
+router.get('/all/by-owner', authMiddleware, placeController.getAllPlacesByOwner);
+
 
 module.exports = router;

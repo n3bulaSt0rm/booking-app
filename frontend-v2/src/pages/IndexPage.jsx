@@ -5,17 +5,17 @@ import { Link } from "react-router-dom";
 export default function IndexPage() {
   const [places, setPlaces] = useState([]);
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    axios.get("/top-feedback",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`, 
-        },
-      }).then((response) => {
-      setPlaces(response.data);
-    });
-  }, []);
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token");
+  //   axios.get("/top-feedback",
+  //     {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`, 
+  //       },
+  //     }).then((response) => {
+  //     setPlaces(response.data);
+  //   });
+  // }, []);
 
   return (
     <div className="mx-10 lg:mx-16 -mt-5">

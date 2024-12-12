@@ -4,13 +4,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 export default function PlacesPage() {
   const [places, setPlaces] = useState([]);
-  // const token = localStorage.getItem("token");
-
-  // useEffect(() => {
-  //   axios.get("/user-places").then(({ data }) => {
-  //     setPlaces(data);
-  //   });
-  // }, []);
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -20,7 +13,7 @@ export default function PlacesPage() {
     }
 
     axios
-      .get("/user-places", {
+      .get("/place/all/by-owner", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

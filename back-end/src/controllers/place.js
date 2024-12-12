@@ -50,6 +50,7 @@ class PlaceController {
         const placeDoc = await Place.findById(_id);
         if (req.user.id === placeDoc.owner.toString()) {
             placeDoc.set({
+                owner: req.user.id,
                 title,
                 address,
                 photos: addedPhotos,
@@ -98,6 +99,16 @@ class PlaceController {
             ],
         });
         res.json(places);
+    }
+
+    async getAllPlacesByOwner(req, res){
+        try{
+            const places = await Place.find({ owner: req.user.id });
+            res.json(places)
+        }catch (error) {
+            console.error("Lỗi khi lấy danh sách places:", error.message);
+            throw error;
+        }
     }
 }
 

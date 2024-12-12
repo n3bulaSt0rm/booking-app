@@ -54,7 +54,7 @@ export default function BookingPage() {
     setRedirect(true);
   }
   if (redirect) {
-    return <Navigate to={"/account/booking"} />;
+    return <Navigate to={"/account/bookings"} />;
   }
 
   async function sendFeedback(ev) {
