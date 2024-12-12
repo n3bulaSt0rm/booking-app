@@ -191,7 +191,7 @@ export default function PlacesFormPage() {
               />
             </div>
             <div>
-              <h3>Price per night</h3>
+              <h3>Price per night ($)</h3>
               <input
                 type="number"
                 value={price}

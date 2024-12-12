@@ -282,7 +282,7 @@ export default function PlacesFormPage() {
             />
           </div>
           <div>
-            <h3 className="mt-2 -mb-1">Price per night</h3>
+            <h3 className="mt-2 -mb-1">Price per night ($)</h3>
             <input
               className="w-full border my-2 py-2 px-4 rounded-xl"
               type="number"
