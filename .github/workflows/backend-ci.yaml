@@ -26,17 +26,12 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
-
-      # Step to clean node_modules and package-lock.json
-      - name: Clean node_modules and package-lock.json
-        run: |
-          rm -rf node_modules
-          rm -f package-lock.json
+          cache: 'npm'
+          cache-dependency-path: './back-end/package-lock.json'
 
       - name: Install dependencies
         run: |
           npm install
-          npm update
 
       - name: Lint code
         run: npm run lint
