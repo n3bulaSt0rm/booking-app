@@ -28,10 +28,10 @@ export default function IndexPage() {
         }}
         className="rounded-3xl shadow-lg text-center py-36 mt-5 px-3"
       >
-        <h1 className="text-5xl font-bold text-black pb-2">
-          Hãy đến với Go Booking
+        <h1 className="text-5xl font-bold text-white pb-2">
+          Chạm vào từng trải nghiệm, ghi dấu mọi hành trình
         </h1>
-        <h2 className="text-2xl text-black opacity-90">
+        <h2 className="text-2xl text-white opacity-90">
           Hơn 2.000.000 homestays tuyệt vời đang chờ đợi bạn!
         </h2>
       </div>
