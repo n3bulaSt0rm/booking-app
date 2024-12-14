@@ -1,4 +1,4 @@
-import { useParams, Navigate } from "react-router-dom";
+import { useParams, Navigate, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import AddressLink from "../AddressLink";
@@ -13,6 +13,7 @@ export default function BookingPage() {
   const [redirect, setRedirect] = useState(false);
   const [rate, setRate] = useState(3);
   const [comment, setComment] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (id) {
@@ -72,10 +73,15 @@ export default function BookingPage() {
     alert("Feedback successful.");
     setRedirect(true);
   }
-
+  function handleOnClickTitlePlace(){
+    navigate(`/place/${booking.place._id}`);
+  }
   return (
     <div className="my-4 lg:mx-80 mx-10">
-      <h1 className="text-3xl">{booking.place.title}</h1>
+      <h1 className="text-3xl cursor-pointer hover:text-blue-500" onClick={() => handleOnClickTitlePlace()}>
+        {booking.place.title}
+      </h1>
+      {/* <button onClick={handleOnClickTitlePlace}>{booking.place.title}</button> */}
       <AddressLink className="my-2 block">{booking.place.address}</AddressLink>
       <div className="bg-gray-200 p-6 my-6 rounded-2xl flex items-center justify-between">
         <div>
