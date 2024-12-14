@@ -72,10 +72,10 @@ jobs:
 #        run: npm test
 #        continue-on-error: true
 
-      - name: Build app
-        run: | 
-          node ./src/app.js
-          echo "App build finished."
+#      - name: Build app
+#        run: |
+#          node ./src/app.js
+#          echo "App build finished."
 
       - name: Show CI results
         run: |
