@@ -25,9 +25,15 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18 
+          node-version: 18
           cache: 'npm'
           cache-dependency-path: './back-end/package-lock.json'
+
+      # Step to clean node_modules and package-lock.json
+      - name: Clean node_modules and package-lock.json
+        run: |
+          rm -rf node_modules
+          rm -f package-lock.json
 
       - name: Install dependencies
         run: npm install
@@ -40,10 +46,8 @@ jobs:
         run: npm test
         continue-on-error: true
 
-
       - name: Show CI results
         run: |
           echo "### Backend CI Pipeline Results"
           echo "✅ Build: Passed"
           echo "✅ Tests: Passed"
-
