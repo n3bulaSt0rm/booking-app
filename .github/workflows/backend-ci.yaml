@@ -26,8 +26,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: 'npm'
-          cache-dependency-path: './back-end/package-lock.json'
+          cache: 'false' # Tắt cache
 
       # Step to clean node_modules and package-lock.json
       - name: Clean node_modules and package-lock.json
@@ -36,7 +35,9 @@ jobs:
           rm -f package-lock.json
 
       - name: Install dependencies
-        run: npm install
+        run: | 
+          npm install
+          npm audit fix --force
 
       - name: Lint code
         run: npm run lint
