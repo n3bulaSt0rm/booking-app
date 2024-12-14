@@ -39,7 +39,7 @@ class WishlistService {
     async getWishlistByUserId(userId) {
         const wishlist = await wishlistRepository.findByUserId(userId);
         if (!wishlist || !wishlist.placeIds || wishlist.placeIds.length === 0) {
-            throw new Error('user has no favorite places');
+            return new WishlistResponseDTO(wishlist, []);
         }
 
         const places = await placeRepository.findByIds(wishlist.placeIds);
