@@ -71,6 +71,7 @@ jobs:
 #      - name: Run tests
 #        run: npm test
 #        continue-on-error: true
+
       - name: Build app
         run: node ./src/app.js
 
