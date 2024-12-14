@@ -6,7 +6,7 @@ import PlaceGallery from "../PlaceGallery";
 import BookingWidget from "../BookingWidget";
 import { UserContext } from "../UserContext";
 import Rate from "../Rate";
-
+import '../Loading.css';
 export default function PlacePage() {
   const { ready, user } = useContext(UserContext);
   const { id } = useParams();
@@ -96,7 +96,14 @@ export default function PlacePage() {
   }, [id]);
 
   if (!ready) {
-    return "Loading...";
+    // return "Loading...";
+    return (
+      // <h1 className="px-10 sm:px-20 pt-3 font-semibold text-xl">Loading...</h1>
+      <div className="loading-container">
+      <div className="spinner"></div>
+      <h1 className="loading-text">Loading...</h1>
+    </div>
+  );
   }
 
   if (!place) return "";
