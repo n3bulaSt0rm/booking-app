@@ -26,7 +26,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: 'false' # Tắt cache
 
       # Step to clean node_modules and package-lock.json
       - name: Clean node_modules and package-lock.json
@@ -35,7 +34,7 @@ jobs:
           rm -f package-lock.json
 
       - name: Install dependencies
-        run: | 
+        run: |
           npm install
           npm audit fix --force
 
