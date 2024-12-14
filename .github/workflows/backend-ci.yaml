@@ -72,7 +72,7 @@ jobs:
 #        run: npm test
 #        continue-on-error: true
       - name: Build app
-        run: node ./backend/src/app.js
+        run: node ./src/app.js
 
       - name: Show CI results
         run: |
