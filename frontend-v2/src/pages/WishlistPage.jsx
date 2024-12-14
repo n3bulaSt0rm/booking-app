@@ -76,12 +76,11 @@ export default function WishlistPage() {
 
   if (!ready)
     return (
-        <div>
-          <AccountNav />
-          <h1 className="text-center text-3xl font-semibold my-20">
-            Loading...!
-          </h1>
-        </div>
+      // <h1 className="px-10 sm:px-20 pt-3 font-semibold text-xl">Loading...</h1>
+      <div className="loading-container">
+      <div className="spinner"></div>
+      <h1 className="loading-text">Loading...</h1>
+    </div>
     );
 
   return (
