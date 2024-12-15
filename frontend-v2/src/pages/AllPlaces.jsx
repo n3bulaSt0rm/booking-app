@@ -26,7 +26,7 @@ export default function AllPlaces() {
       },
     });
   }, []);
-
+  //
   async function addWishlist(ev, place) {
     const res = await axios.post(`/wishlist/${place._id}`,
     {
