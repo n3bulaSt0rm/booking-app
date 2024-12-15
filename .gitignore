@@ -46,7 +46,6 @@ Thumbs.db
 /dataSources.local.xml
 
 # Package lock
-yarn.lock
 
 # Ignore local credentials and config
 secret/
