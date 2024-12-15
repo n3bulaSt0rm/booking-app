@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
+import '../Loading.css';
 
 export default function FindPlacePage() {
   const { query } = useParams();
@@ -27,7 +28,11 @@ export default function FindPlacePage() {
 
   if (loading) {
     return (
-        <h1 className="px-10 sm:px-20 pt-3 font-semibold text-xl">Loading...</h1>
+        // <h1 className="px-10 sm:px-20 pt-3 font-semibold text-xl">Loading...</h1>
+        <div className="loading-container">
+        <div className="spinner"></div>
+        <h1 className="loading-text">Loading...</h1>
+      </div>
     );
   }
 

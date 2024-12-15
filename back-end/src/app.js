@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const startHttpServer = require("./pkg/server/http");
 const connectDatabase = require('./pkg/db/mongo');
+const {connectCache} = require('./pkg/cache/redis');
 const { logMiddleware, logEndpoints} = require('./pkg/logger/log');
 const initRoutes = require('./routes');
 
@@ -28,6 +29,7 @@ const configureApp = () => {
 };
 
 const startApp = async () => {
+    await connectCache();
     await connectDatabase();
     configureApp();
     startHttpServer(port, app);

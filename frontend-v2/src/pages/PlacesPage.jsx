@@ -58,7 +58,7 @@ export default function PlacesPage() {
               >
                 <div className="flex w-32 h-32 bg-gray-300 grow shrink-0">
                   {place.photos.length > 0 && <img src={place.photos[0]} />}
-                  {!place.photos[0] && (
+                  {!place.photos[1] && (
                     <img src="https://kelembagaan.kemnaker.go.id/assets/img/no-image.svg" />
                   )}
                 </div>

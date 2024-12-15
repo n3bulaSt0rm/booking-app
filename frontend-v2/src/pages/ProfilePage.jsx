@@ -3,7 +3,7 @@ import { Navigate, useLocation, Link } from "react-router-dom";
 import { UserContext } from "../UserContext";
 import axios from "axios";
 import AccountNav from "../AccountNav";
-
+import '../Loading.css';
 export default function ProfilePage() {
   const { ready, user, setUser } = useContext(UserContext);
   const [redirect, setRedirect] = useState(null);
@@ -59,7 +59,16 @@ export default function ProfilePage() {
     }
   };
 
-  if (!ready) return "Loading...";
+  // if (!ready) return "Loading...";
+  if (!ready) {
+    return (
+      // <h1 className="px-10 sm:px-20 pt-3 font-semibold text-xl">Loading...</h1>
+      <div className="loading-container">
+      <div className="spinner"></div>
+      <h1 className="loading-text">Loading...</h1>
+    </div>
+  );
+  }
 
   if (ready && !user) return <Navigate to={"/login"} />;
 

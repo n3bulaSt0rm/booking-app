@@ -45,8 +45,12 @@ export default function PlacesFormPage() {
     }
   }
 
-  async function removePhoto(filename) {
+  async function removePhotoLink(filename) {
     setAddedPhotos(addedPhotos.filter((photo) => photo !== filename));
+  }
+
+  async function removePhotoLocal(filename) {
+    setLocalPhotos(localPhotos.filter((photo) => photo !== filename));
   }
 
   const uploadFiles = async () => {
@@ -74,12 +78,13 @@ export default function PlacesFormPage() {
     try{
       const urls = await uploadFiles()
       console.log("urls: ",urls)
-      setAddedPhotos((prev) => [...prev, ...urls])
+      const updatedPhotos = [...addedPhotos, ...urls];
+      setAddedPhotos(updatedPhotos);
       console.log('Added photos:', addedPhotos);
       const placeData = {
         title,
         address,
-        addedPhotos,
+        addedPhotos : updatedPhotos,
         description,
         perks,
         extraInfo,
@@ -157,7 +162,7 @@ export default function PlacesFormPage() {
                 <img className="rounded-xl" src={link} />
                 <div className="absolute top-2 left-2">
                   <button
-                    onClick={() => removePhoto(link)}
+                    onClick={() => removePhotoLink(link)}
                     className="text-white p-1 material-symbols-outlined bg-gray-950 rounded-xl bg-opacity-30"
                   >
                     delete
@@ -165,6 +170,23 @@ export default function PlacesFormPage() {
                 </div>
               </div>
             ))}
+          {localPhotos.length > 0 &&
+            localPhotos.map((file) => {
+              const localURL = URL.createObjectURL(file); // Tạo blob URL từ file
+              return (
+                <div className="flex h-52 relative" key={localURL}>
+                  <img className="rounded-xl" src={localURL} alt="Local photo" />
+                  <div className="absolute top-2 left-2">
+                    <button
+                      onClick={() => removePhotoLocal(file)}
+                      className="text-white p-1 material-symbols-outlined bg-gray-950 rounded-xl bg-opacity-30"
+                    >
+                      delete
+                    </button>
+                  </div>
+                </div>
+              );
+          })}
           <label className="h-52 cursor-pointer flex items-center gap-1 justify-center border bg-transparent rounded-2xl p-2 text-2xl text-gray-600">
             <input
               type="file"
