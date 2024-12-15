@@ -26,24 +26,24 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: 'npm'
-          cache-dependency-path: './back-end/package-lock.json'
+          cache: 'yarn'
+          cache-dependency-path: './back-end/yarn.lock'
 
       - name: Install dependencies
-        run: npm ci
+        run: yarn install
 
       - name: Lint code
-        run: npm run lint
+        run: yarn lint
         continue-on-error: true
 
-#      - name: Run tests
-#        run: npm test
-#        continue-on-error: true
+      #      - name: Run tests
+      #        run: yarn test
+      #        continue-on-error: true
 
-#      - name: Build app
-#        run: |
-#          node ./src/app.js
-#          echo "App build finished."
+      #      - name: Build app
+      #        run: |
+      #          node ./src/app.js
+      #          echo "App build finished."
 
       - name: Show CI results
         run: |

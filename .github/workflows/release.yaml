@@ -18,11 +18,11 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: 'npm'
-          cache-dependency-path: './back-end/package-lock.json'
+          cache: 'yarn'
+          cache-dependency-path: './back-end/yarn.lock'
 
-      - name: Install dependencies using npm ci
-        run: npm ci
+      - name: Install dependencies using Yarn
+        run: yarn install
 
       - name: Deploy Backend to Render
         uses: JorgeLNJunior/render-deploy@v1.4.4
@@ -34,7 +34,6 @@ jobs:
           github_deployment: true
           deployment_environment: 'production'
           github_token: ${{ secrets.GITHUB_TOKEN }}
-
 
   deploy-frontend:
     runs-on: ubuntu-latest
