@@ -20,9 +20,9 @@ class AuthService {
         if (existingUser) throw new Error('Email already registered');
 
         const lastRequest = await cache.get(`user:register:${email}`);
-        if (lastRequest) {
-            throw new Error('You can only request register once every 90 seconds.');
-        }
+        // if (lastRequest) {
+        //     throw new Error('You can only request register once every 90 seconds.');
+        // }
 
         const otp = crypto.randomInt(100000, 999999).toString();
         const salt = await bcrypt.genSalt(10);
@@ -39,16 +39,28 @@ class AuthService {
 
         return { message: 'OTP sent to your email. Please verify to complete registration.' };
     }
+    async registerAdmin({ email, password, lastName, firstName }) {
+        const existingUser = await userRepository.findByEmail(email);
+        if (existingUser) throw new Error('Email already registered');
+
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        const role = "admin"
+        const user = await userRepository.create({ email, hashedPassword, lastName, firstName , role});
+        return {message: 'Registered successfully'};
+
+    }
+
 
     async verifyOtp({ email, otp }) {
         const cachedData = await cache.get(`user:register:${email}`);
         if (!cachedData) throw new Error('OTP expired or invalid');
 
-        const { password, otp: cachedOtp } = JSON.parse(cachedData);
+        const { password, otp: cachedOtp, lastName, firstName } = JSON.parse(cachedData);
 
         if (otp !== cachedOtp) throw new Error('Invalid OTP');
-
-        const user = await userRepository.create({ email, password, lastName, firstName });
+        const role = "user"
+        const user = await userRepository.create({ email, password, lastName, firstName , role});
         await cache.del(`user:register:${email}`);
 
         return {message: 'Registered successfully'};
