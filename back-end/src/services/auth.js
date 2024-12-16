@@ -15,7 +15,7 @@ const publicKey = process.env.PUBLIC_KEY || fs.readFileSync(path.join(__dirname,
 
 class AuthService {
 
-    async registerUser({ email, password }) {
+    async registerUser({ email, password, lastName, firstName }) {
         const existingUser = await userRepository.findByEmail(email);
         if (existingUser) throw new Error('Email already registered');
 
@@ -30,7 +30,7 @@ class AuthService {
 
         await cache.set(
             `user:register:${email}`,
-            JSON.stringify({ email, password: hashedPassword, otp }),
+            JSON.stringify({ email, password: hashedPassword, otp, lastName, firstName }),
             90
         );
 
@@ -48,7 +48,7 @@ class AuthService {
 
         if (otp !== cachedOtp) throw new Error('Invalid OTP');
 
-        const user = await userRepository.create({ email, password });
+        const user = await userRepository.create({ email, password, lastName, firstName });
         await cache.del(`user:register:${email}`);
 
         return {message: 'Registered successfully'};

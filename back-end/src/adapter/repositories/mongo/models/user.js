@@ -8,6 +8,7 @@ const UserSchema = new Schema(
         lastName: String,
         email: { type: String, unique: true },
         password: String,
+        picture: String,
         refreshTokens: [String]
     },
     {
