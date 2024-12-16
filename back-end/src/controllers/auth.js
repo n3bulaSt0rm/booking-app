@@ -19,6 +19,15 @@ class AuthController {
         }
     }
 
+    async loginWithOtp(req, res) {
+        try{
+            const user = await authService.loginWithOtp(req.body);
+            res.status(200).json(user);
+        } catch(error){
+            res.status(400).json({ message: error.message });
+        }
+    }
+
     async loginUser(req, res) {
         try {
             const { user, accessToken, refreshToken } = await authService.loginUser(req.body);

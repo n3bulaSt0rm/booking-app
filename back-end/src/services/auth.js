@@ -8,7 +8,6 @@ const cache = require('../adapter/cache/redis');
 const userRepository = require('../adapter/repositories/mongo/user_respository');
 const authRepository = require('../adapter/repositories/mongo/auth_repository');
 const AuthResponseDTO = require('../dtos/response/auth');
-const UserResponseDTO = require('../dtos/response/user');
 
 const privateKey = process.env.PRIVATE_KEY || fs.readFileSync(path.join(__dirname, '../keys/private.key'), 'utf8');
 const publicKey = process.env.PUBLIC_KEY || fs.readFileSync(path.join(__dirname, '../keys/public.key'), 'utf8');
@@ -19,12 +18,7 @@ class AuthService {
         const existingUser = await userRepository.findByEmail(email);
         if (existingUser) throw new Error('Email already registered');
 
-        const lastRequest = await cache.get(`user:register:${email}`);
-        // if (lastRequest) {
-        //     throw new Error('You can only request register once every 90 seconds.');
-        // }
-
-        const otp = crypto.randomInt(100000, 999999).toString();
+        const otp = this.generateOtp();
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
@@ -34,51 +28,65 @@ class AuthService {
             90
         );
 
-
         await emailService.sendOtpEmail(email, otp);
 
         return { message: 'OTP sent to your email. Please verify to complete registration.' };
     }
-    async registerAdmin({ email, password, lastName, firstName }) {
-        const existingUser = await userRepository.findByEmail(email);
-        if (existingUser) throw new Error('Email already registered');
 
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-        const role = "admin"
-        const user = await userRepository.create({ email, hashedPassword, lastName, firstName , role});
-        return {message: 'Registered successfully'};
+    async loginWithOtp({ email }) {
+        const user = await userRepository.findByEmail(email);
+        if (!user) throw new Error('Email not registered');
 
+        const otp = this.generateOtp();
+
+        await cache.set(`user:login:${email}`, JSON.stringify({ email, otp }), 90);
+        await emailService.sendOtpEmail(email, otp);
+
+        return { message: 'OTP sent to your email. Please verify to login.' };
     }
 
-
-    async verifyOtp({ email, otp }) {
-        const cachedData = await cache.get(`user:register:${email}`);
+    async verifyOtp({ email, otp, context }) {
+        const cacheKey = context === 'register' ? `user:register:${email}` : `user:login:${email}`;
+        const cachedData = await cache.get(cacheKey);
         if (!cachedData) throw new Error('OTP expired or invalid');
 
-        const { password, otp: cachedOtp, lastName, firstName } = JSON.parse(cachedData);
-
+        const cachedOtp = JSON.parse(cachedData).otp;
         if (otp !== cachedOtp) throw new Error('Invalid OTP');
-        const role = "user"
-        const user = await userRepository.create({ email, password, lastName, firstName , role});
-        await cache.del(`user:register:${email}`);
 
-        return {message: 'Registered successfully'};
+        if (context === 'register') {
+            const { password, firstName, lastName } = JSON.parse(cachedData);
+            const user = await userRepository.create({
+                email,
+                password,
+                firstName,
+                lastName,
+                role: 'user',
+            });
+
+            await cache.del(cacheKey);
+
+            const accessToken = this.generateAccessToken(user);
+            const refreshToken = this.generateRefreshToken(user);
+
+            return new AuthResponseDTO({ accessToken, refreshToken });
+        } else if (context === 'login') {
+            const user = await userRepository.findByEmail(email);
+            if (!user) throw new Error('User not found');
+
+            const accessToken = this.generateAccessToken(user);
+            const refreshToken = this.generateRefreshToken(user);
+
+            await cache.del(cacheKey);
+            await authRepository.addRefreshToken(user._id, refreshToken);
+
+            return new AuthResponseDTO({ accessToken, refreshToken });
+        } else {
+            throw new Error('Invalid context for OTP verification');
+        }
     }
 
-    async loginUser({ email, password }) {
-        const user = await userRepository.findByEmail(email);
-        if (!user) throw new Error('Invalid email or password');
-
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) throw new Error('Invalid email or password');
-
-        const accessToken = this.generateAccessToken(user);
-        const refreshToken = this.generateRefreshToken(user);
-
-        await authRepository.addRefreshToken(user._id, refreshToken);
-
-        return new AuthResponseDTO({  accessToken, refreshToken });
+    generateOtp() {
+        return crypto.randomInt(100000, 999999).toString();
     }
 
     generateAccessToken(user) {
@@ -101,7 +109,7 @@ class AuthService {
             const user = await userRepository.findById(decoded.id);
 
             if (!user || !user.refreshTokens.includes(refreshToken)) {
-                throw new Error('Invalid refresh tokens');
+                throw new Error('Invalid refresh token');
             }
 
             return this.generateAccessToken(user);
