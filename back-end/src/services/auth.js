@@ -39,7 +39,7 @@ class AuthService {
             expiresIn: '8h',
         });
     }
-
+//
     generateRefreshToken(user) {
         return jwt.sign({ id: user._id }, privateKey, {
             algorithm: 'RS256',
