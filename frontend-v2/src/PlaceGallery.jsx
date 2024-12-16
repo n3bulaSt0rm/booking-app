@@ -30,8 +30,8 @@ export default function PlaceGallery({ place }) {
           </div>
           {place?.photos?.length > 0 &&
             place.photos.map((photo) => (
-              <div key={photo} className="">
-                <img className="max-w-1/2 pb-5" src={photo} alt="" />
+              <div key={photo} className="text-center">
+                <img className="inline-block w-1/2 pb-5" src={photo} alt="" />
               </div>
             ))}
         </div>
@@ -44,10 +44,10 @@ export default function PlaceGallery({ place }) {
       <div className="grid gap-2 grid-cols-[2fr_1fr] rounded-xl overflow-hidden">
         <div>
           {place.photos?.[0] && (
-            <div>
+            <div className="w-full h-full aspect-square">
               <img
                 onClick={() => setShowAllPhotos(true)}
-                className="aspect-square cursor-pointer object-cover"
+                className="w-full h-full aspect-square cursor-pointer object-cover"
                 src={place.photos[0]}
                 alt=""
               />
@@ -58,7 +58,7 @@ export default function PlaceGallery({ place }) {
           {place.photos?.[1] && (
             <img
               onClick={() => setShowAllPhotos(true)}
-              className="aspect-square cursor-pointer object-cover"
+              className="w-full h-full aspect-square cursor-pointer object-cover"
               src={place.photos[1]}
               alt=""
             />
@@ -67,7 +67,7 @@ export default function PlaceGallery({ place }) {
             {place.photos?.[2] && (
               <img
                 onClick={() => setShowAllPhotos(true)}
-                className="aspect-square cursor-pointer object-cover relative top-2"
+                className="w-full h-full aspect-square cursor-pointer object-cover relative top-2"
                 src={place.photos[2]}
                 alt=""
               />

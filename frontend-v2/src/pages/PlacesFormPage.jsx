@@ -19,30 +19,7 @@ export default function PlacesFormPage() {
   const [price, setPrice] = useState(100);
   const [redirect, setRedirect] = useState(false);
 
-  useEffect(() => {
-    if (!id) {
-      return;
-    }
-    const token = localStorage.getItem("token");
-    axios.get("/place/" + id,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`, 
-        },
-      }).then((response) => {
-      const { data } = response;
-      setTitle(data.title);
-      setAddress(data.address);
-      setAddedPhotos(data.photos);
-      setDescription(data.description);
-      setPerks(data.perks);
-      setExtraInfo(data.extraInfo);
-      setCheckIn(data.checkIn);
-      setCheckOut(data.checkOut);
-      setMaxGuests(data.maxGuests);
-      setPrice(data.price);
-    });
-  }, [id]);
+  const [localPhotos, setLocalPhotos] = useState([]);
 
   function inputHeader(text) {
     return <h2 className="text-2xl mt-4">{text}</h2>;
@@ -63,67 +40,68 @@ export default function PlacesFormPage() {
   async function addPhotoByLink(ev) {
     ev.preventDefault();
     if (photoLink) {
-      setAddedPhotos((prev) => {
-        return [...prev, photoLink];
-      });
+      setAddedPhotos((prev) => [...prev, photoLink]);
       setPhotoLink("");
     }
   }
 
-  async function removePhoto(filename) {
+  async function removePhotoLink(filename) {
     setAddedPhotos(addedPhotos.filter((photo) => photo !== filename));
   }
 
-  async function deletePlace(ev) {
-    ev.preventDefault();
-    if (id) {
-      const res = await axios.delete(`/place/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`, 
-        },
-      });
-      if (res.status === 200) {
-        alert("Delete success !");
-      }
-    }
-    setRedirect(true);
+  async function removePhotoLocal(filename) {
+    setLocalPhotos(localPhotos.filter((photo) => photo !== filename));
   }
+
+  const uploadFiles = async () => {
+    try {
+      const token = localStorage.getItem("token")
+      const formData = new FormData();
+      formData.append('folder', 'image');
+      localPhotos.map((imgPath) => formData.append('image', imgPath))
+
+      const response = await axios.put('/file/upload', formData, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data', 
+        }
+      });
+      console.log('Files uploaded successfully:', response.data);
+      return response.data.urls;
+    } catch (error) {
+      console.error('Error uploading files:', error.message);
+    }
+  };
 
   async function savePlace(ev) {
     ev.preventDefault();
-    const placeData = {
-      title,
-      address,
-      addedPhotos,
-      description,
-      perks,
-      extraInfo,
-      checkIn,
-      checkOut,
-      maxGuests,
-      price,
-    };
-    if (id) {
+    try{
+      const urls = await uploadFiles()
+      console.log("urls: ",urls)
+      const updatedPhotos = [...addedPhotos, ...urls];
+      setAddedPhotos(updatedPhotos);
+      console.log('Added photos:', addedPhotos);
+      const placeData = {
+        title,
+        address,
+        addedPhotos : updatedPhotos,
+        description,
+        perks,
+        extraInfo,
+        checkIn,
+        checkOut,
+        maxGuests,
+        price,
+      };
       const token = localStorage.getItem("token");
-
-      await axios.put("/place", {
-        id,
-        ...placeData,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`, 
-        },
-      });
-    } else {
-      const token = localStorage.getItem("token");
-
       await axios.post("/place", placeData,
         {
           headers: {
             Authorization: `Bearer ${token}`, // Add token in the Authorization header
           },
         });
+    } catch (error) {
+      console.error('Error uploading place:', error.message);
     }
     setRedirect(true);
   }
@@ -132,27 +110,10 @@ export default function PlacesFormPage() {
     return <Navigate to={"/account/places"} />;
   }
 
-  const uploadPhoto = async (event) => {
-    const file = event.target.files[0]; // Lấy file đầu tiên
+  const getLocalPhoto = async (event) => {
+    const file = event.target.files[0]; 
     if (!file) return;
-  
-    const storageRef = ref(storage, `images/${encodeURIComponent(file.name)}`);
-  
-    try {
-      // Tải ảnh lên Firebase Storage
-      const snapshot = await uploadBytes(storageRef, file);
-      console.log("Tải ảnh lên thành công:", snapshot);
-  
-      // Lấy URL của ảnh đã tải lên
-      const downloadURL = await getDownloadURL(snapshot.ref());
-      console.log("URL ảnh:", downloadURL);
-  
-      setAddedPhotos((prev) => {
-        return [...prev, downloadURL];
-      });    
-    } catch (error) {
-      console.error("Lỗi tải ảnh lên:", error);
-    }
+    setLocalPhotos(prevPhotos => [...prevPhotos, file]);
   };
 
   return (
@@ -201,7 +162,7 @@ export default function PlacesFormPage() {
                 <img className="rounded-xl" src={link} />
                 <div className="absolute top-2 left-2">
                   <button
-                    onClick={() => removePhoto(link)}
+                    onClick={() => removePhotoLink(link)}
                     className="text-white p-1 material-symbols-outlined bg-gray-950 rounded-xl bg-opacity-30"
                   >
                     delete
@@ -209,12 +170,29 @@ export default function PlacesFormPage() {
                 </div>
               </div>
             ))}
+          {localPhotos.length > 0 &&
+            localPhotos.map((file) => {
+              const localURL = URL.createObjectURL(file); // Tạo blob URL từ file
+              return (
+                <div className="flex h-52 relative" key={localURL}>
+                  <img className="rounded-xl" src={localURL} alt="Local photo" />
+                  <div className="absolute top-2 left-2">
+                    <button
+                      onClick={() => removePhotoLocal(file)}
+                      className="text-white p-1 material-symbols-outlined bg-gray-950 rounded-xl bg-opacity-30"
+                    >
+                      delete
+                    </button>
+                  </div>
+                </div>
+              );
+          })}
           <label className="h-52 cursor-pointer flex items-center gap-1 justify-center border bg-transparent rounded-2xl p-2 text-2xl text-gray-600">
             <input
               type="file"
               multiple
               className="hidden"
-              onChange={uploadPhoto}
+              onChange={getLocalPhoto}
             />
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -295,14 +273,6 @@ export default function PlacesFormPage() {
           Save
         </button>
       </form>
-      {id && (
-        <button
-          onClick={deletePlace}
-          className="w-full bg-red-400 text-white mb-4 py-2 border rounded-xl text-xl font-semibold"
-        >
-          Remove this place
-        </button>
-      )}
     </div>
   );
 }

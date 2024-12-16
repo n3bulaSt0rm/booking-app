@@ -103,7 +103,7 @@ class PlaceController {
 
     async getAllPlacesByOwner(req, res){
         try{
-            const places = await Place.find({ owner: req.user.id });
+            const places = await Place.find({ owner: req.user.id }).populate("feedbacks");
             res.json(places)
         }catch (error) {
             console.error("Lỗi khi lấy danh sách places:", error.message);
