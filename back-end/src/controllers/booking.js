@@ -1,4 +1,5 @@
-const Booking = require('../models/booking');
+const Booking = require('../adapter/repositories/mongo/models/booking');
+const Place = require('../adapter/repositories/mongo/models/place');
 
 class BookingController {
     //[POST] /booking
@@ -46,8 +47,8 @@ class BookingController {
         res.json(await Booking.deleteOne({ _id: id }));
     }
 
-    async bookingManager(req, res) {
-        const ownerId = userData.id;
+    async getAllRequestBooking(req, res) {
+        const ownerId = req.user.id;
         const places = await Place.find({ owner: ownerId });
         const placeIds = places.map(place => place._id);
         res.json(await Booking.find({

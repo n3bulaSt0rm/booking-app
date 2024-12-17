@@ -119,3 +119,54 @@
     color: gray;
   }
   
+  /* Wishlist button styling */
+  .wishlist-button {
+    background: none;
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .wishlist-button.add {
+    color: #666;
+  }
+  
+  .wishlist-button.add:hover {
+    color: #ff0000;
+  }
+  
+  .wishlist-button.remove {
+    color: #ff0000;
+  }
+  
+  /* Rest of your existing CSS */
+  .place-page-container {
+    padding-top: 1rem;
+    border-radius: 1rem;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2.5rem;
+  }
+  
+  .place-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  
+  .error-message {
+    color: #dc2626;
+    text-align: center;
+    padding: 2rem;
+    font-size: 1.2rem;
+  }
+  
+  .loading {
+    text-align: center;
+    padding: 2rem;
+    font-size: 1.2rem;
+    color: #4b5563;
+  }
+  

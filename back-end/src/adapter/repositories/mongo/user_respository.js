@@ -1,4 +1,4 @@
-const User = require('./models/user'); // Adjust the path as necessary
+const User = require('./models/user');
 
 class UserRepository {
     async create(userData) {
@@ -26,5 +26,5 @@ class UserRepository {
         return await User.findByIdAndDelete(id);
     }
 }
-
+//
 module.exports = new UserRepository();

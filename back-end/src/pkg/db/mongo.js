@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { join } = require("node:path");
 require('dotenv').config({ path: join(__dirname, '../../../.env') });
 
-const connectDB = () => {
+const connectDatabase = () => {
     return mongoose.connect(process.env.MONGO_URI)
         .then(() => {
             console.log('MongoDB connected');
@@ -13,4 +13,4 @@ const connectDB = () => {
         });
 };
 
-module.exports = connectDB;
+module.exports = connectDatabase;

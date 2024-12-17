@@ -1,11 +1,15 @@
-const bookingRoutes = require('./booking');
-const placeRoutes = require('./place');
-const userRoutes = require('./user');
+const bookingRouter = require('./booking');
+const placeRouter = require('./place');
+const userRouter = require('./user');
+const wishlistRouter = require('./wishlist');
+const fileRouter = require('./file');
 
 function initRoutes(app) {
-    app.use('/bookings', bookingRoutes);
-    app.use('/places', placeRoutes);
-    app.use('/users', userRoutes);
+    app.use('/booking', bookingRouter);
+    app.use('/place', placeRouter);
+    app.use('/user', userRouter);
+    app.use('/wishlist', wishlistRouter);
+    app.use('/file', fileRouter);
 }
 
 module.exports = initRoutes;

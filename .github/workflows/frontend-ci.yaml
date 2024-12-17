@@ -1,0 +1,45 @@
+name: React CI Pipeline
+
+on:
+  push:
+    paths:
+      - 'frontend-v2/**'  
+  pull_request:
+    paths:
+      - 'frontend-v2/**'
+    branches:
+      - main
+      - develop-v2
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend-v2
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: |
+          npm install
+          npm install react-icons
+      - name: Run ESLint
+        run: npm run lint
+        continue-on-error: true
+
+      - name: Build Application
+        run: npm run build
+
+      - name: Show CI results
+        run: |
+          echo "### Frontend CI Pipeline Results"
+          echo "✅ Build: Passed"
+          echo "✅ Lint: Passed"

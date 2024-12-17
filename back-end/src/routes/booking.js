@@ -7,4 +7,6 @@ router.delete('/:id', authMiddleware, bookingController.deleteID);
 router.get('/', authMiddleware, bookingController.getBookings);
 router.post('/', authMiddleware, bookingController.show);
 
+router.get("/all-request", authMiddleware, bookingController.getAllRequestBooking);
+
 module.exports = router;

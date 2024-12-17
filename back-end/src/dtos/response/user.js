@@ -4,6 +4,7 @@ class UserResponseDTO {
         this.firstName = user.firstName;
         this.lastName = user.lastName;
         this.email = user.email;
+        this.picture = user.picture;
     }
 }
 

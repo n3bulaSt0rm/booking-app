@@ -3,10 +3,11 @@ const express = require('express');
 const cors = require('cors');
 const startHttpServer = require("./pkg/server/http");
 const connectDatabase = require('./pkg/db/mongo');
+const {connectCache} = require('./pkg/cache/redis');
 const { logMiddleware, logEndpoints} = require('./pkg/logger/log');
 const initRoutes = require('./routes');
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 const app = express();
 
 const configureApp = () => {
@@ -15,9 +16,12 @@ const configureApp = () => {
     app.use(
         express.json(),
         cors({
-            origin: '*',
-            methods: '*',
-            allowedHeaders: '*',
+            origin: (origin, callback) => {
+                callback(null, true);
+            },
+            credentials: true,
+            methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+            allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
         })
     );
     initRoutes(app);
@@ -25,6 +29,7 @@ const configureApp = () => {
 };
 
 const startApp = async () => {
+    await connectCache();
     await connectDatabase();
     configureApp();
     startHttpServer(port, app);

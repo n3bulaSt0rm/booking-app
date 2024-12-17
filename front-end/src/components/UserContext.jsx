@@ -4,31 +4,22 @@ import React from 'react';
 
 export const UserContext = createContext({});
 
-export function UserContextProvider({ children }) {
+export const UserContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        // Thay đổi endpoint này nếu cần thiết
-        const { data } = await axios.get('/profile');
-        setUser(data);
-      } catch (error) {
-        console.error('Error fetching user profile:', error);
-      } finally {
-        setReady(true);
-      }
-    };
-
     if (!user) {
-      fetchUserProfile();
+      axios.get('/profile').then(({ data }) => {
+        setUser(data);
+        setReady(true);
+      });
     }
-  }, [user]); // Thêm user vào dependencies để cập nhật
+  }, []); git
 
   return (
     <UserContext.Provider value={{ user, setUser, ready }}>
       {children}
     </UserContext.Provider>
   );
-}
+};
