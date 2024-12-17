@@ -122,7 +122,7 @@ export default function RegisterPage() {
               value={password}
               onChange={(ev) => setPassword(ev.target.value)}
             />
-            <label className="text-m font-medium text-gray-900">
+            {/* <label className="text-m font-medium text-gray-900">
               {"OTP"}
             </label>
             <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -133,10 +133,10 @@ export default function RegisterPage() {
                 value={otp}
                 onChange={(ev) => setOtp(ev.target.value)}
               />
-              {/* <button className="ml-3 px-4 py-2">
+              <button className="ml-3 px-4 py-2">
                 Send
-              </button> */}
-          </div>
+              </button>
+          </div> */}
             {/* <button className="bg-blue-500 text-white px-4 py-2 rounded mt-2 mb-2">Resend OTP</button> */}
             <button className="register-button">Register</button>
             <div className="text-center py-2 text-gray-900">
