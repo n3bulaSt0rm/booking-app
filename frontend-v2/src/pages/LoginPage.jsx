@@ -1,11 +1,11 @@
-import { Link, Navigate } from "react-router-dom";
+import { Form, Link, Navigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import axios from "axios";
 import { UserContext } from "../UserContext";
 import Footer from "../Footer";
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-
+import './register-page.css';
 const firebaseConfig = {
   apiKey: "AIzaSyD5aKjgMpkIHYvOpudMUI_E3nYurkOP-R8",
   authDomain: "first-project-eb47b.firebaseapp.com",
@@ -23,10 +23,13 @@ export default function LoginPage() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [redirect, setRedirect] = useState(false);
   const { setUser } = useContext(UserContext);
+  const [isOtpModalOpen, setIsOtpModalOpen] = useState(false); //change to false if complete
+  const context = "login";
+  const [otp, setOtp] = useState("");
 
   const handleInputChange = (ev) => {
     const { name, value } = ev.target;
-    localStorage.setItem('email', value);
+    // localStorage.setItem('email', value);
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -54,6 +57,24 @@ export default function LoginPage() {
       setRedirect(true);
     } catch (error) {
       console.error("Google Login failed:", error.message);
+    }
+  };
+  const handlegetOTPValue = async () => {
+    try {
+      // Gửi OTP lên server để xác thực
+      // await axios.post("/user/otp/login", { email });
+      if (!formData.email) {
+        alert("Please enter an email first.");
+        return;
+      }
+      
+      await axios.post("/user/otp/login", { email: formData.email });
+      // console.log(response);
+      alert("get OTP successfully!");
+      setIsOtpModalOpen(true); 
+      // setRedirect(true);
+    } catch (err) {
+      alert("get OTP failed. Please try again.");
     }
   };
 
@@ -87,12 +108,12 @@ export default function LoginPage() {
                   handleChange={handleInputChange}
               />
               <button className="login-button">Login</button>
-              <p className="mt-6 text-left text-sm text-gray-900 hover:text-teal-500 hover:underline cursor-pointer">
-                Forgot password?{" "}
-                <Link className="font-semibold underline" to="/otp">
+              {/* <p className="mt-6 text-left text-sm text-gray-900 hover:text-teal-500 hover:underline cursor-pointer">
+                Forgot password?{" "} */}
+                <button className="mt-6 text-left text-sm text-gray-900 hover:text-teal-500 hover:underline cursor-pointer" onClick={handlegetOTPValue}>
                   Login by OTP here
-                </Link>
-              </p>
+                </button>
+              {/* </p> */}
               <div className="mt-4 text-center text-sm text-gray-500">or</div>
               <div className="mt-4 space-y-2">
                 <button
@@ -125,6 +146,51 @@ export default function LoginPage() {
             </form>
           </div>
         </div>
+        {isOtpModalOpen && (
+          <div className="modal-overlay">
+            <div className="modal-content">
+              <h2 className="text-xl font-bold mb-4">Enter OTP</h2>
+              <input
+                type="text"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
+                placeholder="Enter OTP"
+                className="input-log"
+              />
+              <div className="flex justify-center gap-4 mt-4">
+                <button
+                  onClick={async () => {
+                    try {
+                      const email = formData.email;
+                      // Gửi OTP lên server để xác thực
+                      const { data } = await axios.post("/user/otp/verify", {email, otp, context });
+                      console.log(data);
+                      localStorage.setItem("token", data.accessToken);
+                      setUser(data);
+                      alert("OTP verified successfully!");
+                      setIsOtpModalOpen(false); // Đóng modal sau khi xác thực thành công
+                      setRedirect(true);
+                    } catch (err) {
+                      alert("OTP verification failed. Please try again.");
+                    }
+                  }}
+                  className="bg-blue-500 text-white px-4 py-2 rounded-full"
+                >
+                  Verify OTP
+                </button>
+                <button className="bg-blue-500 text-white px-4 py-2 rounded-full" onClick={handlegetOTPValue}>
+                  Resend
+                </button>
+                <button
+                  onClick={() => setIsOtpModalOpen(false)}
+                  className="bg-red-500 text-white px-4 py-2 rounded-full"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
         <Footer />
       </div>
   );
