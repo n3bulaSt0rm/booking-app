@@ -9,6 +9,13 @@ export default function ProfilePage() {
   const [redirect, setRedirect] = useState(null);
   const [userDoc, setUserDoc] = useState(null);
 
+  const [isChange, setIsChange] = useState(false);
+  const [newLocalAvt, setNewLocalAvt] = useState("");
+  const [newFirstName, setNewFirstName] = useState("")
+  const [newLastName, setNewLastName] = useState("") 
+  const [showFirstNameEdit, setShowFirstNameEdit] = useState(false);
+  const [showLastNameEdit, setShowLastNameEdit] = useState(false);
+
   const { pathname } = useLocation();
   const subpage = pathname.split("/")?.[3] || "profile";
 
@@ -59,6 +66,66 @@ export default function ProfilePage() {
     }
   };
 
+
+const uploadFiles = async (file) => {
+  try {
+    const token = localStorage.getItem("token")
+    const formData = new FormData();
+    formData.append('folder', 'image');
+    formData.append('image', file)
+
+    const response = await axios.put('/file/upload', formData, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data', 
+      }
+    });
+    console.log('Files uploaded successfully:', response.data);
+    return response.data.url;
+  } catch (error) {
+    console.error('Error uploading files:', error.message);
+  }
+};
+
+const updateUser = async () => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    alert("You are not logged in.");
+    return;
+  }
+  if(newLocalAvt!=""){
+    try{
+      const url = uploadFiles(newLocalAvt)
+    }catch (error) {
+      console.error('Error uploading avt:', error.message);
+    }
+    const newUserData = {
+      picture : url,
+      firstName : newFirstName!="" ? newFirstName : userDoc.firstName,
+      lastName : newLastName!="" ? newLastName :userDoc.lastName
+    }
+  }else{
+    const newUserData = {
+      firstName : newFirstName!="" ? newFirstName : userDoc.firstName,
+      lastName : newLastName!="" ? newLastName :userDoc.lastName
+    }
+  }
+  
+  try {
+    const response = await axios.put(
+      `/user/${userDoc.id}`,
+      newUserData,
+      { headers: { Authorization: `Bearer ${token}` } }
+    )
+    if(response.status==200){
+      alert("update successful")
+      setRedirect("/account/profile")
+    }
+  }catch (error) {
+    console.error('Error uploading user:', error.message);
+  }
+}
+
   // if (!ready) return "Loading...";
   if (!ready) {
     return (
@@ -78,37 +145,139 @@ export default function ProfilePage() {
     switch (subpage) {
       case "profile":
         return (
-            <div className="px-10 md:px-32">
+            <div className="px-6 md:px-20">
               <h1 className="text-3xl font-semibold">Personal details</h1>
               <h2 className="text-slate-500 pt-1">Edit your personal details</h2>
-              <img
-                  className="h-32 w-32 border-2 rounded-full my-8"
-                  src="https://i.pinimg.com/originals/39/a4/71/39a47159059f38a954d77e5dcae6f0db.jpg"
-                  alt="Default Avatar"
-              />
+              <div className="avt">
+                <img
+                    id = "avt-img"
+                    className="h-32 w-32 border-2 rounded-full my-8"
+                    src="https://i.pinimg.com/originals/39/a4/71/39a47159059f38a954d77e5dcae6f0db.jpg"
+                    alt="Default Avatar"
+                    onClick={() => document.getElementById("avt-input").click()}
+                />
+                <input
+                  id="avt-input"
+                  type="file"
+                  className="hidden"
+                  onChange={(event) => {
+                    const file = event.target.files[0];
+                    if (file) {
+                      const objectUrl = URL.createObjectURL(file);
+                      document.getElementById("avt-img").setAttribute("src", objectUrl);
+                      setNewLocalAvt(file);
+                      setIsChange(true)
+                  }}}
+                />
+              </div>
               {userDoc && (
                   <table className="table-auto w-full">
                     <tbody>
                     <tr>
                       <td className="font-semibold text-lg">First name:</td>
-                      <td className="capitalize pl-10 md:pl-20 text-slate-500">
-                        {userDoc.firstName || "N/A"}
-                      </td>
+                      {showFirstNameEdit ? (
+                        <td colSpan="2">
+                          <div className="flex items-center gap-4">
+                            <input id="firstname-input" className="border-2 rounded px-2 py-1 w-40" type="text" placeholder="first name" />
+                            <span
+                              className="material-symbols-outlined cursor-pointer hover:text-green-400 transition-all duration-300"
+                              onClick={() => {
+                                const value = document.getElementById("firstname-input").value
+                                if(value!=""){
+                                  setNewFirstName(value)
+                                  setShowFirstNameEdit(false)
+                                  setIsChange(true)
+                                }else{
+                                  setShowFirstNameEdit(false)
+                                }
+                              }}>
+                              check
+                            </span>
+                            <span
+                              className="material-symbols-outlined cursor-pointer hover:text-red-400 transition-all duration-300"
+                              onClick={() => {
+                                setShowFirstNameEdit(false)
+                              }}>
+                              close
+                            </span>
+                          </div>
+                        </td>
+                      ):(
+                        <><td className="capitalize pl-6 md:pl-16 text-slate-500">
+                          {userDoc.firstName || "N/A"}
+                        </td>
+                        {newFirstName!="" && 
+                          <td>(new: {newFirstName})</td>}
+                        <span
+                          className="material-symbols-outlined cursor-pointer hover:text-blue-600 transition-all duration-300"
+                          onClick={() => {
+                            setShowFirstNameEdit(true);
+                          } }>
+                            edit
+                          </span></> 
+                      )   
+                      }  
                     </tr>
                     <tr>
                       <td className="font-semibold text-lg">Last name:</td>
-                      <td className="capitalize pl-10 md:pl-20 text-slate-500">
-                        {userDoc.lastName || "N/A"}
-                      </td>
+                      {showLastNameEdit ? (
+                        <td colSpan="2">
+                          <div className="flex items-center gap-4">
+                            <input id="lastname-input" className="border-2 rounded px-2 py-1 w-40" type="text" placeholder="last name" />
+                            <span
+                              className="material-symbols-outlined cursor-pointer hover:text-green-400 transition-all duration-300"
+                              onClick={() => {
+                                const value = document.getElementById("lastname-input").value
+                                if(value!=""){
+                                  setNewLastName(value)
+                                  setShowLastNameEdit(false)
+                                  setIsChange(true)
+                                }else{
+                                  setShowLastNameEdit(false)
+                                }
+                              }}>
+                              check
+                            </span>
+                            <span
+                              className="material-symbols-outlined cursor-pointer hover:text-red-400 transition-all duration-300"
+                              onClick={() => {
+                                setShowLastNameEdit(false)
+                              }}>
+                              close
+                            </span>
+                          </div>
+                        </td>
+                      ):(
+                        <><td className="capitalize pl-6 md:pl-16 text-slate-500">
+                          {userDoc.lastName || "N/A"}
+                        </td>
+                        {newLastName!="" && 
+                          <td>(new: {newLastName})</td>}
+                        <span
+                          className="material-symbols-outlined cursor-pointer hover:text-blue-600 transition-all duration-300"
+                          onClick={() => {
+                            setShowLastNameEdit(true);
+                          } }>
+                            edit
+                          </span></> 
+                      )   
+                      }  
                     </tr>
                     <tr>
                       <td className="font-semibold text-lg">Email:</td>
-                      <td className="pl-10 md:pl-20 text-slate-500">
+                      <td className="capitalize pl-6 md:pl-16 text-slate-500">
                         {userDoc.email || "N/A"}
                       </td>
                     </tr>
                     </tbody>
                   </table>
+              )}
+              {isChange && (
+                <button 
+                  className="mt-4 gap-1 py-2 px-6 rounded-full bg-primary text-white w-full text-center"
+                  onClick={updateUser}>
+                  Save
+                </button>
               )}
             </div>
         );
