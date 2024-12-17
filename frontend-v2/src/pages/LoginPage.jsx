@@ -59,8 +59,9 @@ export default function LoginPage() {
       console.error("Google Login failed:", error.message);
     }
   };
-  const handlegetOTPValue = async () => {
+  const handleGetOTPValue = async (e) => {
     try {
+      e.preventDefault();
       // Gửi OTP lên server để xác thực
       // await axios.post("/user/otp/login", { email });
       if (!formData.email) {
@@ -71,6 +72,7 @@ export default function LoginPage() {
       await axios.post("/user/otp/login", { email: formData.email });
       // console.log(response);
       alert("get OTP successfully!");
+
       setIsOtpModalOpen(true); 
       // setRedirect(true);
     } catch (err) {
@@ -110,7 +112,7 @@ export default function LoginPage() {
               <button className="login-button">Login</button>
               {/* <p className="mt-6 text-left text-sm text-gray-900 hover:text-teal-500 hover:underline cursor-pointer">
                 Forgot password?{" "} */}
-                <button className="mt-6 text-left text-sm text-gray-900 hover:text-teal-500 hover:underline cursor-pointer" onClick={handlegetOTPValue}>
+                <button className="mt-6 text-left text-sm text-gray-900 hover:text-teal-500 hover:underline cursor-pointer" onClick={handleGetOTPValue}>
                   Login by OTP here
                 </button>
               {/* </p> */}
@@ -178,7 +180,7 @@ export default function LoginPage() {
                 >
                   Verify OTP
                 </button>
-                <button className="bg-blue-500 text-white px-4 py-2 rounded-full" onClick={handlegetOTPValue}>
+                <button className="bg-blue-500 text-white px-4 py-2 rounded-full" onClick={handleGetOTPValue}>
                   Resend
                 </button>
                 <button
