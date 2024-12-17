@@ -1,0 +1,94 @@
+/* Modal overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6); /* Màu nền mờ */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Đảm bảo modal luôn hiển thị trên cùng */
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    visibility: visible; /* Đảm bảo modal hiển thị */
+  }
+  
+  /* Ẩn modal khi cần */
+  .modal-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+  }
+  
+  /* Nội dung modal */
+  .modal-content {
+    background-color: #fff;
+    padding: 30px; /* Tăng padding để modal lớn hơn */
+    border-radius: 8px;
+    width: 500px; /* Đặt width lớn hơn để modal có dạng chữ nhật */
+    height: auto; /* Tự động thay đổi chiều cao theo nội dung */
+    text-align: center;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    animation: modal-appear 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column; /* Chạy theo chiều dọc */
+    justify-content: center;
+    align-items: center;
+    gap: 15px; /* Giữa các phần tử trong modal */
+  }
+  
+  /* Animation cho modal xuất hiện */
+  @keyframes modal-appear {
+    from {
+      transform: scale(0.9);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  /* Định dạng các nút trong modal */
+  button {
+    padding: 12px 24px; /* Tăng kích thước các nút */
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    opacity: 0.8;
+  }
+  
+  /* Nút Verify */
+  .bg-blue-500 {
+    background-color: #3b82f6;
+    color: white;
+  }
+  
+  .bg-blue-500:hover {
+    background-color: #2563eb;
+  }
+  
+  /* Nút Cancel */
+  .bg-red-500 {
+    background-color: #ef4444;
+    color: white;
+  }
+  
+  .bg-red-500:hover {
+    background-color: #dc2626;
+  }
+  
+  /* Thêm kiểu dáng cho input */
+  .input-log {
+    padding: 12px;
+    margin-bottom: 15px;
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+  

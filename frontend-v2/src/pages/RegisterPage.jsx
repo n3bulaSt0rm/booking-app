@@ -1,32 +1,47 @@
 import axios from "axios";
 import { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate} from "react-router-dom";
 import Footer from "../Footer";
+import './register-page.css';
 export default function RegisterPage() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [otp, setOtp] = useState("");
-  const [isOtpSent, setIsOtpSent] = useState("");
   const [redirect, setRedirect] = useState(false);
-
+  // const [isOtpSent, setIsOtpSent] = useState(false);
+  const [isOtpModalOpen, setIsOtpModalOpen] = useState(false);
+  const [otp, setOtp] = useState("");
+  // const [isOtpSent, setIsOtpSent] = useState("");
+  // const [redirect, setRedirect] = useState(false);
+  // const navigate = useNavigate();
   if(redirect) {
     return <Navigate to ={'/login'} />
   }
-
+  const context = "register";
   async function registerUser(ev) {
     ev.preventDefault();
     try {
-      const token = localStorage.getItem("token");
+      // const token = localStorage.getItem("token");
       await axios.post("/user/register", {
         firstName,
         lastName,
         email,
         password,
+      },{
+        headers: {
+          "Content-Type": "application/json", // Đảm bảo header là JSON
+        }
       });
-      alert("Registration successful! Now you can login.");
-      setRedirect(true)
+      // alert("Registration successful! Now you can login.");
+      // setRedirect(true);
+      // localStorage.setItem('email', email);
+      // localStorage.setItem('password', password);
+      // localStorage.setItem('firstName', firstName);
+      // localStorage.setItem('lastName', lastName);
+      // localStorage.setItem('context', "register");
+      // navigate("/otp");
+      setIsOtpModalOpen(true);
     } catch (e) {
       alert("Registration failed. Please try again.");
     }
@@ -148,6 +163,44 @@ export default function RegisterPage() {
           </form>
         </div>
       </div>
+      {isOtpModalOpen && (
+  <div className="modal-overlay">
+    <div className="modal-content">
+      <h2 className="text-xl font-bold mb-4">Enter OTP</h2>
+      <input
+        type="text"
+        value={otp}
+        onChange={(e) => setOtp(e.target.value)}
+        placeholder="Enter OTP"
+        className="input-log"
+      />
+      <div className="flex justify-center gap-4 mt-4">
+        <button
+          onClick={async () => {
+            try {
+              // Gửi OTP lên server để xác thực
+              await axios.post("/user/otp/verify", { email, otp, context });
+              alert("OTP verified successfully!");
+              setIsOtpModalOpen(false); // Đóng modal sau khi xác thực thành công
+              setRedirect(true);
+            } catch (err) {
+              alert("OTP verification failed. Please try again.");
+            }
+          }}
+          className="bg-blue-500 text-white px-4 py-2 rounded-full"
+        >
+          Verify OTP
+        </button>
+        <button
+          onClick={() => setIsOtpModalOpen(false)}
+          className="bg-red-500 text-white px-4 py-2 rounded-full"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+)}
       <Footer />
     </div>
   );
