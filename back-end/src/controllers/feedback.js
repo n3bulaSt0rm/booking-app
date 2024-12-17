@@ -19,7 +19,7 @@ class FeedbackController {
                 { new: true } 
             );
             if (!place) {
-                return res.status(404).json({ message: 'không có place với id này' });
+                return res.status(400).json({ message: 'không có place với id này' });
             }
             res.json(feedback);
         } catch (err) {
@@ -40,7 +40,7 @@ class FeedbackController {
                 }
             });
             if (!place) {
-                return res.status(404).json({ message: 'Place không tồn tại' });
+                return res.status(400).json({ message: 'Place không tồn tại' });
             }
             if (!Array.isArray(place.feedbacks) || place.feedbacks.length === 0) {
                 return res.json([]); 
@@ -61,11 +61,11 @@ class FeedbackController {
                 { new: true }
             );
             if (!place) {
-                return res.status(404).json({ message: 'không tìm thấy place' });
+                return res.status(400).json({ message: 'không tìm thấy place' });
             }
             const feedback = await Feedback.delete({ _id: id_feedback });
             if (feedback.deletedCount === 0) {
-                return res.status(404).json({ message: 'không tìm thấy feedback' });
+                return res.status(400).json({ message: 'không tìm thấy feedback' });
             }
     
             res.json({ message: 'Feedback đã được xóa thành công' });

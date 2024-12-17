@@ -33,7 +33,7 @@ class BookingController {
         try {
             const bookings = await Booking.find({ user: id }).populate('place');
             if (bookings.length === 0) {
-                return res.status(404).json({ message: 'Không tìm thấy booking cho người dùng này.' });
+                return res.status(400).json({ message: 'Không tìm thấy booking cho người dùng này.' });
             }
             res.json(bookings);
         } catch (error) {
