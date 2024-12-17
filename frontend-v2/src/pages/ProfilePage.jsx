@@ -81,7 +81,7 @@ const uploadFiles = async (file) => {
       }
     });
     console.log('Files uploaded successfully:', response.data);
-    return response.data.url;
+    return response.data.urls[0];
   } catch (error) {
     console.error('Error uploading files:', error.message);
   }
@@ -93,19 +93,22 @@ const updateUser = async () => {
     alert("You are not logged in.");
     return;
   }
+  let newUserData;
   if(newLocalAvt!=""){
+    let url;
     try{
-      const url = uploadFiles(newLocalAvt)
-    }catch (error) {
+      url = await uploadFiles(newLocalAvt)
+      newUserData = {
+        picture : url,
+        firstName : newFirstName!="" ? newFirstName : userDoc.firstName,
+        lastName : newLastName!="" ? newLastName :userDoc.lastName
+      }
+    } catch (error) {
       console.error('Error uploading avt:', error.message);
     }
-    const newUserData = {
-      picture : url,
-      firstName : newFirstName!="" ? newFirstName : userDoc.firstName,
-      lastName : newLastName!="" ? newLastName :userDoc.lastName
-    }
+    
   }else{
-    const newUserData = {
+    newUserData = {
       firstName : newFirstName!="" ? newFirstName : userDoc.firstName,
       lastName : newLastName!="" ? newLastName :userDoc.lastName
     }
@@ -119,7 +122,7 @@ const updateUser = async () => {
     )
     if(response.status==200){
       alert("update successful")
-      setRedirect("/account/profile")
+      setRedirect("/")
     }
   }catch (error) {
     console.error('Error uploading user:', error.message);
@@ -152,7 +155,7 @@ const updateUser = async () => {
                 <img
                     id = "avt-img"
                     className="h-32 w-32 border-2 rounded-full my-8"
-                    src="https://i.pinimg.com/originals/39/a4/71/39a47159059f38a954d77e5dcae6f0db.jpg"
+                    src={userDoc.picture || "https://i.pinimg.com/originals/39/a4/71/39a47159059f38a954d77e5dcae6f0db.jpg"}
                     alt="Default Avatar"
                     onClick={() => document.getElementById("avt-input").click()}
                 />
