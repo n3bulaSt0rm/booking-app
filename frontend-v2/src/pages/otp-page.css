@@ -1,0 +1,112 @@
+/* General Body Style */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* OTP Page Container */
+.otp-page {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+/* Header */
+h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Paragraph Style */
+p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+/* Error Message */
+.error {
+    color: red;
+    margin-bottom: 20px;
+}
+
+/* Input Field */
+input {
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    outline: none;
+    box-sizing: border-box;
+}
+
+/* Input Focus Style */
+input:focus {
+    border-color: #4A90E2;
+    box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+}
+
+/* Button Style */
+button {
+    width: 100%;
+    padding: 12px;
+    font-size: 18px;
+    background-color: #4A90E2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease;
+}
+
+/* Button Hover Effect */
+button:hover {
+    background-color: #357ABD;
+}
+
+/* Disabled Button Style */
+button:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+}
+
+/* Button Active Effect */
+button:active {
+    background-color: #2A6FA6;
+}
+
+/* Resend Button Style */
+button:last-of-type {
+    background-color: #F1F1F1;
+    color: #4A90E2;
+    border: 1px solid #4A90E2;
+}
+
+/* Resend Button Hover Effect */
+button:last-of-type:hover {
+    background-color: #E1E1E1;
+}
+
+/* Input Placeholder Style */
+input::placeholder {
+    color: #aaa;
+}
+
+/* Input Focus Placeholder Style */
+input:focus::placeholder {
+    color: transparent;
+}
