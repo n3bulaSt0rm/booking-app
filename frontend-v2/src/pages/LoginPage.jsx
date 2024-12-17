@@ -11,6 +11,7 @@ export default function LoginPage() {
 
   const handleInputChange = (ev) => {
     const { name, value } = ev.target;
+    localStorage.setItem('email', value);
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -58,20 +59,26 @@ export default function LoginPage() {
                   handleChange={handleInputChange}
               />
               <button className="login-button">Login</button>
-              <div className="mt-6 text-center text-sm text-gray-500">or</div>
+              <p className="mt-6 text-left text-sm text-gray-900 hover:text-teal-500 hover:underline cursor-pointer">
+                Forgot password?{" "}
+                <Link className="font-semibold underline" to="/otp">
+                  Login by OTP here
+                </Link>
+              </p>
+              <div className="mt-4 text-center text-sm text-gray-500">or</div>
               <div className="mt-4 space-y-2">
                 <button className="w-full flex items-center justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                   <img src="https://th.bing.com/th/id/OIP.Din44az7iZZDfbsrD1kfGQHaHa?rs=1&pid=ImgDetMain" alt="Google" className="h-5 w-5 mr-2" />
                   Continue with Google
                 </button>
-                <button className="w-full flex items-center justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                {/* <button className="w-full flex items-center justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                   <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Facebook_icon.svg/1200px-Facebook_icon.svg.png" alt="Facebook" className="h-5 w-5 mr-2" />
                   Continue with Facebook
                 </button>
                 <button className="w-full flex items-center justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                   <img src="https://www.birdssoft.com/images/jdownloads/catimages/apple_logo.png" alt="Apple" className="h-5 w-5 mr-2" />
                   Continue with Apple
-                </button>
+                </button> */}
               </div>
               <p className="text-center py-2 text-gray-900">
                 Don't have an account yet?{" "}

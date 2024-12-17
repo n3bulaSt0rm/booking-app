@@ -86,7 +86,7 @@ export default function PlacesPage() {
               clipRule="evenodd"
             />
           </svg>
-          Add new hotel
+          Add new service
         </Link>
         <div className="flex flex-col gap-8 mt-8">
           {places.length > 0 &&
