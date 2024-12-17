@@ -3,6 +3,21 @@ import { useContext, useState } from "react";
 import axios from "axios";
 import { UserContext } from "../UserContext";
 import Footer from "../Footer";
+import { initializeApp } from "firebase/app";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD5aKjgMpkIHYvOpudMUI_E3nYurkOP-R8",
+  authDomain: "first-project-eb47b.firebaseapp.com",
+  projectId: "first-project-eb47b",
+  storageBucket: "first-project-eb47b.firebasestorage.app",
+  messagingSenderId: "95824278050",
+  appId: "1:95824278050:web:b4b785c4272dc1f341907b",
+  measurementId: "G-9185MKP3RR"
+}
+
+  const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -25,10 +40,23 @@ export default function LoginPage() {
       setRedirect(true);
     } catch (error) {
       console.error("Login failed:", error.message);
-      // alert("Login failed. Please check your email or password.");
     }
   };
-//
+
+  const handleGoogleLogin = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const idToken = await result.user.getIdToken();
+      const { data } = await axios.post("/user/login-google", { idToken });
+      localStorage.setItem("token", data.accessToken);
+      setUser(data);
+      setRedirect(true);
+    } catch (error) {
+      console.error("Google Login failed:", error.message);
+    }
+  };
+
   if (redirect) return <Navigate to="/" />;
 
   return (
@@ -67,8 +95,16 @@ export default function LoginPage() {
               </p>
               <div className="mt-4 text-center text-sm text-gray-500">or</div>
               <div className="mt-4 space-y-2">
-                <button className="w-full flex items-center justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                  <img src="https://th.bing.com/th/id/OIP.Din44az7iZZDfbsrD1kfGQHaHa?rs=1&pid=ImgDetMain" alt="Google" className="h-5 w-5 mr-2" />
+                <button
+                    type="button"
+                    onClick={handleGoogleLogin}
+                    className="w-full flex items-center justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                >
+                  <img
+                      src="https://th.bing.com/th/id/OIP.Din44az7iZZDfbsrD1kfGQHaHa?rs=1&pid=ImgDetMain"
+                      alt="Google"
+                      className="h-5 w-5 mr-2"
+                  />
                   Continue with Google
                 </button>
                 {/* <button className="w-full flex items-center justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">

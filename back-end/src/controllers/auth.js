@@ -3,17 +3,28 @@ const authService = require('../services/auth');
 class AuthController {
     async registerUser(req, res) {
         try {
-            const user = await authService.registerUser(req.body);
-            res.status(200).json(user);
+            const resp = await authService.registerUser(req.body);
+            res.status(200).json(resp);
         } catch (error) {
             res.status(400).json({ message: error.message });
         }
     }
 
+    async loginWithGoogle(req, res) {
+        try {
+            const { idToken } = req.body;
+            const resp = await authService.loginWithGoogle(idToken);
+
+            return res.status(200).json(resp);
+        } catch (error) {
+            return res.status(400).json({ error: error.message });
+        }
+    }
+
     async verifyOtp(req, res) {
         try{
-            const user = await authService.verifyOtp(req.body);
-            res.status(200).json(user);
+            const resp = await authService.verifyOtp(req.body);
+            res.status(200).json(resp);
         } catch(error){
             res.status(400).json({ message: error.message });
         }
@@ -21,8 +32,8 @@ class AuthController {
 
     async loginWithOtp(req, res) {
         try{
-            const user = await authService.loginWithOtp(req.body);
-            res.status(200).json(user);
+            const resp = await authService.loginWithOtp(req.body);
+            res.status(200).json(resp);
         } catch(error){
             res.status(400).json({ message: error.message });
         }
@@ -30,8 +41,8 @@ class AuthController {
 
     async loginUser(req, res) {
         try {
-            const { user, accessToken, refreshToken } = await authService.loginUser(req.body);
-            res.status(200).json({ user, accessToken, refreshToken });
+            const resp = await authService.loginUser(req.body);
+            res.status(200).json(resp);
         } catch (error) {
             res.status(400).json({ message: error.message });
         }

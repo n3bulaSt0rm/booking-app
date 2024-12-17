@@ -5,6 +5,7 @@ const crypto = require('crypto');
 const path = require('path');
 const emailService = require('../adapter/http/google/mail');
 const cache = require('../adapter/cache/redis');
+const firebaseAuth = require("../adapter/http/firebase/auth");
 const userRepository = require('../adapter/repositories/mongo/user_respository');
 const authRepository = require('../adapter/repositories/mongo/auth_repository');
 const AuthResponseDTO = require('../dtos/response/auth');
@@ -94,6 +95,31 @@ class AuthService {
         const refreshToken = this.generateRefreshToken(user);
         await authRepository.addRefreshToken(user._id, refreshToken);
         return new AuthResponseDTO({accessToken, refreshToken});
+    }
+
+    async loginWithGoogle(idToken) {
+        const googleUser = await firebaseAuth.verifyGoogleToken(idToken);
+        const { email, firstName, lastName } = googleUser;
+
+        let user = await userRepository.findByEmail(email);
+        if (!user) {
+            const otp = this.generateOtp();
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(otp, salt);
+
+            user = await userRepository.create({
+                email,
+                firstName,
+                lastName,
+                role: "user",
+                password: hashedPassword,
+            });
+        }
+
+        const accessToken = this.generateAccessToken(user);
+        const refreshToken = this.generateRefreshToken(user);
+
+        return { accessToken, refreshToken };
     }
 
     generateOtp() {
