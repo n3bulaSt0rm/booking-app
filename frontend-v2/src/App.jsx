@@ -16,6 +16,7 @@ import AllPlaces from "./pages/AllPlaces";
 import FindPlacePage from "./pages/FindPlaces";
 import WishlistPage from "./pages/WishlistPage";
 import BookingManager from "./pages/BookingManager";
+import OtpPage from "./pages/OtpPage";
 axios.defaults.baseURL = "https://booking-app-5ug6.onrender.com";
 // axios.defaults.baseURL = "http://localhost:8080";
 axios.defaults.withCredentials = true;
@@ -49,6 +50,7 @@ function App() {
           <Route path="/find/:query" element={<FindPlacePage />} />
         </Route>
         <Route path="/login" element={<LoginPage />} />
+          <Route path="/otp" element={<OtpPage />} />
         <Route path="/register" element={<RegisterPage />} />
       </Routes>
     </UserContextProvider>
