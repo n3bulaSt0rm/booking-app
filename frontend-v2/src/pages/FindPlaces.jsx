@@ -11,10 +11,11 @@ export default function FindPlacePage() {
   useEffect(() => {
     const fetchPlaces = async () => {
       try {
-        const token = localStorage.getItem("token");
-        const { data } = await axios.get(`/place/find/${query}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        // const token = localStorage.getItem("token");
+        // const { data } = await axios.get(`/place/find/${query}`, {
+        //   headers: { Authorization: `Bearer ${token}` },
+        // });
+        const { data } = await axios.get(`/place/find/${query}`);
         setPlaces(data);
       } catch (error) {
         console.error("Error fetching places:", error);

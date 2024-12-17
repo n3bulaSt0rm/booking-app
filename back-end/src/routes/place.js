@@ -6,8 +6,8 @@ const feedbackController = require('../controllers/feedback')
 
 router.post('/', authMiddleware, placeController.uploadPlace);
 router.put('/', authMiddleware, placeController.updatePlace);
-router.get('/', authMiddleware, placeController.getAllPlaces);
-router.get('/find/:query', authMiddleware, placeController.queryPlace);
+router.get('/', placeController.getAllPlaces);
+router.get('/find/:query', placeController.queryPlace);
 router.get('/:id', authMiddleware, placeController.getPlaceID);
 router.delete('/:id', authMiddleware, placeController.deletePlace);
 

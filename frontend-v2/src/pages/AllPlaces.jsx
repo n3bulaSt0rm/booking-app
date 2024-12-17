@@ -10,9 +10,9 @@ export default function AllPlaces() {
   useEffect(() => {
     axios.get("/place",
       {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        // headers: {
+        //   Authorization: `Bearer ${token}`,
+        // },
       }).then((response) => {
       setPlaces(response.data);
     });

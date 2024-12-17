@@ -7,7 +7,10 @@ import BookingWidget from "../BookingWidget";
 import { UserContext } from "../UserContext";
 import Rate from "../Rate";
 import '../Loading.css';
+import { useNavigate } from "react-router-dom"
+
 export default function PlacePage() {
+  const navigate = useNavigate();
   const { ready, user } = useContext(UserContext);
   const { id } = useParams();
   const [place, setPlace] = useState(null);
@@ -35,7 +38,8 @@ export default function PlacePage() {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      alert("You must be logged in to view this information.");
+      // alert("You must be logged in to view this information.");
+      navigate("/login")
       return;
     }
 
