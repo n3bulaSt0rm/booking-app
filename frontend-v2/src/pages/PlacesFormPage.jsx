@@ -76,11 +76,16 @@ export default function PlacesFormPage() {
   async function savePlace(ev) {
     ev.preventDefault();
     try{
-      const urls = await uploadFiles()
-      console.log("urls: ",urls)
-      const updatedPhotos = [...addedPhotos, ...urls];
-      setAddedPhotos(updatedPhotos);
-      console.log('Added photos:', addedPhotos);
+      let updatedPhotos;
+      if(localPhotos.length!=0){
+        const urls = await uploadFiles()
+        console.log("urls: ",urls)
+        updatedPhotos = [...addedPhotos, ...urls];
+        setAddedPhotos(updatedPhotos);
+        console.log('Added photos:', addedPhotos);
+      }else{
+        updatedPhotos = [...addedPhotos];
+      }
       const placeData = {
         title,
         address,
