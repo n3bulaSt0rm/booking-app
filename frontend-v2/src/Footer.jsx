@@ -46,7 +46,7 @@ export default function Footer() {
       </div>
       <div className="text-gray-500 text-right">
         <h1 className="font-semibold text-black">Thông tin liên hệ</h1>
-        <h1>Nhóm 21</h1>
+        <h1>Nhóm 15</h1>
         <h1>
           Công nghê Web và<br />
           Dịch vụ trực tuyến
