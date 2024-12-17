@@ -7,6 +7,8 @@ export default function RegisterPage() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [otp, setOtp] = useState("");
+  const [isOtpSent, setIsOtpSent] = useState("");
   const [redirect, setRedirect] = useState(false);
 
   if(redirect) {
@@ -29,7 +31,25 @@ export default function RegisterPage() {
       alert("Registration failed. Please try again.");
     }
   }
+  //tu dong gui otp va sau do xac minh otp
+  // const requestOtp = async (email) => {
+  //   try {
+  //     const response = await fetch('http://localhost:8080/user/otp/login', {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify({ email }),
+  //     });
 
+  //     if (response.ok) {
+  //       setIsOtpSent(true);
+  //     } else {
+  //       throw new Error('Failed to send OTP');
+  //     }
+  //   } catch (err) {
+  //     setError('An error occurred while sending OTP');
+      
+  //   }
+  // };
   return (
     <div className="pt-5 flex flex-col min-h-screen">
       <header className="flex justify-between px-10 mb-7">
@@ -102,6 +122,22 @@ export default function RegisterPage() {
               value={password}
               onChange={(ev) => setPassword(ev.target.value)}
             />
+            <label className="text-m font-medium text-gray-900">
+              {"OTP"}
+            </label>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <input
+                className="input-log"
+                type="text"
+                placeholder="OTP"
+                value={otp}
+                onChange={(ev) => setOtp(ev.target.value)}
+              />
+              {/* <button className="ml-3 px-4 py-2">
+                Send
+              </button> */}
+          </div>
+            {/* <button className="bg-blue-500 text-white px-4 py-2 rounded mt-2 mb-2">Resend OTP</button> */}
             <button className="register-button">Register</button>
             <div className="text-center py-2 text-gray-900">
               {"Already a member? "}
