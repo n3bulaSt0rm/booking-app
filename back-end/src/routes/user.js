@@ -8,6 +8,7 @@ router.post('/register', authController.registerUser);
 router.post('/otp/verify', authController.verifyOtp);
 router.post('/otp/login', authController.loginWithOtp);
 router.post('/login', authController.loginUser);
+router.post('/login-google', authController.loginWithGoogle);
 router.post('/refresh-token', authController.refreshAccessToken);
 router.post('/logout', JwtAuth, authController.logoutUser);
 
