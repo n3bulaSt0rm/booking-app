@@ -7,6 +7,7 @@ export default function Perk({ selected, onChange }) {
       onChange([...selected.filter((selectedName) => selectedName !== name)]);
     }
   }
+  //
 
   return (
     <>
