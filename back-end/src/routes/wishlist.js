@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const authMiddleware = require('../middlewares/authentication');
+const {JwtAuth} = require('../middlewares/authentication');
 const wishlistController = require('../controllers/wishlist');
 
-router.post('/:id', authMiddleware, wishlistController.addPlaceToWishlist);
-router.get('/', authMiddleware, wishlistController.getWishlist);
-router.delete('/:id', authMiddleware, wishlistController.removePlaceFromWishlist);
+router.post('/:id',JwtAuth , wishlistController.addPlaceToWishlist);
+router.get('/', JwtAuth, wishlistController.getWishlist);
+router.delete('/:id', JwtAuth, wishlistController.removePlaceFromWishlist);
 
 module.exports = router;

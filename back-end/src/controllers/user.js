@@ -4,11 +4,21 @@ class UserController {
     async getUserById(req, res) {
         try {
             const user = await userService.getUserById(req.params.id);
-            res.json(user);
+            res.status(200).json(user);
         } catch (error) {
             res.status(400).json({ message: error.message });
         }
     }
+
+    async registerAdmin(req, res) {
+        try {
+            const user = await userService.registerAdmin(req.body);
+            res.status(200).json(user);
+        } catch (error) {
+            res.status(400).json({ message: error.message });
+        }
+    }
+
 
     async updateUser(req, res) {
         try {

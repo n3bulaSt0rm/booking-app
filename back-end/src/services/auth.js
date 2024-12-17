@@ -85,6 +85,17 @@ class AuthService {
         }
     }
 
+    async loginUser({ email, password }) {
+        const user = await userRepository.findByEmail(email);
+        if (!user) throw new Error('Invalid email or password');
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) throw new Error('Invalid email or password');
+        const accessToken = this.generateAccessToken(user);
+        const refreshToken = this.generateRefreshToken(user);
+        await authRepository.addRefreshToken(user._id, refreshToken);
+        return new AuthResponseDTO({accessToken, refreshToken});
+    }
+
     generateOtp() {
         return crypto.randomInt(100000, 999999).toString();
     }

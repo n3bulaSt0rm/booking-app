@@ -1,14 +1,22 @@
 const userRepository = require('../adapter/repositories/mongo/user_respository');
 const UserResponseDTO = require('../dtos/response/user');
+const bcrypt = require("bcrypt");
 
 class UserService {
-  async createUser(userData) {
-    const existingUser = await userRepository.findByEmail(userData.email);
+  async registerAdmin({username, password, firstName, lastName}) {
+    const existingUser = await userRepository.findByEmail(username);
     if (existingUser) {
-      throw new Error('Email already in use');
+      throw new Error('Username already in use');
     }
-    const user = await userRepository.create(userData);
-    return new UserResponseDTO(user);
+    const salt = await bcrypt.genSalt(10);
+    const user = await userRepository.create({
+      email: username,
+      password: await bcrypt.hash(password, salt),
+      firstName,
+      lastName,
+      role: 'admin',
+    });
+    return { message: 'Registered successfully.' };
   }
 
   async getUserById(id) {
